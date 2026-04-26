@@ -56,3 +56,28 @@ class AppButton extends StatelessWidget {
       ),
     );
   }
+
+  Widget _buildChild(Color textColor) {
+    if (isLoading) {
+      return SizedBox(
+        width: 22.w,
+        height: 22.h,
+        child: CircularProgressIndicator(
+          strokeWidth: 2.5,
+          color: textColor,
+        ),
+      );
+    }
+    if (icon != null) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          icon!,
+          SizedBox(width: 8.w),
+          Text(label, style: AppTextStyles.labelLarge.copyWith(color: textColor)),
+        ],
+      );
+    }
+    return Text(label, style: AppTextStyles.labelLarge.copyWith(color: textColor));
+  }
+}
