@@ -1,6 +1,11 @@
 {
+<<<<<<< HEAD
     "name": "nti_final_project",
     "short_name": "nti_final_project",
+=======
+    "name": "flutter_application_1",
+    "short_name": "flutter_application_1",
+>>>>>>> d77d8c1 (first commit)
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
