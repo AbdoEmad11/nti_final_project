@@ -7,8 +7,8 @@ import 'package:nti_final_project/core/theme/app_colors.dart';
 class AppStyles {
   static TextStyle primaryLineStyle = TextStyle(
     fontFamily: AppFonts.mainFontName,
-    fontSize: 20.sp,
-    fontWeight: FontWeight.w600,
+    fontSize: 40.sp,
+    fontWeight: FontWeight.w900,
     color: AppColors2.primaryColor
   );
   static TextStyle subtitlesStyles = TextStyle(
@@ -17,8 +17,14 @@ class AppStyles {
     fontWeight: FontWeight.w400,
     color: AppColors2.secondaryColor
   );
+  static TextStyle headtitlesStyles = TextStyle(
+    fontFamily: AppFonts.mainFontName,
+    fontSize: 20.sp,
+    fontWeight: FontWeight.w600,
+    color: AppColors2.blackColor
+  );
 
-  static TextStyle black16W600Styles = TextStyle(
+  static TextStyle labelTextStyles = TextStyle(
     fontFamily: AppFonts.mainFontName,
     fontSize: 16.sp,
     fontWeight: FontWeight.w400,
