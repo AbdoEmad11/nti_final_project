@@ -24,7 +24,7 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: width ?? 300.w,
+      width: width ?? 350.w,
       child: TextField(
         cursorColor: AppColors2.primaryColor,
         obscureText: isPassword ?? false,

@@ -13,10 +13,9 @@ class PrimaryButtonWidget extends StatelessWidget {
   final double? fontSize;
   final void Function()? onPressed;
 
-  const PrimaryButtonWidget(
-      {
+  const PrimaryButtonWidget({
     super.key,
-    this.fontSize, 
+    this.fontSize,
     this.buttonText,
     this.buttonColor,
     this.width,
@@ -34,10 +33,16 @@ class PrimaryButtonWidget extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadiusGeometry.circular(borderRadius ?? 12.r),
         ),
-        fixedSize: Size(width ?? 300.w, height ?? 56.h)
+        fixedSize: Size(width ?? 350.w, height ?? 56.h),
       ),
       onPressed: onPressed,
-      child: Text(buttonText ?? '', style: TextStyle(color: textColor,fontSize: fontSize ?? 16.sp )),
+      child: Text(
+        buttonText ?? '',
+        style: TextStyle(
+          color: textColor ?? Colors.white,
+          fontSize: fontSize ?? 16.sp,
+        ),
+      ),
     );
   }
 }
