@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/utils/app_constants.dart';
 import '../../data/cubits/cart_cubit.dart';
 import '../../data/cubits/cart_state.dart';
-
-import '../widgets/cart_widgets/cart_item_widget.dart';
-import '../widgets/cart_widgets/empty_cart_widget.dart';
-import '../widgets/cart_widgets/order_summary_widget.dart';
+import '../widgets/Cart_item_widget.dart';
+import '../widgets/empty_cart_widget.dart';
+import '../widgets/order_summary_widget.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
@@ -20,7 +18,7 @@ class CartScreen extends StatelessWidget {
     return BlocProvider(
       create: (_) => CartCubit(),
       child: Scaffold(
-        backgroundColor: AppColors.bgWhite,
+        backgroundColor: AppColors.bgLight,
         appBar: AppBar(
           backgroundColor: AppColors.surfaceLight,
           elevation: 0,
@@ -63,7 +61,8 @@ class CartScreen extends StatelessWidget {
 
             if (state is CartEmpty) {
               return EmptyCartWidget(
-                onBrowse: () => context.go('/home'),
+                onBrowse: () {
+                },
               );
             }
 
