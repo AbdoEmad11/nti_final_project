@@ -6,6 +6,8 @@ import '../../../../core/utils/app_constants.dart';
 import '../../../../core/widgets/app_buttons.dart';
 import '../../../cart/view/screens/cart_screen.dart';
 import '../../models/onboarding_model.dart';
+import '../widgets/onboarding_page.dart';
+import '../widgets/onboarding_page_indicator.dart' show PageIndicator;
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
