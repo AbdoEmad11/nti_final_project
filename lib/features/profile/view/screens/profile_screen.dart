@@ -32,9 +32,6 @@ class _ProfileView extends StatelessWidget {
       appBar: LuxeAppBar(),
       body: BlocConsumer<ProfileCubit, ProfileState>(
         listener: (context, state) {
-          if (state is ProfileLoggedOut) {
-            context.go('/login');
-          }
         },
         builder: (context, state) {
           if (state is ProfileLoading) {
@@ -95,9 +92,6 @@ class _ProfileView extends StatelessWidget {
                     return ProfileMenuItemWidget(
                       item: item,
                       onTap: () {
-                        if (item.route != null) {
-                          context.push(item.route!);
-                        }
                       },
                     );
                   }),
