@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nti_final_project/features/cart/view/widgets/summary_row_widget.dart';
-import '../../../../../core/theme/app_colors.dart';
-import '../../../../../core/theme/app_text_styles.dart';
-import '../../../../../core/widgets/app_buttons.dart';
-import '../../data/models/cart_model.dart';
+import 'package:nti_final_project/features/cart/view/widgets/cart_widgets/summary_row_widget.dart';
+import '../../../../../../core/theme/app_colors.dart';
+import '../../../../../../core/theme/app_text_styles.dart';
+import '../../../../../../core/widgets/app_buttons.dart';
+import '../../../data/models/cart_model.dart';
 
 class OrderSummaryWidget extends StatelessWidget {
   final CartSummaryModel summary;
