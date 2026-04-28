@@ -146,7 +146,32 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   ),
                 ),
 
+                SizedBox(height: 100),
 
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Having trouble?",
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+
+                    TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        "Contact Support",
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xff4D41DF),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
