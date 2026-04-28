@@ -9,31 +9,31 @@ class AppStyles {
     fontFamily: AppFonts.mainFontName,
     fontSize: 40.sp,
     fontWeight: FontWeight.w900,
-    color: AppColors2.primaryColor
+    color: AppColors2.primaryColor,
   );
   static TextStyle subtitlesStyles = TextStyle(
     fontFamily: AppFonts.mainFontName,
     fontSize: 14.sp,
     fontWeight: FontWeight.w400,
-    color: AppColors2.secondaryColor
+    color: AppColors2.secondaryColor,
   );
   static TextStyle headtitlesStyles = TextStyle(
     fontFamily: AppFonts.mainFontName,
-    fontSize: 20.sp,
+    fontSize: 24.sp,
     fontWeight: FontWeight.w600,
-    color: AppColors2.blackColor
+    color: AppColors2.blackColor,
   );
 
   static TextStyle labelTextStyles = TextStyle(
     fontFamily: AppFonts.mainFontName,
     fontSize: 16.sp,
     fontWeight: FontWeight.w400,
-    color: AppColors2.blackColor
+    color: AppColors2.blackColor,
   );
   static TextStyle gray16W600Styles = TextStyle(
     fontFamily: AppFonts.mainFontName,
     fontSize: 16.sp,
     fontWeight: FontWeight.w400,
-    color: AppColors2.grayColor
+    color: AppColors2.grayColor,
   );
 }
