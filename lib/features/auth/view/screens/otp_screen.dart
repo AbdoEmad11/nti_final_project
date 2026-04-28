@@ -121,6 +121,59 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                 }),
               ),
 
+              SizedBox(height: 30),
+
+              SizedBox(
+                width: double.infinity,
+                height: 55,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xff4D41DF),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ),
+                  onPressed: () {},
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Verify Code ",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      Icon(Icons.arrow_forward, color: Colors.white, size: 25),
+                    ],
+                  ),
+                ),
+              ),
+
+              SizedBox(height: 20),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Didn't receive code? ",
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                  ),
+
+                  TextButton(
+                    onPressed: () {},
+                    child: Text(
+                      "Resend (59s)",
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xff4D41DF),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
