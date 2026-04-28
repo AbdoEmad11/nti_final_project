@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nti_test/features/cart/view/widgets/chekout_widgets/checkout_stepper.dart';
-import 'package:nti_test/features/cart/view/widgets/chekout_widgets/payment_method_card.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/utils/app_constants.dart';
 import '../../../../core/widgets/app_buttons.dart';
 import '../../data/cubits/checkout_cubit.dart';
+import '../../data/cubits/checkout_state.dart';
 import '../../data/models/cart_model.dart';
 import '../widgets/cart_widgets/order_summary_widget.dart';
+import '../widgets/cheackout_widget/address_card.dart';
+import '../widgets/cheackout_widget/checkout_stepper.dart';
+import '../widgets/cheackout_widget/payment_method_card.dart';
 
 
 class CheckoutScreen extends StatelessWidget {
@@ -20,7 +22,7 @@ class CheckoutScreen extends StatelessWidget {
     return BlocProvider(
       create: (_) => CheckoutCubit(),
       child: Scaffold(
-        backgroundColor: AppColors.bgWhite,
+        backgroundColor: AppColors.bgLight,
         appBar: AppBar(
           backgroundColor: AppColors.surfaceLight,
           elevation: 0,
