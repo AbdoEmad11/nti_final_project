@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nti_test/features/cart/view/screens/cart_screen.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/utils/app_constants.dart';
 import '../../../../core/widgets/app_buttons.dart';
-import '../../../../core/utils/app_routes.dart';
-import '../../data/models/onboarding_model.dart';
-import '../widgets/onboarding_page.dart';
-import '../widgets/onboarding_page_indicator.dart';
+import '../../../cart/view/screens/cart_screen.dart';
+import '../../models/onboarding_model.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
