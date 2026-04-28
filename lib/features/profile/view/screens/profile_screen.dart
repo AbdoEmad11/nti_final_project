@@ -1,3 +1,7 @@
+import 'package:flutter/material.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_text_styles.dart';
+import '../widgets/profile_avatar.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -17,7 +21,7 @@ class _ProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.bgWhite,
+      backgroundColor: AppColors.bgLight,
       appBar: LuxeAppBar(),
       body: BlocConsumer<ProfileCubit, ProfileState>(
         listener: (context, state) {
