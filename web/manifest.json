@@ -1,6 +1,11 @@
 {
+<<<<<<< HEAD
     "name": "my_app",
     "short_name": "my_app",
+=======
+    "name": "nti_final_project",
+    "short_name": "nti_final_project",
+>>>>>>> 204d8d2d206bdcc3f30b88a0918bce538b28c350
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

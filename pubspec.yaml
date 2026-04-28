@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 name: my_app
 description: "Luxe Checkout App"
+=======
+name: nti_final_project
+description: "A new Flutter project."
+>>>>>>> 204d8d2d206bdcc3f30b88a0918bce538b28c350
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -19,7 +24,11 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
+<<<<<<< HEAD
   sdk: '>=3.0.0 <4.0.0'
+=======
+  sdk: ^3.10.1
+>>>>>>> 204d8d2d206bdcc3f30b88a0918bce538b28c350
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -30,10 +39,18 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+<<<<<<< HEAD
   provider: ^6.0.0 # Use the latest version
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   
+=======
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.8
+  flutter_screenutil: ^5.9.3
+>>>>>>> 204d8d2d206bdcc3f30b88a0918bce538b28c350
 
 dev_dependencies:
   flutter_test:
@@ -44,7 +61,11 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
+<<<<<<< HEAD
   flutter_lints: ^2.0.0
+=======
+  flutter_lints: ^6.0.0
+>>>>>>> 204d8d2d206bdcc3f30b88a0918bce538b28c350
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -56,6 +77,10 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+<<<<<<< HEAD
+=======
+
+>>>>>>> 204d8d2d206bdcc3f30b88a0918bce538b28c350
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
