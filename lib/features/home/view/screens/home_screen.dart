@@ -1,8 +1,9 @@
-import 'package:final_project/widgets/product_item_widget.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../../data/models/product_model.dart';
 import '../widgets/category_item_widget.dart';
-import '../widgets/product_model.dart';
+import '../widgets/product_item_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -25,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<ProductModel> products = [
     ProductModel(
-      image: "assets/images/Premium Watch.png",
+      image: "assets/images/watch.jpeg",
       name: "Horizon Chrono",
       price: 299.00,
       id: 1,
@@ -33,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
       numberOfBuy: 120,
     ),
     ProductModel(
-      image: "assets/images/Wireless Headphones.png",
+      image: "assets/images/airpods.jpeg",
       name: "Sonic Pure ANC",
       price: 189.00,
       id: 2,
@@ -41,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
       numberOfBuy: 85,
     ),
     ProductModel(
-      image: "assets/images/Red Sneakers.png",
+      image: "assets/images/shoes.jpeg",
       name: "Aero Glide Pro",
       price: 120.00,
       id: 3,
@@ -49,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
       numberOfBuy: 210,
     ),
     ProductModel(
-      image: "assets/images/classicsneakers.jpg",
+      image: "assets/images/shoes2.jpeg",
       name: "Heritage Low",
       price: 95.00,
       id: 4,
@@ -94,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Stack(
                   children: [
                     Image.asset(
-                      "assets/images/luxe.jpg",
+                      "assets/images/sale.jpeg",
                       width: double.infinity,
                       height: 200,
                       fit: BoxFit.cover,

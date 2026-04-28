@@ -1,7 +1,7 @@
 import 'dart:developer';
 
-import 'package:final_project/widgets/product_model.dart';
 import 'package:flutter/material.dart';
+import '../../data/models/product_model.dart';
 
 class ProductItem extends StatefulWidget {
   const ProductItem({super.key, required this.product, this.onPressed});
