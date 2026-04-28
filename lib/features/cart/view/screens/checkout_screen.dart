@@ -8,7 +8,6 @@ import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/utils/app_constants.dart';
 import '../../../../core/widgets/app_buttons.dart';
 import '../../data/cubits/checkout_cubit.dart';
-import '../../data/cubits/checkout_state.dart';
 import '../../data/models/cart_model.dart';
 import '../widgets/cart_widgets/order_summary_widget.dart';
 
