@@ -161,9 +161,6 @@ class _SplashScreenState extends State<SplashScreen>
   }
 }
 
-// ============================================
-// Loading Dots Animation
-// ============================================
 
 class _LoadingDots extends StatefulWidget {
   @override
