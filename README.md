@@ -2,7 +2,6 @@
 
 A new Flutter project.
 Abdelrahman
-محمد
 Abdelrahman
 
 ## Getting Started
