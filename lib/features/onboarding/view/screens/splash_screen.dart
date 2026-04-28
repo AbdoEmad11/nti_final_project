@@ -45,9 +45,7 @@ class _SplashScreenState extends State<SplashScreen>
     // Navigate after delay
     Future.delayed(AppConstants.splashDuration, () {
       if (mounted) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => const OnboardingScreen()),
-        );
+        Navigator.pushReplacementNamed(context, '/onboarding');
       }
     });
   }

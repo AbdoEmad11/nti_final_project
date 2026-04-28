@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/app_routs.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/utils/app_constants.dart';
+import '../../../../core/widgets/app_bar_widget.dart';
 import '../../data/cubits/cart_cubit.dart';
 import '../../data/cubits/cart_state.dart';
 import '../widgets/cart_widgets/Cart_item_widget.dart';
@@ -19,38 +21,7 @@ class CartScreen extends StatelessWidget {
       create: (_) => CartCubit(),
       child: Scaffold(
         backgroundColor: AppColors.bgLight,
-        appBar: AppBar(
-          backgroundColor: AppColors.surfaceLight,
-          elevation: 0,
-          automaticallyImplyLeading: false,
-          title: Row(
-            children: [
-              Icon(
-                Icons.menu_rounded,
-                color: AppColors.primary,
-                size: 24.sp,
-              ),
-              SizedBox(width: 12.w),
-              Text(
-                AppConstants.appName,
-                style: AppTextStyles.headlineSmall.copyWith(
-                  color: AppColors.primary,
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-            ],
-          ),
-          actions: [
-            IconButton(
-              icon: Icon(
-                Icons.search_rounded,
-                color: AppColors.textPrimary,
-                size: 24.sp,
-              ),
-              onPressed: () {},
-            ),
-          ],
-        ),
+        appBar: const LuxeAppBar(),
         body: BlocBuilder<CartCubit, CartState>(
           builder: (context, state) {
             if (state is CartLoading) {
@@ -91,7 +62,12 @@ class CartScreen extends StatelessWidget {
                             SizedBox(height: 24.h),
                             ...state.items.map((item) => CartItemWidget(item: item)),
                             SizedBox(height: 24.h),
-                            OrderSummaryWidget(summary: state.summary),
+                            OrderSummaryWidget(
+                              summary: state.summary,
+                              onCheckout: () {
+                                Navigator.pushNamed(context, AppRoutes.checkout);
+                              },
+                            ),
                             SizedBox(height: 100.h),
                           ],
                         ),

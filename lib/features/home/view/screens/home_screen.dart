@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../../../../core/widgets/app_bar_widget.dart';
 import '../../data/models/product_model.dart';
 import '../widgets/category_item_widget.dart';
 import '../widgets/product_item_widget.dart';
@@ -62,28 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffF5F3FF),
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {},
-          icon: Icon(Icons.menu, color: Color(0xff4D41DF)),
-        ),
-        backgroundColor: Colors.white,
-        title: Text(
-          "LUXE",
-          style: TextStyle(
-            color: Color(0xff4F46E5),
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        actions: [
-          Padding(
-            padding: EdgeInsets.only(right: 15),
-            child: Icon(Icons.search, color: Color(0xff4F46E5)),
-          ),
-        ],
-      ),
+      appBar: const LuxeAppBar(),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(20),
         child: SafeArea(
@@ -226,42 +206,42 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(25),
-            topRight: Radius.circular(25),
-          ),
-          boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 10)],
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
-          ),
-          child: BottomNavigationBar(
-            backgroundColor: Colors.white,
-            selectedItemColor: Color(0xff4F46E5),
-            unselectedItemColor: Color(0xff94A3B8),
-            type: BottomNavigationBarType.fixed,
-            items: [
-              BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.grid_view),
-                label: "Categories",
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.shopping_cart),
-                label: "Cart",
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.person),
-                label: "Profile",
-              ),
-            ],
-          ),
-        ),
-      ),
+      // bottomNavigationBar: Container(
+      //   decoration: BoxDecoration(
+      //     borderRadius: BorderRadius.only(
+      //       topLeft: Radius.circular(25),
+      //       topRight: Radius.circular(25),
+      //     ),
+      //     boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 10)],
+      //   ),
+      //   child: ClipRRect(
+      //     borderRadius: BorderRadius.only(
+      //       topLeft: Radius.circular(20),
+      //       topRight: Radius.circular(20),
+      //     ),
+      //     child: BottomNavigationBar(
+      //       backgroundColor: Colors.white,
+      //       selectedItemColor: Color(0xff4F46E5),
+      //       unselectedItemColor: Color(0xff94A3B8),
+      //       type: BottomNavigationBarType.fixed,
+      //       items: [
+      //         BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+      //         BottomNavigationBarItem(
+      //           icon: Icon(Icons.grid_view),
+      //           label: "Categories",
+      //         ),
+      //         BottomNavigationBarItem(
+      //           icon: Icon(Icons.shopping_cart),
+      //           label: "Cart",
+      //         ),
+      //         BottomNavigationBarItem(
+      //           icon: Icon(Icons.person),
+      //           label: "Profile",
+      //         ),
+      //       ],
+      //     ),
+      //   ),
+      // ),
     );
   }
 }

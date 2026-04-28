@@ -86,8 +86,7 @@ class OrderSummaryWidget extends StatelessWidget {
                 color: Colors.white,
                 size: 25.sp,
               ),
-              onTap: () {
-              },
+              onTap: onCheckout,
             ),
         ],
       ),

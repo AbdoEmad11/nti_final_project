@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../../../core/theme/app_routs.dart';
+
 class OtpVerificationScreen extends StatefulWidget {
   const OtpVerificationScreen({super.key});
 
@@ -20,7 +22,9 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
       backgroundColor: Color(0xffF5F3FF),
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
           icon: Icon(Icons.arrow_back_outlined, color: Color(0xff4D41DF)),
         ),
         backgroundColor: Colors.white,
@@ -133,7 +137,9 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                       borderRadius: BorderRadius.circular(30),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, AppRoutes.resetPassword);
+                  },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -162,7 +168,8 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                   ),
 
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                    },
                     child: Text(
                       "Resend (59s)",
                       style: TextStyle(

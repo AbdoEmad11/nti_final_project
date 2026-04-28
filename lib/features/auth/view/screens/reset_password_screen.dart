@@ -18,7 +18,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
       backgroundColor: Color(0xffF5F3FF),
       appBar: AppBar(
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
           icon: Icon(Icons.arrow_back_outlined, color: Color(0xff4D41DF)),
         ),
         backgroundColor: Colors.white,

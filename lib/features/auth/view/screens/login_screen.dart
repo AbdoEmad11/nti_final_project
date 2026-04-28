@@ -8,6 +8,8 @@ import 'package:nti_final_project/features/auth/view/widgets/custum_icons_app.da
 import 'package:nti_final_project/features/auth/view/widgets/primary_button_widget.dart';
 import 'package:nti_final_project/main.dart';
 
+import '../../../../core/theme/app_routs.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -68,17 +70,27 @@ class _LoginScreenState extends State<LoginScreen> {
 
                   Align(
                     alignment: Alignment.centerRight,
-                    child: Text(
-                      'Forgot password?',
-                      style: TextStyle(color: AppColors2.primaryColor),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, AppRoutes.forgotPassword);
+                      },
+                      child: Text(
+                        'Forgot password?',
+                        style: TextStyle(color: AppColors2.primaryColor),
+                      ),
                     ),
                   ),
                   SizedBox(height: 24.h),
-                  PrimaryButtonWidget(buttonText: 'Sign In', onPressed: () {}),
+                  PrimaryButtonWidget(
+                    buttonText: 'Sign In',
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(context, AppRoutes.mainLayout);
+                    },
+                  ),
                   SizedBox(height: 32.h),
                   Row(
                     children: [
-                      SizedBox(width: 110.w, child: Divider()),
+                      SizedBox(width: 100.w, child: Divider()),
                       SizedBox(width: 16),
                       Text('Or Login With', style: AppStyles.gray16W600Styles),
                       SizedBox(width: 16),
@@ -159,18 +171,23 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   ),
                   SizedBox(height: 32.h),
-                  RichText(
-                    text: TextSpan(
-                      text: 'Don\'t have an account? ',
-                      style: AppStyles.subtitlesStyles,
-                      children: [
-                        TextSpan(
-                          text: 'Sign Up',
-                          style: AppStyles.subtitlesStyles.copyWith(
-                            color: AppColors2.primaryColor,
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, AppRoutes.register);
+                    },
+                    child: RichText(
+                      text: TextSpan(
+                        text: 'Don\'t have an account? ',
+                        style: AppStyles.subtitlesStyles,
+                        children: [
+                          TextSpan(
+                            text: 'Sign Up',
+                            style: AppStyles.subtitlesStyles.copyWith(
+                              color: AppColors2.primaryColor,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ],

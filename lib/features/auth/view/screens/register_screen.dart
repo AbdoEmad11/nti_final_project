@@ -6,6 +6,8 @@ import 'package:nti_final_project/core/styling/app_styles.dart';
 import 'package:nti_final_project/features/auth/view/widgets/custom_text_field.dart';
 import 'package:nti_final_project/features/auth/view/widgets/primary_button_widget.dart';
 
+import '../../../../core/theme/app_routs.dart';
+
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
 
@@ -131,25 +133,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       SizedBox(height: 10.h),
                       PrimaryButtonWidget(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushReplacementNamed(context, AppRoutes.mainLayout);
+                        },
                         buttonText: 'Create Account',
                         textColor: Colors.white,
                         buttonColor: AppColors2.primaryColor,
                       ),
                       SizedBox(height: 20.h),
                       Center(
-                        child: RichText(
-                          text: TextSpan(
-                            text: 'Already have an account? ',
-                            style: AppStyles.subtitlesStyles,
-                            children: [
-                              TextSpan(
-                                text: 'Login',
-                                style: AppStyles.subtitlesStyles.copyWith(
-                                  color: AppColors2.primaryColor,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: RichText(
+                            text: TextSpan(
+                              text: 'Already have an account? ',
+                              style: AppStyles.subtitlesStyles,
+                              children: [
+                                TextSpan(
+                                  text: 'Login',
+                                  style: AppStyles.subtitlesStyles.copyWith(
+                                    color: AppColors2.primaryColor,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),

@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nti_final_project/core/styling/app_colors2.dart';
 import 'package:nti_final_project/core/styling/app_theme.dart';
-import 'package:nti_final_project/features/auth/view/screens/forgot_password_screen.dart';
-import 'package:nti_final_project/features/auth/view/screens/login_screen.dart';
-import 'package:nti_final_project/features/auth/view/screens/register_screen.dart';
-import 'package:nti_final_project/features/auth/view/widgets/primary_button_widget.dart';
-
-import 'features/product/view/screens/categories_screen.dart';
+import 'core/theme/app_routs.dart';
 
 void main() {
   runApp(const MyApp());
@@ -23,9 +17,9 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
-
           theme: AppTheme.ligthTheme,
-          home: CategoriesScreen(),
+          initialRoute: AppRoutes.splash,
+          onGenerateRoute: AppRoutes.onGenerateRoute,
         );
       },
     );
