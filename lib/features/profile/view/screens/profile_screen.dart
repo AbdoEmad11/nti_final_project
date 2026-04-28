@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/app_bar_widget.dart';
+import '../../../../core/widgets/app_buttons.dart';
 import '../../data/cubits/profile_cubit.dart';
 import '../widgets/profile_avatar.dart';
+import '../widgets/profile_menu_item.dart';
+import '../widgets/stats_card.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
