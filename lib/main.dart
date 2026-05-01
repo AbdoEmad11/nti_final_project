@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
 
           theme: AppTheme.ligthTheme,
-          home: RegisterScreen(),
+          home: ForgotPasswordScreen(),
         );
       },
     );
