@@ -37,6 +37,7 @@ dependencies:
   flutter_screenutil: ^5.9.3
   go_router: ^17.2.2
   flutter_svg: ^2.2.4
+  dio: ^5.9.2
 
 dev_dependencies:
   flutter_test:

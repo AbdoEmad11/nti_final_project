@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nti_final_project/core/styling/app_colors2.dart';
 import 'package:nti_final_project/core/styling/app_styles.dart';
+import 'package:nti_final_project/features/auth/view/widgets/back_button_widget.dart';
 import 'package:nti_final_project/features/auth/view/widgets/custom_text_field.dart';
 import 'package:nti_final_project/features/auth/view/widgets/primary_button_widget.dart';
 
@@ -18,22 +19,7 @@ class ForgotPasswordScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                width: 41.h,
-                height: 41.h,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12.r),
-                  border: Border.all(color: Color(0xffE8ECF4), width: 1.w),
-                  color: Colors.white,
-                ),
-                child: IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.arrow_back_ios_new_outlined,
-                    color: AppColors2.primaryColor,
-                  ),
-                ),
-              ),
+              BackButtonWidget(),
               SizedBox(height: 32.h),
               Text(
                 'Forgot Password?',

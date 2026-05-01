@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:nti_final_project/core/styling/app_colors2.dart';
 import 'package:nti_final_project/core/styling/app_styles.dart';
+import 'package:nti_final_project/features/auth/data/validators.dart';
 import 'package:nti_final_project/features/auth/view/widgets/custom_text_field.dart';
 import 'package:nti_final_project/features/auth/view/widgets/custum_icons_app.dart';
 import 'package:nti_final_project/features/auth/view/widgets/primary_button_widget.dart';
@@ -16,6 +17,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+Validators validators = Validators();
   final formKey = GlobalKey<FormState>();
   late TextEditingController emailController;
   late TextEditingController passwordController;
@@ -38,6 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
             width: 350.w,
             child: SingleChildScrollView(
               child: Form(
+autovalidateMode:AutovalidateMode.onUserInteraction,
                 key: formKey,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -54,15 +57,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     SizedBox(height: 32.h),
                     CustomTextField(
+                      
                       controller: emailController,
                       labelText: 'Email Address',
                       hintText: 'Enter your email address',
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Enter your email';
-                        }
-                        return null;
-                      },
+                      validator: (value){
+                        return Validators.validateEmail(value!);
+                      }
                     ),
                     SizedBox(height: 24.h),
                     CustomTextField(
@@ -86,14 +87,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Enter your password';
-                        }
-                        if(value.length<8){
-                          return 'Password must be at least 8 characters long';
-                        }
-                        return null;
-                      },
+                        return Validators.validatePassword(value!, passwordController, passwordController);
+                      }
                     ),
                     SizedBox(height: 8.h),
 
