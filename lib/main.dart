@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nti_final_project/core/styling/app_theme.dart';
-import 'core/theme/app_routs.dart';
+import 'core/utils/app_routs.dart';
 
 void main() {
   runApp(const MyApp());

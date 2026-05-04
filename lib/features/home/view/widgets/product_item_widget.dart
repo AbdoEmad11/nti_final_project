@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import '../../../../core/theme/app_routs.dart';
+import '../../../../core/utils/app_routs.dart';
 import '../../data/models/product_model.dart';
 
 class ProductItem extends StatefulWidget {

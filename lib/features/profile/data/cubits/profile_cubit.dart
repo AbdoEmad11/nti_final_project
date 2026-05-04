@@ -30,11 +30,11 @@ class ProfileCubit extends Cubit<ProfileState> {
 
     final menuItems = [
       const ProfileMenuItem(
-        title: 'My Orders',
+        title: 'Add Product',
         icon: Icons.shopping_bag_outlined,
         iconColor: Color(0xFF6366F1),
         iconBackgroundColor: Color(0xFFEEF2FF),
-        route: '/orders',
+        route: '/add-product',
       ),
       const ProfileMenuItem(
         title: 'My Wishlist',

@@ -10,6 +10,8 @@ import 'package:nti_final_project/features/onboarding/view/screens/onboarding_sc
 import 'package:nti_final_project/features/onboarding/view/screens/splash_screen.dart';
 import 'package:nti_final_project/features/product/view/screens/product_details.dart';
 
+import '../../addProduct/views/screens/add_product_screen.dart';
+
 class AppRoutes {
   static const String splash = '/';
   static const String onboarding = '/onboarding';
@@ -21,6 +23,8 @@ class AppRoutes {
   static const String mainLayout = '/main-layout';
   static const String productDetails = '/product-details';
   static const String checkout = '/checkout';
+  static const String addProduct = '/add-product';
+
 
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -53,6 +57,10 @@ class AppRoutes {
 
       case checkout:
         return MaterialPageRoute(builder: (_) => const CheckoutScreen());
+
+      case '/add-product':
+        return MaterialPageRoute(builder: (_) => const AddProductScreen());
+
 
       default:
         return MaterialPageRoute(builder: (_) => const SplashScreen());

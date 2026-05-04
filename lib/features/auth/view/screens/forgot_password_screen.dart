@@ -5,7 +5,7 @@ import 'package:nti_final_project/core/styling/app_styles.dart';
 import 'package:nti_final_project/features/auth/view/widgets/custom_text_field.dart';
 import 'package:nti_final_project/features/auth/view/widgets/primary_button_widget.dart';
 
-import '../../../../core/theme/app_routs.dart';
+import '../../../../core/utils/app_routs.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {
   const ForgotPasswordScreen({super.key});
