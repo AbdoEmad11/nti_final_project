@@ -25,7 +25,7 @@ class SmallCategoryCard extends StatelessWidget {
         child: Stack(
           fit: StackFit.expand,
           children: [
-            Image.asset(image, fit: BoxFit.fill),
+            Image.network(image, fit: BoxFit.fill),
 
             Container(
               decoration: BoxDecoration(

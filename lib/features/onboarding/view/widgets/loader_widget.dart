@@ -19,7 +19,7 @@ class SplashLoader extends StatelessWidget {
       right: 48.w,
       child: AnimatedBuilder(
         animation: load,
-        builder: (_, __) => ClipRRect(
+        builder: (_, _) => ClipRRect(
           borderRadius: BorderRadius.circular(4.r),
           child: LinearProgressIndicator(
             value: load.value,

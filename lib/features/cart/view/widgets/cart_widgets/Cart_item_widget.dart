@@ -43,7 +43,7 @@ class CartItemWidget extends StatelessWidget {
               width: 80.w,
               height: 80.h,
               fit: BoxFit.cover,
-              placeholder: (_, __) => Container(
+              placeholder: (_, _) => Container(
                 color: AppColors.primaryLight,
                 child: const Center(
                   child: CircularProgressIndicator(
@@ -52,7 +52,7 @@ class CartItemWidget extends StatelessWidget {
                   ),
                 ),
               ),
-              errorWidget: (_, __, ___) => Container(
+              errorWidget: (_, _, _) => Container(
                 color: AppColors.primaryLight,
                 child: Icon(
                   Icons.image_not_supported_rounded,

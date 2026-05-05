@@ -27,7 +27,7 @@ class BigCategoryCard extends StatelessWidget {
         child: Stack(
           fit: StackFit.expand,
           children: [
-            Image.asset(image, fit: BoxFit.cover),
+            Image.network(image, fit: BoxFit.cover),
 
             // Gradient overlay
             Container(

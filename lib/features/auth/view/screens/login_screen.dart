@@ -4,9 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:nti_final_project/core/styling/app_colors2.dart';
 import 'package:nti_final_project/core/styling/app_styles.dart';
 import 'package:nti_final_project/features/auth/view/widgets/custom_text_field.dart';
-import 'package:nti_final_project/features/auth/view/widgets/custum_icons_app.dart';
 import 'package:nti_final_project/features/auth/view/widgets/primary_button_widget.dart';
-import 'package:nti_final_project/main.dart';
 
 import '../../../../core/utils/app_routs.dart';
 

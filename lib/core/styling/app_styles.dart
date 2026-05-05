@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nti_final_project/core/styling/app_colors2.dart';
 import 'package:nti_final_project/core/styling/app_fonts.dart';
-import 'package:nti_final_project/core/theme/app_colors.dart';
 
 class AppStyles {
   static TextStyle primaryLineStyle = TextStyle(

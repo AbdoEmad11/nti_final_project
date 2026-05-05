@@ -10,7 +10,7 @@ import 'package:nti_final_project/features/onboarding/view/screens/onboarding_sc
 import 'package:nti_final_project/features/onboarding/view/screens/splash_screen.dart';
 import 'package:nti_final_project/features/product/view/screens/product_details.dart';
 
-import '../../addProduct/views/screens/add_product_screen.dart';
+//import '../../addProduct/views/screens/add_product_screen.dart';
 
 class AppRoutes {
   static const String splash = '/';
@@ -59,7 +59,7 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => const CheckoutScreen());
 
       case '/add-product':
-        return MaterialPageRoute(builder: (_) => const AddProductScreen());
+       // return MaterialPageRoute(builder: (_) => const AddProductScreen());
 
 
       default:

@@ -44,7 +44,7 @@ class ProfileAvatar extends StatelessWidget {
               child: CachedNetworkImage(
                 imageUrl: imageUrl,
                 fit: BoxFit.cover,
-                placeholder: (_, __) => Container(
+                placeholder: (_, _) => Container(
                   color: AppColors.primaryLight,
                   child: const Center(
                     child: CircularProgressIndicator(
@@ -53,7 +53,7 @@ class ProfileAvatar extends StatelessWidget {
                     ),
                   ),
                 ),
-                errorWidget: (_, __, ___) => Container(
+                errorWidget: (_, _, _) => Container(
                   color: AppColors.primaryLight,
                   child: Icon(
                     Icons.person_rounded,

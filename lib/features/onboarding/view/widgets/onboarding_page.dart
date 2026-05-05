@@ -40,7 +40,7 @@ class OnboardingPage extends StatelessWidget {
                   ),
                 );
               },
-              errorBuilder: (_, __, ___) => Container(
+              errorBuilder: (_, _, _) => Container(
                 height: 420.h,
                 decoration: BoxDecoration(
                   color: AppColors.primaryLight,

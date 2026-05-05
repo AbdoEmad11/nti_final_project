@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nti_final_project/core/styling/app_colors2.dart';
-import 'package:nti_final_project/core/styling/app_colors2.dart';
 
 class PrimaryButtonWidget extends StatelessWidget {
   final String? buttonText;
