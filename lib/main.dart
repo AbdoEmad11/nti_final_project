@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
           theme: AppTheme.ligthTheme,
           home: BlocProvider(
             create: (context) => AuthCubit(),
-            child: LoginScreen(),
+            child: ForgotPasswordScreen(),
           ),
         );
       },

@@ -3,9 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:nti_final_project/core/styling/app_colors2.dart';
 import 'package:nti_final_project/core/styling/app_styles.dart';
+import 'package:nti_final_project/features/auth/cubits/auth_cubit.dart';
 import 'package:nti_final_project/features/auth/data/validators.dart';
+import 'package:nti_final_project/features/auth/states/auth_states.dart';
+import 'package:nti_final_project/features/auth/view/screens/login_screen.dart';
 import 'package:nti_final_project/features/auth/view/widgets/custom_text_field.dart';
 import 'package:nti_final_project/features/auth/view/widgets/primary_button_widget.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -19,6 +23,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   late TextEditingController emailController;
   late TextEditingController passwordController;
   late TextEditingController confirmPasswordController;
+  late TextEditingController firstname;
+  late TextEditingController lastname;
   bool isChecked = false;
   bool value = false;
   bool isPassword = true;
@@ -28,6 +34,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     emailController = TextEditingController();
     passwordController = TextEditingController();
     confirmPasswordController = TextEditingController();
+    firstname = TextEditingController();
+    lastname = TextEditingController();
   }
 
   @override
@@ -35,6 +43,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     emailController.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();
+    firstname.dispose();
+    lastname.dispose();
     super.dispose();
   }
 
@@ -76,14 +86,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                         SizedBox(height: 24.h),
                         CustomTextField(
-                          labelText: 'Full Name',
-                          hintText: 'Enter your name',
+                          controller: firstname,
+                          labelText: 'First Name',
+                          hintText: 'Enter your first name',
+                          validator: (value) {
+                            return Validators.validateName(value!);
+                          },
+                        ),
+                        SizedBox(height: 24.h),
+                        CustomTextField(
+                          controller: lastname,
+                          labelText: 'Last Name',
+                          hintText: 'Enter your last name',
                           validator: (value) {
                             return Validators.validateName(value!);
                           },
                         ),
                         SizedBox(height: 20.h),
                         CustomTextField(
+                          controller: emailController,
                           labelText: 'Email Address',
                           hintText: 'Enter your email address',
                           validator: (value) {
@@ -92,6 +113,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                         SizedBox(height: 20.h),
                         CustomTextField(
+                          controller: passwordController,
                           labelText: 'Password',
                           hintText: 'Enter your password',
                           isPassword: isPassword,
@@ -118,6 +140,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                         SizedBox(height: 20.h),
                         CustomTextField(
+                        controller: confirmPasswordController,
                           labelText: 'Confirm Password',
                           hintText: 'Confirm your password',
                           isPassword: isPassword,
@@ -178,11 +201,48 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ],
                         ),
                         SizedBox(height: 10.h),
-                        PrimaryButtonWidget(
-                          onPressed: () {},
-                          buttonText: 'Create Account',
-                          textColor: Colors.white,
-                          buttonColor: AppColors2.primaryColor,
+                        BlocListener<AuthCubit, AuthStates>(
+                          listener: (context, state) {
+                            if (state is RegisterLoadingState) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Loading...')),
+                            );
+                            } else if (state is RegisterSuccessState) {
+                             
+                              
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(' Successful'),
+                                ),
+                              );
+
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => LoginScreen(),
+                                ),
+                              );
+                            } else if (state is RegisterFailureState) {
+                            
+
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text(' Failed')),
+                              );
+                            }
+                          },
+                          child: PrimaryButtonWidget(
+                            onPressed: () {
+                              BlocProvider.of<AuthCubit>(context).register(
+                                email: emailController.text,
+                                password: passwordController.text,
+                                firstName: firstname.text,
+                                lastName: lastname.text,
+                              );
+                            },
+                            buttonText: 'Create Account',
+                            textColor: Colors.white,
+                            buttonColor: AppColors2.primaryColor,
+                          ),
                         ),
                         SizedBox(height: 20.h),
                         Center(

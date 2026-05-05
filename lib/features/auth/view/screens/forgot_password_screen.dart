@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nti_final_project/core/styling/app_colors2.dart';
 import 'package:nti_final_project/core/styling/app_styles.dart';
+import 'package:nti_final_project/features/auth/cubits/auth_cubit.dart';
 import 'package:nti_final_project/features/auth/data/validators.dart';
+import 'package:nti_final_project/features/auth/states/auth_states.dart';
 import 'package:nti_final_project/features/auth/view/widgets/back_button_widget.dart';
 import 'package:nti_final_project/features/auth/view/widgets/custom_text_field.dart';
 import 'package:nti_final_project/features/auth/view/widgets/primary_button_widget.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -52,16 +55,45 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 ),
                 SizedBox(height: 32.h),
                 CustomTextField(
+                  controller: emailController,
                   validator: (value){
                     return Validators.validateEmail(value!);
                   },
                   labelText: 'Enter your email'),
                 SizedBox(height: 32.h),
-                PrimaryButtonWidget(
-                  onPressed: () {},
-                  buttonText: 'Send Code',
-                  buttonColor: AppColors2.primaryColor,
-                  textColor: Colors.white,
+                BlocBuilder<AuthCubit, AuthStates>(
+                  builder: (context, state) {
+                    if (state is ForgotPasswordLoadingState) {
+                      return const Center(child: CircularProgressIndicator());
+                    }else if(state is ForgotPasswordrSuccessState){
+                      if (Navigator.canPop(context)) {
+                        Navigator.pop(context);
+                      }
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Email Sent Successfully'),
+                ));}else if(state is ForgotPasswordFailureState){
+                      if (Navigator.canPop(context)) {
+                        Navigator.pop(context);
+                      }
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Failed to Send Email'),
+                 ));
+                }
+                    return  PrimaryButtonWidget(
+                    onPressed: () {
+                      if (fromKey.currentState!.validate()) {
+                        BlocProvider.of<AuthCubit>(context).forgotPassword(
+                          email: emailController.text,
+                        );
+                      }
+                    },
+                    buttonText: 'Send Code',
+                    buttonColor: AppColors2.primaryColor,
+                    textColor: Colors.white,
+                  );
+                  },
                 ),
                 Spacer(),
                 Center(

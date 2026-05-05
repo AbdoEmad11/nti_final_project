@@ -121,11 +121,16 @@ class _LoginScreenState extends State<LoginScreen> {
                           if (Navigator.canPop(context)) {
                             Navigator.pop(context);
                           }
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Login Successful')),
+                          );
+                          
 
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(builder: (_) => RegisterScreen()),
                           );
+                          
                         } else if (state is LoginFailureState) {
                           if (Navigator.canPop(context)) {
                             Navigator.pop(context);
