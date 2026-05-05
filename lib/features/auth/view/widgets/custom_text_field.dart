@@ -8,8 +8,8 @@ class CustomTextField extends StatelessWidget {
   final Widget? suffixIcon;
   final bool? isPassword;
   final double? width;
+  final validator;
   final TextEditingController? controller;
-
   const CustomTextField({
     super.key,
     this.controller,
@@ -17,6 +17,7 @@ class CustomTextField extends StatelessWidget {
     this.hintText,
     this.suffixIcon,
     this.isPassword,
+    this.validator,
 
     this.width,
   });
@@ -25,7 +26,9 @@ class CustomTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: width ?? 350.w,
-      child: TextField(
+      child: TextFormField(
+        controller: controller,
+        validator: validator,
         cursorColor: AppColors2.primaryColor,
         obscureText: isPassword ?? false,
         autofocus: false,
