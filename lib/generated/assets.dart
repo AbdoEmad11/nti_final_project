@@ -7,7 +7,6 @@ class Assets {
   Assets._();
 
   static const $AssetsIconsGen icons = $AssetsIconsGen();
-  static const $AssetsImagesGen images = $AssetsImagesGen();
 }
 
 class $AssetsIconsGen {
@@ -20,53 +19,6 @@ class $AssetsIconsGen {
   final SvgGenImage facebook = const SvgGenImage('assets/icons/facebook.svg');
   final SvgGenImage google = const SvgGenImage('assets/icons/google.svg');
   final AssetGenImage icon = const AssetGenImage('assets/icons/icon.jpeg');
-}
-
-class $AssetsImagesGen {
-  const $AssetsImagesGen();
-
-  final AssetGenImage geminiGeneratedImage5zjax15zjax15zja =
-      const AssetGenImage(
-        'assets/images/Gemini_Generated_Image_5zjax15zjax15zja.png',
-      );
-  final AssetGenImage geminiGeneratedImage6xjph16xjph16xjp =
-      const AssetGenImage(
-        'assets/images/Gemini_Generated_Image_6xjph16xjph16xjp.png',
-      );
-  final AssetGenImage geminiGeneratedImageK1kgcnk1kgcnk1kg =
-      const AssetGenImage(
-        'assets/images/Gemini_Generated_Image_k1kgcnk1kgcnk1kg.png',
-      );
-  final AssetGenImage geminiGeneratedImageK5of47k5of47k5of =
-      const AssetGenImage(
-        'assets/images/Gemini_Generated_Image_k5of47k5of47k5of.png',
-      );
-  final AssetGenImage geminiGeneratedImageZ7qmjyz7qmjyz7qm =
-      const AssetGenImage(
-        'assets/images/Gemini_Generated_Image_z7qmjyz7qmjyz7qm.png',
-      );
-  final AssetGenImage geminiGeneratedImageZbdr9jzbdr9jzbdr =
-      const AssetGenImage(
-        'assets/images/Gemini_Generated_Image_zbdr9jzbdr9jzbdr.png',
-      );
-  final AssetGenImage premiumHeadphones = const AssetGenImage(
-    'assets/images/Premium Headphones.png',
-  );
-  final AssetGenImage airpods = const AssetGenImage(
-    'assets/images/airpods.jpeg',
-  );
-  final AssetGenImage iphone16 = const AssetGenImage(
-    'assets/images/iphone16.png',
-  );
-  final AssetGenImage nothing = const AssetGenImage(
-    'assets/images/nothing.png',
-  );
-  final AssetGenImage pixel8 = const AssetGenImage('assets/images/pixel8.png');
-  final AssetGenImage s24 = const AssetGenImage('assets/images/s24.png');
-  final AssetGenImage sale = const AssetGenImage('assets/images/sale.jpeg');
-  final AssetGenImage shoes = const AssetGenImage('assets/images/shoes.jpeg');
-  final AssetGenImage shoes2 = const AssetGenImage('assets/images/shoes2.jpeg');
-  final AssetGenImage watch = const AssetGenImage('assets/images/watch.jpeg');
 }
 
 class AssetGenImage {
