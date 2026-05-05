@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:nti_final_project/core/styling/app_colors2.dart';
 import 'package:nti_final_project/core/styling/app_styles.dart';
+import 'package:nti_final_project/features/auth/cubits/auth_cubit.dart';
 import 'package:nti_final_project/features/auth/data/validators.dart';
+import 'package:nti_final_project/features/auth/states/auth_states.dart';
+import 'package:nti_final_project/features/auth/view/screens/register_screen.dart';
 import 'package:nti_final_project/features/auth/view/widgets/custom_text_field.dart';
-import 'package:nti_final_project/features/auth/view/widgets/custum_icons_app.dart';
+
 import 'package:nti_final_project/features/auth/view/widgets/primary_button_widget.dart';
-import 'package:nti_final_project/main.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -17,7 +20,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-Validators validators = Validators();
+  Validators validators = Validators();
   final formKey = GlobalKey<FormState>();
   late TextEditingController emailController;
   late TextEditingController passwordController;
@@ -40,7 +43,7 @@ Validators validators = Validators();
             width: 350.w,
             child: SingleChildScrollView(
               child: Form(
-autovalidateMode:AutovalidateMode.onUserInteraction,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
                 key: formKey,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -57,13 +60,12 @@ autovalidateMode:AutovalidateMode.onUserInteraction,
                     ),
                     SizedBox(height: 32.h),
                     CustomTextField(
-                      
                       controller: emailController,
                       labelText: 'Email Address',
                       hintText: 'Enter your email address',
-                      validator: (value){
+                      validator: (value) {
                         return Validators.validateEmail(value!);
-                      }
+                      },
                     ),
                     SizedBox(height: 24.h),
                     CustomTextField(
@@ -87,8 +89,12 @@ autovalidateMode:AutovalidateMode.onUserInteraction,
                         ),
                       ),
                       validator: (value) {
-                        return Validators.validatePassword(value!, passwordController, passwordController);
-                      }
+                        return Validators.validatePassword(
+                          value!,
+                          passwordController,
+                          passwordController,
+                        );
+                      },
                     ),
                     SizedBox(height: 8.h),
 
@@ -100,11 +106,47 @@ autovalidateMode:AutovalidateMode.onUserInteraction,
                       ),
                     ),
                     SizedBox(height: 24.h),
-                    PrimaryButtonWidget(
-                      buttonText: 'Sign In',
-                      onPressed: () {
-                        if(formKey.currentState!.validate());
+                    BlocListener<AuthCubit, AuthStates>(
+                      listener: (context, state) {
+                        if (state is LoginLoadingState) {
+                          showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (_) => const Dialog(
+                              backgroundColor: Colors.transparent,
+                              child: Center(child: CircularProgressIndicator()),
+                            ),
+                          );
+                        } else if (state is LoginSuccessState) {
+                          if (Navigator.canPop(context)) {
+                            Navigator.pop(context);
+                          }
+
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (_) => RegisterScreen()),
+                          );
+                        } else if (state is LoginFailureState) {
+                          if (Navigator.canPop(context)) {
+                            Navigator.pop(context);
+                          }
+
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Login Failed')),
+                          );
+                        }
                       },
+                      child: PrimaryButtonWidget(
+                        buttonText: 'Sign In',
+                        onPressed: () async {
+                          if (formKey.currentState!.validate()) {
+                            await BlocProvider.of<AuthCubit>(context).login(
+                              email: emailController.text,
+                              password: passwordController.text,
+                            );
+                          }
+                        },
+                      ),
                     ),
                     SizedBox(height: 32.h),
                     Row(
