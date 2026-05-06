@@ -19,29 +19,18 @@ class OnboardingPage extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(height: 20.h),
+
           // Image
           ClipRRect(
             borderRadius: BorderRadius.circular(32.r),
-            child: Image.network(
-              data.imageUrl,
-              height: 400.h,
+            child: Image.asset(
+              data.imagePath,
+              height:425.h,
               width: double.infinity,
               fit: BoxFit.cover,
-              loadingBuilder: (context, child, loadingProgress) {
-                if (loadingProgress == null) return child;
-                return Container(
-                  height: 400.h,
-                  decoration: BoxDecoration(
-                    color: AppColors.primaryLight,
-                    borderRadius: BorderRadius.circular(32.r),
-                  ),
-                  child: const Center(
-                    child: CircularProgressIndicator(color: AppColors.primary),
-                  ),
-                );
-              },
+              filterQuality: FilterQuality.high,
               errorBuilder: (_, __, ___) => Container(
-                height: 420.h,
+                height: 400.h,
                 decoration: BoxDecoration(
                   color: AppColors.primaryLight,
                   borderRadius: BorderRadius.circular(32.r),
@@ -54,7 +43,9 @@ class OnboardingPage extends StatelessWidget {
               ),
             ),
           ),
+
           SizedBox(height: 40.h),
+
           // Title
           Text(
             data.title,
@@ -64,7 +55,9 @@ class OnboardingPage extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
           ),
+
           SizedBox(height: 12.h),
+
           // Description
           Text(
             data.description,

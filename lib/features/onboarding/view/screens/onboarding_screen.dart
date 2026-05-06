@@ -18,22 +18,23 @@ class OnboardingScreen extends StatefulWidget {
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _pageController = PageController();
+
   int _currentPage = 0;
   bool _isLastPage = false;
 
   final List<OnboardingModel> _pages = const [
     OnboardingModel(
-      imageUrl: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=600',
+      imagePath: 'assets/images/onBoarding1.png',
       title: 'Find Your Style',
-      description: 'Discover the latest trends in fashion ',
+      description: 'Discover the latest trends in fashion',
     ),
     OnboardingModel(
-      imageUrl: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600',
+      imagePath: 'assets/images/onBoarding2.png',
       title: 'Easy Checkout',
       description: 'Secure and fast payment methods for your convenience',
     ),
     OnboardingModel(
-      imageUrl: 'https://images.unsplash.com/photo-1616432043562-3671ea2e5242?w=600',
+      imagePath: 'assets/images/onBoarding3.png',
       title: 'Fast Delivery',
       description: 'Get your orders delivered to your doorstep in no time',
     ),
@@ -42,11 +43,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   void initState() {
     super.initState();
+
     _pageController.addListener(() {
-      setState(() {
-        _currentPage = _pageController.page!.round();
-        _isLastPage = _currentPage == _pages.length - 1;
-      });
+      final page = _pageController.page?.round() ?? 0;
+
+      if (_currentPage != page) {
+        setState(() {
+          _currentPage = page;
+          _isLastPage = _currentPage == _pages.length - 1;
+        });
+      }
     });
   }
 
@@ -61,7 +67,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       _completeOnboarding();
     } else {
       _pageController.nextPage(
-        duration: Duration(milliseconds: 400),
+        duration: const Duration(milliseconds: 400),
         curve: Curves.easeInOut,
       );
     }
@@ -82,6 +88,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       appBar: AppBar(
         backgroundColor: AppColors.surfaceLight,
         automaticallyImplyLeading: false,
+        elevation: 0,
         title: Text(
           AppConstants.appName,
           style: AppTextStyles.headlineSmall.copyWith(
@@ -106,7 +113,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            // Page View
             Expanded(
               child: PageView.builder(
                 controller: _pageController,
@@ -116,7 +122,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 },
               ),
             ),
-            // Bottom Section
             Padding(
               padding: EdgeInsets.all(24.w),
               child: Column(

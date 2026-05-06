@@ -61,6 +61,15 @@ class $AssetsImagesGen {
   final AssetGenImage nothing = const AssetGenImage(
     'assets/images/nothing.png',
   );
+  final AssetGenImage onBoarding1 = const AssetGenImage(
+    'assets/images/onBoarding1.png',
+  );
+  final AssetGenImage onBoarding2 = const AssetGenImage(
+    'assets/images/onBoarding2.png',
+  );
+  final AssetGenImage onBoarding3 = const AssetGenImage(
+    'assets/images/onBoarding3.png',
+  );
   final AssetGenImage pixel8 = const AssetGenImage('assets/images/pixel8.png');
   final AssetGenImage s24 = const AssetGenImage('assets/images/s24.png');
   final AssetGenImage sale = const AssetGenImage('assets/images/sale.jpeg');
