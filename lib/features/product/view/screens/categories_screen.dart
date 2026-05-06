@@ -8,22 +8,24 @@ import 'package:nti_final_project/features/product/view/widgets/widgets/section_
 import 'package:nti_final_project/features/product/view/widgets/widgets/small_category_card.dart';
 import 'package:nti_final_project/features/product/view/widgets/widgets/trending_card.dart';
 
-import '../../../../core/widgets/app_bar_widget.dart';
-
 class CategoriesScreen extends StatelessWidget {
   const CategoriesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const LuxeAppBar(),
-      // bottomNavigationBar: const CustomBottomNavBar(),
+      bottomNavigationBar: const CustomBottomNavBar(),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+
+              const AppHeader(),
+
+              const SizedBox(height: 20),
+
               const Text(
                 "Explore",
                 style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
