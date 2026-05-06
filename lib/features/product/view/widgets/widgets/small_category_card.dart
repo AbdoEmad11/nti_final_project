@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nti_final_project/core/theme/context_theme_extension.dart';
 import 'package:nti_final_project/core/widgets/safe_network_image.dart';
 
 class SmallCategoryCard extends StatelessWidget {
@@ -15,6 +16,7 @@ class SmallCategoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 6,
+      color: context.appTheme.surface,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(24),
       ),
@@ -27,7 +29,7 @@ class SmallCategoryCard extends StatelessWidget {
           children: [
             SafeNetworkImage(
               url: image,
-              fit: BoxFit.cover,
+              fit: BoxFit.fill,
               width: double.infinity,
               height: 250,
               iconSize: 36,

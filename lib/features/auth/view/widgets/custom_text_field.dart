@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nti_final_project/core/styling/app_colors2.dart';
+import 'package:nti_final_project/core/theme/context_theme_extension.dart';
 
 class CustomTextField extends StatelessWidget {
   final String? labelText;
@@ -29,15 +29,17 @@ class CustomTextField extends StatelessWidget {
       child: TextFormField(
         controller: controller,
         validator: validator,
-        cursorColor: AppColors2.primaryColor,
+        cursorColor: context.appTheme.primary,
         obscureText: isPassword ?? false,
         autofocus: false,
+        style: TextStyle(color: context.appTheme.textPrimary, fontSize: 16.sp),
         decoration: InputDecoration(
           hintStyle: TextStyle(
             fontSize: 16.sp,
-            color: Color(0xff6B7280),
+            color: context.appTheme.textSecondary,
             fontWeight: FontWeight.w400,
           ),
+          labelStyle: TextStyle(color: context.appTheme.textSecondary),
           labelText: labelText ?? '',
           hintText: hintText ?? '',
           contentPadding: EdgeInsets.symmetric(
@@ -46,14 +48,18 @@ class CustomTextField extends StatelessWidget {
           ),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12.r),
-            borderSide: BorderSide(color: AppColors2.grayColor),
+            borderSide: BorderSide(color: context.appTheme.border),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12.r),
+            borderSide: BorderSide(color: context.appTheme.border),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12.r),
-            borderSide: BorderSide(color: AppColors2.primaryColor),
+            borderSide: BorderSide(color: context.appTheme.primary),
           ),
           filled: true,
-          fillColor: Color(0xffF7F8F9),
+          fillColor: context.appTheme.inputFill,
           suffixIcon: suffixIcon,
         ),
       ),

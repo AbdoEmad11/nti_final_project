@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nti_final_project/core/theme/context_theme_extension.dart';
 import 'package:nti_final_project/core/widgets/app_bar_widget.dart';
 import 'package:nti_final_project/features/product/view/cubit/categroy_cubit.dart';
 import 'package:nti_final_project/features/product/view/cubit/categroy_state.dart';
@@ -38,16 +39,17 @@ class _CategoriesView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
+                Text(
                   "Explore",
                   style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
+                    color: context.appTheme.textPrimary,
                   ),
                 ),
-                const Text(
+                Text(
                   "Curated collections for your lifestyle",
-                  style: TextStyle(color: Colors.grey),
+                  style: TextStyle(color: context.appTheme.textSecondary),
                 ),
                 const SizedBox(height: 20),
 

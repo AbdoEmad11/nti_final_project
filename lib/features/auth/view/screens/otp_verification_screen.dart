@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nti_final_project/core/utils/app_routs.dart';
+import 'package:nti_final_project/core/theme/context_theme_extension.dart';
 import 'package:nti_final_project/features/auth/data/auth_remote_data_source.dart';
 import 'package:nti_final_project/features/auth/view/cubits/otp_cubit.dart';
 import 'package:nti_final_project/features/auth/view/cubits/otp_state.dart';
@@ -177,7 +178,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
       child: Builder(
         builder: (context) {
           return Scaffold(
-            backgroundColor: const Color(0xffF5F3FF),
+            backgroundColor: context.appTheme.softPrimary,
             appBar: AppBar(
               leading: IconButton(
                 onPressed: () {
@@ -185,15 +186,16 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                   Navigator.pop(context);
                 },
                 icon: const Icon(
+                  // Keep brand accent in icon.
                   Icons.arrow_back_outlined,
                   color: Color(0xff4D41DF),
                 ),
               ),
-              backgroundColor: Colors.white,
-              title: const Text(
+              backgroundColor: context.appTheme.surface,
+              title: Text(
                 'L U X E',
                 style: TextStyle(
-                  color: Colors.black,
+                  color: context.appTheme.textPrimary,
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
                 ),
@@ -230,7 +232,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                           height: 128,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(100),
-                            color: Colors.white,
+                            color: context.appTheme.surface,
                           ),
                           child: const Icon(
                             Icons.verified_user,
@@ -239,23 +241,23 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                           ),
                         ),
                         const SizedBox(height: 20),
-                        const Text(
+                        Text(
                           'Verify Your Account',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 32,
                             fontWeight: FontWeight.bold,
-                            color: Color(0xff1A1B22),
+                            color: context.appTheme.textPrimary,
                           ),
                         ),
                         const SizedBox(height: 10),
-                        const Text(
+                        Text(
                           'Enter the 6-digit code sent to your email',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
-                            color: Color(0xff464555),
+                            color: context.appTheme.textSecondary,
                           ),
                         ),
                         const SizedBox(height: 10),
@@ -288,9 +290,12 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                                 decoration: InputDecoration(
                                   counterText: '',
                                   filled: true,
-                                  fillColor: Colors.white,
+                                  fillColor: context.appTheme.inputFill,
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(12),
+                                    borderSide: BorderSide(
+                                      color: context.appTheme.border,
+                                    ),
                                   ),
                                 ),
                                 onChanged: (value) {
@@ -360,11 +365,12 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Text(
+                            Text(
                               "Didn't receive code? ",
                               style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w600,
+                                color: context.appTheme.textPrimary,
                               ),
                             ),
                             ValueListenableBuilder<int>(
@@ -391,7 +397,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                                       fontWeight: FontWeight.w600,
                                       color: value == 0
                                           ? const Color(0xff4D41DF)
-                                          : Colors.grey,
+                                          : context.appTheme.textMuted,
                                     ),
                                   ),
                                 );

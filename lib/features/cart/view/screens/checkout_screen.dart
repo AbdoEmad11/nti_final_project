@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/context_theme_extension.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/utils/app_constants.dart';
 import '../../../../core/widgets/app_buttons.dart';
@@ -22,15 +23,15 @@ class CheckoutScreen extends StatelessWidget {
     return BlocProvider(
       create: (_) => CheckoutCubit(),
       child: Scaffold(
-        backgroundColor: AppColors.bgLight,
+        backgroundColor: context.appTheme.background,
         appBar: AppBar(
-          backgroundColor: AppColors.surfaceLight,
+          backgroundColor: context.appTheme.surface,
           elevation: 0,
           automaticallyImplyLeading: false,
           leading: IconButton(
             icon: Icon(
               Icons.arrow_back_ios_rounded,
-              color: AppColors.textPrimary,
+              color: context.appTheme.textPrimary,
               size: 20.sp,
             ),
             onPressed: () => Navigator.pop(context),
@@ -123,7 +124,7 @@ class CheckoutScreen extends StatelessWidget {
                                   textAlign: TextAlign.center,
                                   text: TextSpan(
                                     style: AppTextStyles.bodySmall.copyWith(
-                                      color: AppColors.textSecondary,
+                                      color: context.appTheme.textSecondary,
                                     ),
                                     children: [
                                       const TextSpan(
@@ -160,10 +161,10 @@ class CheckoutScreen extends StatelessWidget {
                     Container(
                       padding: EdgeInsets.all(20.w),
                       decoration: BoxDecoration(
-                        color: AppColors.surfaceLight,
+                        color: context.appTheme.surface,
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.05),
+                            color: context.appTheme.shadow,
                             blurRadius: 20,
                             offset: const Offset(0, -4),
                           ),

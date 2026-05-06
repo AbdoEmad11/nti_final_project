@@ -5,7 +5,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/context_theme_extension.dart';
 
 class ProfileAvatar extends StatelessWidget {
   final String imageUrl;
@@ -29,12 +29,12 @@ class ProfileAvatar extends StatelessWidget {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               border: Border.all(
-                color: Colors.white,
+                color: context.appTheme.surface,
                 width: 4,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: AppColors.primary.withOpacity(0.2),
+                  color: context.appTheme.shadow,
                   blurRadius: 20,
                   offset: const Offset(0, 8),
                 ),
@@ -45,20 +45,20 @@ class ProfileAvatar extends StatelessWidget {
                 imageUrl: imageUrl,
                 fit: BoxFit.cover,
                 placeholder: (_, __) => Container(
-                  color: AppColors.primaryLight,
-                  child: const Center(
+                  color: context.appTheme.softPrimary,
+                  child: Center(
                     child: CircularProgressIndicator(
                       strokeWidth: 2,
-                      color: AppColors.primary,
+                      color: context.appTheme.primary,
                     ),
                   ),
                 ),
                 errorWidget: (_, __, ___) => Container(
-                  color: AppColors.primaryLight,
+                  color: context.appTheme.softPrimary,
                   child: Icon(
                     Icons.person_rounded,
                     size: 40.sp,
-                    color: AppColors.primary,
+                    color: context.appTheme.primary,
                   ),
                 ),
               ),
@@ -74,10 +74,10 @@ class ProfileAvatar extends StatelessWidget {
                 width: 32.w,
                 height: 32.w,
                 decoration: BoxDecoration(
-                  color: AppColors.primary,
+                  color: context.appTheme.primary,
                   shape: BoxShape.circle,
                   border: Border.all(
-                    color: Colors.white,
+                    color: context.appTheme.surface,
                     width: 2,
                   ),
                 ),

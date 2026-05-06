@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:nti_final_project/core/styling/app_colors2.dart';
+import 'package:nti_final_project/core/theme/context_theme_extension.dart';
 import 'package:nti_final_project/core/styling/app_styles.dart';
 import 'package:nti_final_project/features/auth/cubits/auth_cubit.dart';
 import 'package:nti_final_project/features/auth/data/validators.dart';
@@ -37,6 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: context.appTheme.background,
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w),
@@ -86,7 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ? Icons.remove_red_eye_outlined
                               : Icons.remove_red_eye,
 
-                          color: AppColors2.grayColor,
+                          color: context.appTheme.textSecondary,
                         ),
                       ),
                       validator: (value) {
@@ -187,7 +189,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               color: Colors.transparent,
                               borderRadius: BorderRadius.circular(12.r),
                               border: Border.all(
-                                color: Color(0xffC7C4D8),
+                                color: context.appTheme.border,
                                 width: 1.w,
                               ),
                             ),
@@ -210,7 +212,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               color: Colors.transparent,
                               borderRadius: BorderRadius.circular(12.r),
                               border: Border.all(
-                                color: Color(0xffC7C4D8),
+                                color: context.appTheme.border,
                                 width: 1.w,
                               ),
                             ),
@@ -233,7 +235,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               color: Colors.transparent,
                               borderRadius: BorderRadius.circular(12.r),
                               border: Border.all(
-                                color: Color(0xffC7C4D8),
+                                color: context.appTheme.border,
                                 width: 1.w,
                               ),
                             ),

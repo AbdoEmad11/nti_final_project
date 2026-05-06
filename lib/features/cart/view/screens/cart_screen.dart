@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/context_theme_extension.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/utils/app_routs.dart';
 import '../../../../core/widgets/app_bar_widget.dart';
@@ -18,7 +19,7 @@ class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.bgLight,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: const LuxeAppBar(),
       body: BlocBuilder<CartCubit, CartState>(
         builder: (context, state) {
@@ -95,7 +96,8 @@ class CartScreen extends StatelessWidget {
                   SizedBox(height: 16.h),
                   Text(
                     state.message,
-                    style: AppTextStyles.bodyLarge,
+                    style: AppTextStyles.bodyLarge
+                        .copyWith(color: context.appTheme.textPrimary),
                     textAlign: TextAlign.center,
                   ),
                 ],

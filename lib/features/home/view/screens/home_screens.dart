@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/context_theme_extension.dart';
 import '../../../../core/widgets/app_bar_widget.dart';
 import '../../../../core/widgets/safe_network_image.dart';
 import '../widgets/product_item_widget.dart';
@@ -50,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.bgLight,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: const LuxeAppBar(),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(20),
@@ -88,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             height: 200,
                             padding: EdgeInsets.all(22),
                             decoration: BoxDecoration(
-                              color: Colors.black.withOpacity(0.2),
+                              color: Colors.black.withOpacity(0.25),
                             ),
                             child: Column(
                               spacing: 15,
@@ -145,7 +146,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     "Categories",
                     style: TextStyle(
                       fontSize: 18,
-                      color: Color(0xff1A1B22),
+                      color: context.appTheme.textPrimary,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -198,6 +199,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w600,
+                                    color: context.appTheme.textPrimary,
                                   ),
                                 ),
                               ],
@@ -222,7 +224,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xff1A1B22),
+                      color: context.appTheme.textPrimary,
                     ),
                   ),
                   SvgPicture.asset("assets/icons/Background.svg"),

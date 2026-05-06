@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nti_final_project/core/theme/context_theme_extension.dart';
 
-import '../theme/app_colors.dart';
 import '../theme/app_text_styles.dart';
 import '../utils/app_constants.dart';
 
@@ -23,33 +23,42 @@ class LuxeAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: AppColors.surfaceLight,
+      backgroundColor: context.isDark
+          ? context.appTheme.background
+          : context.appTheme.surface,
       elevation: 0,
       automaticallyImplyLeading: false,
       title: Row(
         children: [
-          Icon(Icons.menu_rounded, color: AppColors.primary, size: 24.sp),
-          SizedBox(width: 12.w),
+          if (showMenu)
+            Icon(
+              Icons.menu_rounded,
+              color: context.appTheme.primary,
+              size: 24.sp,
+            ),
+          if (showMenu) SizedBox(width: 12.w),
           Text(
             AppConstants.appName,
             style: AppTextStyles.headlineSmall.copyWith(
-              color: AppColors.primary,
+              color: context.appTheme.primary,
               fontSize: 25.sp,
               fontWeight: FontWeight.w800,
             ),
           ),
         ],
       ),
-      actions: [
-        IconButton(
-          icon: Icon(
-            Icons.search_rounded,
-            color: AppColors.textPrimary,
-            size: 24.sp,
-          ),
-          onPressed: () {},
-        ),
-      ],
+      actions: actions ??
+          [
+            if (showSearch)
+              IconButton(
+                icon: Icon(
+                  Icons.search_rounded,
+                  color: context.appTheme.textPrimary,
+                  size: 24.sp,
+                ),
+                onPressed: () {},
+              ),
+          ],
     );
   }
 }

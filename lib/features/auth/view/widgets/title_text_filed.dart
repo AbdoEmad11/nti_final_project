@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nti_final_project/core/theme/context_theme_extension.dart';
 
 class TitleTextFiled extends StatefulWidget {
   const TitleTextFiled({
@@ -27,7 +28,11 @@ class _TitleTextFiledState extends State<TitleTextFiled> {
       children: [
         Text(
           widget.title,
-          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 17),
+          style: TextStyle(
+            fontWeight: FontWeight.w600,
+            fontSize: 17,
+            color: context.appTheme.textPrimary,
+          ),
         ),
         SizedBox(height: 3),
         TextFormField(
@@ -37,10 +42,20 @@ class _TitleTextFiledState extends State<TitleTextFiled> {
           obscureText: obscure2,
           decoration: InputDecoration(
             hintText: "Enter a ${widget.title}",
-            hintStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
-            prefixIcon: Icon(Icons.lock_outline_rounded),
+            hintStyle: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w500,
+              color: context.appTheme.textSecondary,
+            ),
+            prefixIcon: Icon(
+              Icons.lock_outline_rounded,
+              color: context.appTheme.textSecondary,
+            ),
             suffixIcon: IconButton(
-              icon: Icon(obscure2 ? Icons.visibility_off : Icons.visibility),
+              icon: Icon(
+                obscure2 ? Icons.visibility_off : Icons.visibility,
+                color: context.appTheme.textSecondary,
+              ),
               onPressed: () {
                 setState(() {
                   obscure2 = !obscure2;
@@ -48,8 +63,19 @@ class _TitleTextFiledState extends State<TitleTextFiled> {
               },
             ),
             filled: true,
-            fillColor: Colors.white,
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(18)),
+            fillColor: context.appTheme.inputFill,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(18),
+              borderSide: BorderSide(color: context.appTheme.border),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(18),
+              borderSide: BorderSide(color: context.appTheme.border),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(18),
+              borderSide: BorderSide(color: context.appTheme.primary),
+            ),
           ),
         ),
       ],

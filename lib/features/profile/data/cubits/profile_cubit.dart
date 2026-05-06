@@ -1,7 +1,3 @@
-// ============================================
-// lib/features/profile/data/cubits/profile_cubit.dart
-// ============================================
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -15,66 +11,70 @@ class ProfileCubit extends Cubit<ProfileState> {
     loadProfile();
   }
 
-  void loadProfile() {
+  Future<void> loadProfile() async {
     emit(ProfileLoading());
 
-    // Mock data matching the screenshot
-    final profile = const ProfileModel(
-      name: 'Alex',
-      email: 'alex.thorne@email.com',
-      avatarUrl: 'https://i.pravatar.cc/150?img=11',
-      memberSince: '2022',
-      memberTier: 'Gold',
-      activeOrders: 3,
-      rewardPoints: 1240,
-    );
+    try {
+      final savedName = await TokenStorage.getUserName();
+      final savedEmail = await TokenStorage.getUserEmail();
+      final savedPhoto = await TokenStorage.getUserPhoto();
 
-    final menuItems = [
-      const ProfileMenuItem(
-        title: 'Add Product',
-        icon: Icons.shopping_bag_outlined,
-        iconColor: Color(0xFF6366F1),
-        iconBackgroundColor: Color(0xFFEEF2FF),
-        route: '/add-product',
-      ),
-      const ProfileMenuItem(
-        title: 'My Wishlist',
-        icon: Icons.favorite_outline_rounded,
-        iconColor: Color(0xFFEF4444),
-        iconBackgroundColor: Color(0xFFFEF2F2),
-        route: '/wishlist',
-      ),
-      const ProfileMenuItem(
-        title: 'Shipping Addresses',
-        icon: Icons.location_on_outlined,
-        iconColor: Color(0xFF6366F1),
-        iconBackgroundColor: Color(0xFFEEF2FF),
-        route: '/addresses',
-      ),
-      const ProfileMenuItem(
-        title: 'Payment Methods',
-        icon: Icons.credit_card_outlined,
-        iconColor: Color(0xFF6366F1),
-        iconBackgroundColor: Color(0xFFEEF2FF),
-        route: '/payment-methods',
-      ),
-      const ProfileMenuItem(
-        title: 'Settings',
-        icon: Icons.settings_outlined,
-        iconColor: Color(0xFF6B7280),
-        iconBackgroundColor: Color(0xFFF3F4F6),
-        route: '/settings',
-      ),
-      const ProfileMenuItem(
-        title: 'Help Center',
-        icon: Icons.help_outline_rounded,
-        iconColor: Color(0xFF6B7280),
-        iconBackgroundColor: Color(0xFFF3F4F6),
-        route: '/help',
-      ),
-    ];
+      final profile = ProfileModel(
+        name: savedName == null || savedName.isEmpty ? 'Luxe User' : savedName,
+        email: savedEmail == null || savedEmail.isEmpty
+            ? 'user@email.com'
+            : savedEmail,
+        avatarUrl: savedPhoto == null || savedPhoto.isEmpty
+            ? 'https://i.pravatar.cc/150?img=11'
+            : savedPhoto,
+        memberSince: '2026',
+        memberTier: 'Premium',
+        activeOrders: 0,
+        rewardPoints: 0,
+      );
 
-    emit(ProfileLoaded(profile: profile, menuItems: menuItems));
+      final menuItems = [
+        const ProfileMenuItem(
+          title: 'Change Password',
+          icon: Icons.lock_outline_rounded,
+          iconColor: Color(0xFF6366F1),
+          iconBackgroundColor: Color(0xFFEEF2FF),
+          route: '/change-password',
+        ),
+        const ProfileMenuItem(
+          title: 'Add Product',
+          icon: Icons.add_box_outlined,
+          iconColor: Color(0xFF4D41DF),
+          iconBackgroundColor: Color(0xFFF5F3FF),
+          route: '/add-product',
+        ),
+        const ProfileMenuItem(
+          title: 'Privacy & Policy',
+          icon: Icons.privacy_tip_outlined,
+          iconColor: Color(0xFF10B981),
+          iconBackgroundColor: Color(0xFFECFDF5),
+          route: '/privacy-policy',
+        ),
+        const ProfileMenuItem(
+          title: 'About Us',
+          icon: Icons.info_outline_rounded,
+          iconColor: Color(0xFFF59E0B),
+          iconBackgroundColor: Color(0xFFFFFBEB),
+          route: '/about-us',
+        ),
+        const ProfileMenuItem(
+          title: 'Contact Us',
+          icon: Icons.support_agent_rounded,
+          iconColor: Color(0xFFEF4444),
+          iconBackgroundColor: Color(0xFFFEF2F2),
+          route: '/contact-us',
+        ),
+      ];
+
+      emit(ProfileLoaded(profile: profile, menuItems: menuItems));
+    } catch (e) {
+      emit(ProfileError(e.toString()));
+    }
   }
 
   Future<void> logout() async {

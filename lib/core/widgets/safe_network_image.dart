@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
+import 'package:nti_final_project/core/theme/context_theme_extension.dart';
 
 class SafeNetworkImage extends StatelessWidget {
   final String url;
@@ -31,8 +32,14 @@ class SafeNetworkImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final fallbackBackground = backgroundColor == const Color(0xffF5F3FF)
+        ? context.appTheme.softPrimary
+        : backgroundColor;
+    final fallbackIcon =
+        iconColor == const Color(0xff6055D8) ? context.appTheme.primary : iconColor;
+
     if (url.trim().isEmpty) {
-      return _fallback();
+      return _fallback(fallbackBackground, fallbackIcon);
     }
 
     if (_isSvg) {
@@ -40,13 +47,13 @@ class SafeNetworkImage extends StatelessWidget {
         future: _loadSvg(url),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return _loader();
+            return _loader(fallbackBackground, fallbackIcon);
           }
 
           final svgString = snapshot.data;
 
           if (svgString == null || svgString.isEmpty) {
-            return _fallback();
+            return _fallback(fallbackBackground, fallbackIcon);
           }
 
           return SvgPicture.string(
@@ -54,7 +61,7 @@ class SafeNetworkImage extends StatelessWidget {
             width: width,
             height: height,
             fit: fit,
-            placeholderBuilder: (_) => _loader(),
+            placeholderBuilder: (_) => _loader(fallbackBackground, fallbackIcon),
           );
         },
       );
@@ -65,10 +72,10 @@ class SafeNetworkImage extends StatelessWidget {
       width: width,
       height: height,
       fit: fit,
-      errorBuilder: (_, __, ___) => _fallback(),
+      errorBuilder: (_, __, ___) => _fallback(fallbackBackground, fallbackIcon),
       loadingBuilder: (context, child, loadingProgress) {
         if (loadingProgress == null) return child;
-        return _loader();
+        return _loader(fallbackBackground, fallbackIcon);
       },
     );
   }
@@ -100,29 +107,29 @@ class SafeNetworkImage extends StatelessWidget {
     }
   }
 
-  Widget _loader() {
+  Widget _loader(Color fallbackBackground, Color fallbackIcon) {
     return Container(
       width: width,
       height: height,
-      color: backgroundColor,
-      child: const Center(
+      color: fallbackBackground,
+      child: Center(
         child: CircularProgressIndicator(
           strokeWidth: 2,
-          color: Color(0xff6055D8),
+          color: fallbackIcon,
         ),
       ),
     );
   }
 
-  Widget _fallback() {
+  Widget _fallback(Color fallbackBackground, Color fallbackIcon) {
     return fallback ??
         Container(
           width: width,
           height: height,
-          color: backgroundColor,
+          color: fallbackBackground,
           child: Icon(
             Icons.image_not_supported_outlined,
-            color: iconColor,
+            color: fallbackIcon,
             size: iconSize,
           ),
         );

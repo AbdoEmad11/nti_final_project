@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/context_theme_extension.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../data/models/profile_model.dart';
 
@@ -22,11 +22,11 @@ class ProfileMenuItemWidget extends StatelessWidget {
         margin: EdgeInsets.only(bottom: 10.h),
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
         decoration: BoxDecoration(
-          color: AppColors.surfaceLight,
+          color: context.appTheme.surface,
           borderRadius: BorderRadius.circular(16.r),
           boxShadow: [
             BoxShadow(
-              color: AppColors.primary.withOpacity(0.03),
+              color: context.appTheme.shadow,
               blurRadius: 10,
               offset: const Offset(0, 2),
             ),
@@ -39,7 +39,7 @@ class ProfileMenuItemWidget extends StatelessWidget {
               width: 40.w,
               height: 40.w,
               decoration: BoxDecoration(
-                color: item.iconBackgroundColor ?? AppColors.primaryLight,
+                color: item.iconBackgroundColor ?? context.appTheme.softPrimary,
                 borderRadius: BorderRadius.circular(12.r),
               ),
               child: Icon(
@@ -54,6 +54,7 @@ class ProfileMenuItemWidget extends StatelessWidget {
               child: Text(
                 item.title,
                 style: AppTextStyles.titleLarge.copyWith(
+                  color: context.appTheme.textPrimary,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -61,7 +62,7 @@ class ProfileMenuItemWidget extends StatelessWidget {
             // Arrow
             Icon(
               Icons.chevron_right_rounded,
-              color: AppColors.textSecondary,
+              color: context.appTheme.textSecondary,
               size: 20.sp,
             ),
           ],

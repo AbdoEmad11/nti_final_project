@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import '../../../../core/theme/app_colors.dart';
-import '../../../../core/utils/app_routs.dart';
+import '../../../../core/theme/context_theme_extension.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/theme/theme_cubite.dart';
+import '../../../../core/utils/app_routs.dart';
 import '../../../../core/widgets/app_bar_widget.dart';
 import '../../../../core/widgets/app_buttons.dart';
 import '../../data/cubits/profile_cubit.dart';
 import '../widgets/profile_avatar.dart';
 import '../widgets/profile_menu_item.dart';
-import '../widgets/stats_card.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -29,15 +31,14 @@ class _ProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.bgLight,
-      appBar: LuxeAppBar(),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,      appBar: const LuxeAppBar(),
       body: BlocConsumer<ProfileCubit, ProfileState>(
         listener: (context, state) {
           if (state is ProfileLoggedOut) {
             Navigator.pushNamedAndRemoveUntil(
               context,
               AppRoutes.login,
-              (route) => false,
+                  (route) => false,
             );
           }
         },
@@ -51,107 +52,100 @@ class _ProfileView extends StatelessWidget {
           if (state is ProfileLoaded) {
             final profile = state.profile;
 
-            return SingleChildScrollView(
-              padding: EdgeInsets.symmetric(horizontal: 20.w),
-              child: Column(
-                children: [
-                  SizedBox(height: 10.h),
-                  // Avatar
-                  ProfileAvatar(
-                    imageUrl: profile.avatarUrl,
-                    onEdit: () {
-                      // Navigate to edit profile
-                    },
-                  ),
-                  SizedBox(height: 10.h),
-                  // Welcome Text
-                  Text(
-                    'Welcome, ${profile.name}',
-                    style: AppTextStyles.headlineMedium.copyWith(
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  SizedBox(height: 2.h),
-                  Text(
-                    '${profile.memberTier} Member since ${profile.memberSince}',
-                    style: AppTextStyles.bodyMedium.copyWith(
-                      color: AppColors.textSecondary,
-                    ),
-                  ),
-                  SizedBox(height: 20.h),
-                  // Stats Row
-                  Row(
-                    children: [
-                      StatsCard(
-                        label: 'ACTIVE ORDERS',
-                        value: profile.activeOrders.toString().padLeft(2, '0'),
+            return SafeArea(
+              child: SingleChildScrollView(
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                child: Column(
+                  children: [
+                    SizedBox(height: 16.h),
+
+                    Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.all(20.w),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).cardColor,
+                        borderRadius: BorderRadius.circular(24.r),
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColors.primary.withOpacity(0.06),
+                            blurRadius: 20,
+                            offset: const Offset(0, 8),
+                          ),
+                        ],
                       ),
-                      SizedBox(width: 16.w),
-                      StatsCard(
-                        label: 'REWARD POINTS',
-                        value: profile.rewardPoints.toString(),
-                        valueColor: AppColors.primary,
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 25.h),
-                  // Menu Items
-                  ...state.menuItems.map((item) {
-                    return ProfileMenuItemWidget(
-                      item: item,
-                      onTap: () {
-                        onTap:
-                        () {
-                          if (item.route == AppRoutes.addProduct) {
-                            Navigator.pushNamed(context, AppRoutes.addProduct);
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  '${item.title} screen is not implemented yet',
+                      child: Column(
+                        children: [
+                          ProfileAvatar(
+                            imageUrl: profile.avatarUrl,
+                            onEdit: () {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Edit photo coming soon'),
                                 ),
-                              ),
-                            );
-                          }
-                        };
-                      },
-                    );
-                  }),
-                  // Logout Button
-                  AppButton(
-                    label: 'Logout',
-                    isOutlined: true,
-                    color: AppColors.error,
-                    icon: Icon(
-                      Icons.logout_rounded,
-                      color: AppColors.error,
-                      size: 18.sp,
+                              );
+                            },
+                          ),
+                          SizedBox(height: 14.h),
+                          Text(
+                            profile.name,
+                            style: AppTextStyles.headlineMedium.copyWith(
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                          SizedBox(height: 6.h),
+                          Text(
+                            profile.email,
+                            style: AppTextStyles.bodyMedium.copyWith(
+                              color: context.appTheme.textSecondary,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    onTap: () => _showLogoutDialog(context),
-                  ),
-                  SizedBox(height: 50.h),
-                ],
+
+                    SizedBox(height: 20.h),
+
+                    _ThemeTile(),
+
+                    SizedBox(height: 12.h),
+
+                    ...state.menuItems.map((item) {
+                      return ProfileMenuItemWidget(
+                        item: item,
+                        onTap: () {
+                          if (item.route != null) {
+                            Navigator.pushNamed(context, item.route!);
+                          }
+                        },
+                      );
+                    }),
+
+                    SizedBox(height: 12.h),
+
+                    AppButton(
+                      label: 'Logout',
+                      isOutlined: true,
+                      color: AppColors.error,
+                      icon: Icon(
+                        Icons.logout_rounded,
+                        color: AppColors.error,
+                        size: 18.sp,
+                      ),
+                      onTap: () => _showLogoutDialog(context),
+                    ),
+
+                    SizedBox(height: 40.h),
+                  ],
+                ),
               ),
             );
           }
 
           if (state is ProfileError) {
             return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.error_outline_rounded,
-                    size: 48.sp,
-                    color: AppColors.error,
-                  ),
-                  SizedBox(height: 16.h),
-                  Text(
-                    state.message,
-                    style: AppTextStyles.bodyLarge,
-                    textAlign: TextAlign.center,
-                  ),
-                ],
+              child: Text(
+                state.message,
+                style: TextStyle(color: context.appTheme.error),
               ),
             );
           }
@@ -165,40 +159,100 @@ class _ProfileView extends StatelessWidget {
   void _showLogoutDialog(BuildContext context) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
+      builder: (dialogContext) => AlertDialog(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20.r),
         ),
-        title: Text('Logout', style: AppTextStyles.headlineSmall),
+        title: Text(
+          'Logout',
+          style: AppTextStyles.headlineSmall,
+        ),
         content: Text(
           'Are you sure you want to logout?',
           style: AppTextStyles.bodyLarge,
         ),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text(
-              'Cancel',
-              style: AppTextStyles.bodyLarge.copyWith(
-                color: AppColors.textSecondary,
-              ),
-            ),
+            onPressed: () => Navigator.pop(dialogContext),
+            child: const Text('Cancel'),
           ),
           TextButton(
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.pop(dialogContext);
               context.read<ProfileCubit>().logout();
             },
-            child: Text(
+            child: const Text(
               'Logout',
-              style: AppTextStyles.bodyLarge.copyWith(
-                color: AppColors.error,
-                fontWeight: FontWeight.w600,
+              style: TextStyle(
+                color: Colors.red,
+                fontWeight: FontWeight.w700,
               ),
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+class _ThemeTile extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ThemeCubit, ThemeMode>(
+      builder: (context, themeMode) {
+        final isDark = themeMode == ThemeMode.dark;
+
+        return Container(
+          margin: EdgeInsets.only(bottom: 10.h),
+          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
+          decoration: BoxDecoration(
+            color: Theme.of(context).cardColor,
+            borderRadius: BorderRadius.circular(16.r),
+            boxShadow: [
+              BoxShadow(
+                color: context.appTheme.shadow,
+                blurRadius: 10,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 40.w,
+                height: 40.w,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).cardColor,
+                  borderRadius: BorderRadius.circular(12.r),
+                ),
+                child: Icon(
+                  isDark
+                      ? Icons.dark_mode_outlined
+                      : Icons.light_mode_outlined,
+                  color: context.appTheme.primary,
+                  size: 20.sp,
+                ),
+              ),
+              SizedBox(width: 16.w),
+              Expanded(
+                child: Text(
+                  'Dark Mode',
+                  style: AppTextStyles.titleLarge.copyWith(
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+              Switch(
+                value: isDark,
+                activeColor: AppColors.primary,
+                onChanged: (value) {
+                  context.read<ThemeCubit>().toggleTheme(value);
+                },
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

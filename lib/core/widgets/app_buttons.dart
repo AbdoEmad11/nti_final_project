@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../theme/app_colors.dart';
+import 'package:nti_final_project/core/theme/context_theme_extension.dart';
 import '../theme/app_text_styles.dart';
 
 class AppButton extends StatelessWidget {
@@ -27,7 +27,8 @@ class AppButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bgColor = color ?? AppColors.primary;
+    final bgColor = color ?? context.appTheme.primary;
+    final disabledColor = context.appTheme.surfaceVariant;
 
     return SizedBox(
       width: width ?? double.infinity,
@@ -37,6 +38,7 @@ class AppButton extends StatelessWidget {
         onPressed: isLoading ? null : onTap,
         style: OutlinedButton.styleFrom(
           side: BorderSide(color: bgColor, width: 1.5),
+          disabledForegroundColor: context.appTheme.textMuted,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(14.r),
           ),
@@ -47,12 +49,13 @@ class AppButton extends StatelessWidget {
         onPressed: isLoading ? null : onTap,
         style: ElevatedButton.styleFrom(
           backgroundColor: bgColor,
+          disabledBackgroundColor: disabledColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(14.r),
           ),
           elevation: 0,
         ),
-        child: _buildChild(AppColors.textWhite),
+        child: _buildChild(Colors.white),
       ),
     );
   }

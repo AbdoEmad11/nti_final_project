@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nti_final_project/core/theme/context_theme_extension.dart';
 import 'package:nti_final_project/core/utils/app_routs.dart';
 import 'package:nti_final_project/features/auth/data/auth_remote_data_source.dart';
 import 'package:nti_final_project/features/auth/view/widgets/title_text_filed.dart';
@@ -145,7 +146,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     final emailText = widget.email.isEmpty ? 'No email provided' : widget.email;
 
     return Scaffold(
-      backgroundColor: const Color(0xffF5F3FF),
+      backgroundColor: context.appTheme.softPrimary,
       appBar: AppBar(
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
@@ -154,11 +155,11 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
             color: Color(0xff4D41DF),
           ),
         ),
-        backgroundColor: Colors.white,
-        title: const Text(
+        backgroundColor: context.appTheme.surface,
+        title: Text(
           'Reset Password',
           style: TextStyle(
-            color: Colors.black,
+            color: context.appTheme.textPrimary,
             fontSize: 18,
             fontWeight: FontWeight.w600,
           ),
@@ -180,7 +181,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     height: 128,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(14),
-                      color: Colors.white,
+                      color: context.appTheme.surface,
                     ),
                     child: const Icon(
                       Icons.lock_reset_rounded,
@@ -190,23 +191,24 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                const Center(
+                Center(
                   child: Text(
                     'Create New Password',
                     style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
+                      color: context.appTheme.textPrimary,
                     ),
                     textAlign: TextAlign.center,
                   ),
                 ),
                 const SizedBox(height: 10),
-                const Center(
+                Center(
                   child: Text(
                     'Your new password must be\ndifferent from previous passwords',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Color(0xff464555),
+                      color: context.appTheme.textSecondary,
                       fontWeight: FontWeight.w500,
                       fontSize: 14,
                     ),
@@ -271,11 +273,12 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text(
+                    Text(
                       'Having trouble?',
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
+                        color: context.appTheme.textSecondary,
                       ),
                     ),
                     TextButton(

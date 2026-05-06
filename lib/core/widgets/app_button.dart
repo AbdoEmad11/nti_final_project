@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nti_final_project/core/styling/app_colors2.dart';
+import 'package:nti_final_project/core/theme/context_theme_extension.dart';
 
 class PrimaryButtonWidget extends StatelessWidget {
   final String? buttonText;
@@ -33,9 +33,9 @@ class PrimaryButtonWidget extends StatelessWidget {
       height: height ?? 56.h,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: buttonColor ?? AppColors2.primaryColor,
+          backgroundColor: buttonColor ?? context.appTheme.primary,
           disabledBackgroundColor:
-          (buttonColor ?? AppColors2.primaryColor).withOpacity(0.6),
+          (buttonColor ?? context.appTheme.primary).withOpacity(0.6),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(borderRadius ?? 12.r),
           ),
@@ -53,7 +53,7 @@ class PrimaryButtonWidget extends StatelessWidget {
             : Text(
           buttonText ?? '',
           style: TextStyle(
-            color: textColor ?? Colors.white,
+            color: textColor ?? context.colors.onPrimary,
             fontSize: fontSize ?? 16.sp,
             fontWeight: FontWeight.w600,
           ),

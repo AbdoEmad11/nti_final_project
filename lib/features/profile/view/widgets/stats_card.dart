@@ -4,7 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../core/theme/app_colors.dart';
+import '../../../../core/theme/context_theme_extension.dart';
 import '../../../../core/theme/app_text_styles.dart';
 
 class StatsCard extends StatelessWidget {
@@ -16,7 +16,7 @@ class StatsCard extends StatelessWidget {
     super.key,
     required this.label,
     required this.value,
-    this.valueColor = AppColors.primary,
+    this.valueColor = const Color(0xFF4D41DF),
   });
 
   @override
@@ -25,11 +25,11 @@ class StatsCard extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 12.w),
         decoration: BoxDecoration(
-          color: AppColors.surfaceLight,
+          color: context.appTheme.surface,
           borderRadius: BorderRadius.circular(16.r),
           boxShadow: [
             BoxShadow(
-              color: AppColors.primary.withOpacity(0.04),
+              color: context.appTheme.shadow,
               blurRadius: 12,
               offset: const Offset(0, 4),
             ),
@@ -41,7 +41,7 @@ class StatsCard extends StatelessWidget {
             Text(
               label,
               style: AppTextStyles.bodySmall.copyWith(
-                color: AppColors.textSecondary,
+                color: context.appTheme.textSecondary,
                 letterSpacing: 0.5,
               ),
             ),

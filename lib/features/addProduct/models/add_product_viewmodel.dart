@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nti_final_project/addProduct/models/product_model.dart';
+import 'package:nti_final_project/features/addProduct/models/product_model.dart';
 
 
 class AddProductViewModel extends ChangeNotifier {

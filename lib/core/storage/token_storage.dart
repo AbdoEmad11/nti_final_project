@@ -48,6 +48,26 @@ class TokenStorage {
     }
   }
 
+  static Future<String?> getUserId() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(AppConstants.keyUserId);
+  }
+
+  static Future<String?> getUserName() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(AppConstants.keyUserName);
+  }
+
+  static Future<String?> getUserEmail() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(AppConstants.keyUserEmail);
+  }
+
+  static Future<String?> getUserPhoto() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(AppConstants.keyUserPhoto);
+  }
+
   static Future<void> clearSession() async {
     final prefs = await SharedPreferences.getInstance();
 

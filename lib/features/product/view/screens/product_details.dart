@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nti_final_project/core/theme/context_theme_extension.dart';
 import 'package:nti_final_project/core/widgets/safe_network_image.dart';
 import 'package:nti_final_project/features/cart/data/cubits/cart_cubit.dart';
 import 'package:nti_final_project/features/home/data/models/products_model.dart';
@@ -15,7 +16,7 @@ class ProductDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffF5F3FF),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: Column(
           children: [
@@ -57,10 +58,10 @@ class _DetailsHeader extends StatelessWidget {
             onTap: () => Navigator.pop(context),
           ),
           const Spacer(),
-          const Text(
+          Text(
             'Product Details',
             style: TextStyle(
-              color: Color(0xff1A1B22),
+              color: context.appTheme.textPrimary,
               fontSize: 18,
               fontWeight: FontWeight.w800,
             ),
@@ -94,7 +95,7 @@ class _CircleIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.white,
+      color: Theme.of(context).cardColor,
       shape: const CircleBorder(),
       elevation: 0,
       child: InkWell(
@@ -106,7 +107,7 @@ class _CircleIconButton extends StatelessWidget {
           child: Icon(
             icon,
             size: 20,
-            color: const Color(0xff1A1B22),
+            color: context.appTheme.textPrimary,
           ),
         ),
       ),
@@ -131,7 +132,7 @@ class _ProductImage extends StatelessWidget {
         height: 330,
         width: double.infinity,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(32),
           boxShadow: [
             BoxShadow(
@@ -217,9 +218,9 @@ class _DetailsContent extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(22, 26, 22, 130),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.vertical(
+      decoration: BoxDecoration(
+        color:Theme.of(context).cardColor,
+        borderRadius: const BorderRadius.vertical(
           top: Radius.circular(36),
         ),
       ),
@@ -251,8 +252,8 @@ class _DetailsContent extends StatelessWidget {
                   name,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    color: Color(0xff1A1B22),
+                  style: TextStyle(
+                    color: context.appTheme.textPrimary,
                     fontSize: 26,
                     fontWeight: FontWeight.w900,
                     height: 1.1,
@@ -301,8 +302,8 @@ class _DetailsContent extends StatelessWidget {
               const SizedBox(width: 10),
               Text(
                 '$reviews reviews',
-                style: const TextStyle(
-                  color: Color(0xff6B7280),
+                style: TextStyle(
+                  color: context.appTheme.textSecondary,
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
                 ),
@@ -330,10 +331,10 @@ class _DetailsContent extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 24),
-          const Text(
+          Text(
             'Description',
             style: TextStyle(
-              color: Color(0xff1A1B22),
+              color: context.appTheme.textPrimary,
               fontSize: 18,
               fontWeight: FontWeight.w900,
             ),
@@ -341,18 +342,18 @@ class _DetailsContent extends StatelessWidget {
           const SizedBox(height: 10),
           Text(
             description,
-            style: const TextStyle(
-              color: Color(0xff6B7280),
+            style: TextStyle(
+              color: context.appTheme.textSecondary,
               fontSize: 15,
               height: 1.6,
               fontWeight: FontWeight.w500,
             ),
           ),
           const SizedBox(height: 26),
-          const Text(
+          Text(
             'Features',
             style: TextStyle(
-              color: Color(0xff1A1B22),
+              color: context.appTheme.textPrimary,
               fontSize: 18,
               fontWeight: FontWeight.w900,
             ),
@@ -397,7 +398,7 @@ class _InfoTile extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: const Color(0xffF5F3FF),
+        color: context.appTheme.softPrimary,
         borderRadius: BorderRadius.circular(18),
       ),
       child: Row(
@@ -414,8 +415,8 @@ class _InfoTile extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: const TextStyle(
-                    color: Color(0xff6B7280),
+                  style: TextStyle(
+                    color: context.appTheme.textSecondary,
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
                   ),
@@ -425,8 +426,8 @@ class _InfoTile extends StatelessWidget {
                   value,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    color: Color(0xff1A1B22),
+                  style: TextStyle(
+                    color: context.appTheme.textPrimary,
                     fontSize: 14,
                     fontWeight: FontWeight.w900,
                   ),
@@ -454,10 +455,10 @@ class _FeatureTile extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
       decoration: BoxDecoration(
-        color: const Color(0xffFAFAFA),
+        color: context.appTheme.surface,
         borderRadius: BorderRadius.circular(18),
         border: Border.all(
-          color: const Color(0xffE5E7EB),
+          color: context.appTheme.border,
         ),
       ),
       child: Column(
@@ -471,8 +472,8 @@ class _FeatureTile extends StatelessWidget {
           Text(
             text,
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Color(0xff1A1B22),
+            style: TextStyle(
+              color: context.appTheme.textPrimary,
               fontSize: 13,
               fontWeight: FontWeight.w800,
             ),
@@ -527,10 +528,10 @@ class _BottomCartBarState extends State<_BottomCartBar> {
       child: Container(
         padding: const EdgeInsets.fromLTRB(18, 12, 18, 14),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: context.appTheme.surface,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.08),
+              color: context.appTheme.shadow,
               blurRadius: 24,
               offset: const Offset(0, -8),
             ),
@@ -547,8 +548,8 @@ class _BottomCartBarState extends State<_BottomCartBar> {
                   elevation: 0,
                   backgroundColor: isAdded
                       ? const Color(0xffDCFCE7)
-                      : const Color(0xffF3F0FF),
-                  disabledBackgroundColor: const Color(0xffF3F4F6),
+                      : context.appTheme.softPrimary,
+                  disabledBackgroundColor: context.appTheme.surfaceVariant,
                   padding: EdgeInsets.zero,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
@@ -560,7 +561,7 @@ class _BottomCartBarState extends State<_BottomCartBar> {
                       : Icons.shopping_cart_outlined,
                   color: isAdded
                       ? const Color(0xff16A34A)
-                      : const Color(0xff1A1B22),
+                      : context.appTheme.textPrimary,
                   size: 24,
                 ),
               ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nti_final_project/core/theme/context_theme_extension.dart';
 
 class CustomBottomNavBar extends StatelessWidget {
   final int currentIndex;
@@ -12,15 +13,19 @@ class CustomBottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context).bottomNavigationBarTheme;
+
     return Container(
       margin: const EdgeInsets.all(2),
       padding: const EdgeInsets.symmetric(vertical: 8),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: theme.backgroundColor,
         borderRadius: BorderRadius.circular(18),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.06),
+            color: Theme.of(context).brightness == Brightness.dark
+                ? context.appTheme.shadow
+                : context.appTheme.shadow,
             blurRadius: 16,
             offset: const Offset(0, 4),
           ),
@@ -32,8 +37,8 @@ class CustomBottomNavBar extends StatelessWidget {
         elevation: 0,
         backgroundColor: Colors.transparent,
         type: BottomNavigationBarType.fixed,
-        selectedItemColor: const Color(0xff4D41DF),
-        unselectedItemColor: const Color(0xff94A3B8),
+        selectedItemColor: theme.selectedItemColor,
+        unselectedItemColor: theme.unselectedItemColor,
         selectedFontSize: 12,
         unselectedFontSize: 12,
         items: const [

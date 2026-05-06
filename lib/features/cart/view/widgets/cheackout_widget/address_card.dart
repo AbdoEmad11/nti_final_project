@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nti_final_project/core/theme/context_theme_extension.dart';
 import '../../../../../core/theme/app_colors.dart';
 import '../../../../../core/theme/app_text_styles.dart';
 import '../../../data/models/checkout_model.dart';
@@ -45,11 +46,11 @@ class AddressCard extends StatelessWidget {
         Container(
           padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
-            color: AppColors.surfaceLight,
+            color: context.appTheme.surface,
             borderRadius: BorderRadius.circular(16.r),
             boxShadow: [
               BoxShadow(
-                color: AppColors.primary.withOpacity(0.05),
+                color: context.appTheme.shadow,
                 blurRadius: 12,
                 offset: const Offset(0, 4),
               ),
@@ -63,7 +64,7 @@ class AddressCard extends StatelessWidget {
                 width: 44.w,
                 height: 44.w,
                 decoration: BoxDecoration(
-                  color: AppColors.primaryLight,
+                  color: context.appTheme.softPrimary,
                   borderRadius: BorderRadius.circular(12.r),
                 ),
                 child: Icon(
@@ -93,7 +94,7 @@ class AddressCard extends StatelessWidget {
                     Text(
                       address.phone,
                       style: AppTextStyles.bodyMedium.copyWith(
-                        color: AppColors.textSecondary,
+                        color: context.appTheme.textSecondary,
                       ),
                     ),
                   ],
