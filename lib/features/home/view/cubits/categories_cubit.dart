@@ -5,17 +5,20 @@ import 'categories_state.dart';
 class CategoriesCubit extends Cubit<CategoriesStates> {
   CategoriesCubit() : super(CategoriesInitialState());
 
-  RemoteDataSource remoteDataSource = RemoteDataSource();
+  final RemoteDataSource remoteDataSource = RemoteDataSource();
 
   Future<void> getCategories() async {
     emit(CategoriesIsLoadingState());
-    await remoteDataSource.getCategories().then(
-      (value) {
-        emit(CategoriesSuccessState(categories: value));
-      },
-      onError: (error) {
-        emit(CategoriesFailerState(messageError: error));
-      },
-    );
+
+    try {
+      final categories = await remoteDataSource.getCategories();
+      emit(CategoriesSuccessState(categories: categories));
+    } catch (error) {
+      emit(
+        CategoriesFailerState(
+          messageError: error.toString().replaceFirst('Exception: ', ''),
+        ),
+      );
+    }
   }
 }
