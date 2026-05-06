@@ -1,17 +1,16 @@
 class Validators {
   static String? validateEmail(String? email) {
-    final regex = RegExp(r'^[a-zA-Z0-9._%+-]{6,}@gmail\.com$');
-    if (email!.isEmpty) {
+    final value = email?.trim() ?? '';
+
+    if (value.isEmpty) {
       return 'Email is required';
-    } else if (!email.split("@")[0].contains(RegExp(r'^.{6,}$'))) {
-      return 'The part before @ must be at least 6 characters ';
-    } else if (!regex.hasMatch(email)) {
-      if (!email.contains("@gmail.com")) {
-        return 'Email must end with @gmail.com';
-      } else {
-        return 'Invalid email format';
-      }
     }
+
+    final regex = RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$');
+    if (!regex.hasMatch(value)) {
+      return 'Invalid email format';
+    }
+
     return null;
   }
 
@@ -47,6 +46,14 @@ class Validators {
     }
     if (passwordController.text != confirmPassController.text) {
       return 'Passwords do not match.';
+    }
+    return null;
+  }
+
+  static String? validateLoginPassword(String? password) {
+    final value = password?.trim() ?? '';
+    if (value.isEmpty) {
+      return 'Password is required.';
     }
     return null;
   }

@@ -29,10 +29,16 @@ class _LoginScreenState extends State<LoginScreen> {
   bool isPassword = true;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     emailController = TextEditingController();
     passwordController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
   }
 
   @override
@@ -92,11 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       validator: (value) {
-                        return Validators.validatePassword(
-                          value!,
-                          passwordController,
-                          passwordController,
-                        );
+                        return Validators.validateLoginPassword(value);
                       },
                     ),
                     SizedBox(height: 8.h),

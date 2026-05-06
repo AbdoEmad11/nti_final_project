@@ -8,44 +8,45 @@ class AuthCubit extends Cubit<AuthStates> {
 
   final AuthRemoteDataSource authRemoteDataSource = AuthRemoteDataSource();
 
-  String? _extractToken(Map<String, dynamic> response) {
-    final possibleToken = response['token'] ??
-        response['accessToken'] ??
-        response['jwtToken'] ??
-        response['jwt'] ??
-        response['bearerToken'];
-
-    if (possibleToken != null && possibleToken.toString().isNotEmpty) {
-      return possibleToken.toString();
+  String? _extractStringValue(Map<String, dynamic> response, List<String> keys) {
+    for (final key in keys) {
+      final value = response[key];
+      if (value != null && value.toString().trim().isNotEmpty) {
+        return value.toString();
+      }
     }
 
     final data = response['data'];
     if (data is Map<String, dynamic>) {
-      final nestedToken = data['token'] ??
-          data['accessToken'] ??
-          data['jwtToken'] ??
-          data['jwt'] ??
-          data['bearerToken'];
-
-      if (nestedToken != null && nestedToken.toString().isNotEmpty) {
-        return nestedToken.toString();
+      for (final key in keys) {
+        final value = data[key];
+        if (value != null && value.toString().trim().isNotEmpty) {
+          return value.toString();
+        }
       }
     }
 
     final result = response['result'];
     if (result is Map<String, dynamic>) {
-      final nestedToken = result['token'] ??
-          result['accessToken'] ??
-          result['jwtToken'] ??
-          result['jwt'] ??
-          result['bearerToken'];
-
-      if (nestedToken != null && nestedToken.toString().isNotEmpty) {
-        return nestedToken.toString();
+      for (final key in keys) {
+        final value = result[key];
+        if (value != null && value.toString().trim().isNotEmpty) {
+          return value.toString();
+        }
       }
     }
 
     return null;
+  }
+
+  String? _extractToken(Map<String, dynamic> response) {
+    return _extractStringValue(response, [
+      'token',
+      'accessToken',
+      'jwtToken',
+      'jwt',
+      'bearerToken',
+    ]);
   }
 
   Future<void> login({
@@ -75,13 +76,14 @@ class AuthCubit extends Cubit<AuthStates> {
 
       await TokenStorage.saveUserData(
         userEmail: email,
-        userId: response['userId']?.toString(),
-        userName: response['name']?.toString() ??
-            response['userName']?.toString() ??
-            response['fullName']?.toString(),
-        userPhoto: response['picture']?.toString() ??
-            response['photo']?.toString() ??
-            response['image']?.toString(),
+        userId: _extractStringValue(response, ['userId', 'id']),
+        userName: _extractStringValue(response, [
+          'name',
+          'userName',
+          'fullName',
+          'firstName',
+        ]),
+        userPhoto: _extractStringValue(response, ['picture', 'photo', 'image']),
       );
 
       emit(

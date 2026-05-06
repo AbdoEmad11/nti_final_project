@@ -26,9 +26,14 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   TextEditingController emailController = TextEditingController();
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     emailController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    super.dispose();
   }
 
   @override
