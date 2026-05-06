@@ -13,6 +13,9 @@ class Assets {
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
+  final AssetGenImage appLogo = const AssetGenImage(
+    'assets/icons/App_Logo.jpg',
+  );
   final SvgGenImage background = const SvgGenImage(
     'assets/icons/Background.svg',
   );
