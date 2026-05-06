@@ -1,85 +1,130 @@
-import 'dart:async';
 import 'dart:developer';
+
 import 'package:dio/dio.dart';
+import 'package:nti_final_project/core/storage/token_storage.dart';
+import 'package:nti_final_project/core/utils/app_constants.dart';
 import 'package:nti_final_project/features/home/data/models/categories_model.dart';
 import 'package:nti_final_project/features/home/data/models/offers_model.dart';
 import 'package:nti_final_project/features/home/data/models/products_model.dart';
 
 class RemoteDataSource {
-  final Dio dio = Dio();
+  final Dio dio = Dio(
+    BaseOptions(
+      baseUrl: AppConstants.baseUrl,
+      connectTimeout: const Duration(seconds: 20),
+      receiveTimeout: const Duration(seconds: 20),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+    ),
+  );
+
   List<ProductModel> products = [];
   List<CategoryModel> categories = [];
   List<OfferModel> offers = [];
 
+  Future<Options> _authOptions() async {
+    final token = await TokenStorage.getToken();
+
+    if (token == null || token.isEmpty) {
+      throw Exception('User token not found. Please login again.');
+    }
+
+    return Options(
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+    );
+  }
+
+  String _extractErrorMessage(DioException e) {
+    final data = e.response?.data;
+
+    if (data is Map<String, dynamic>) {
+      return data['message']?.toString() ??
+          data['error']?.toString() ??
+          data['title']?.toString() ??
+          data['detail']?.toString() ??
+          data.toString();
+    }
+
+    if (data is String) {
+      return data;
+    }
+
+    return e.message ?? 'Something went wrong';
+  }
+
   Future<List<ProductModel>> getProducts() async {
     try {
       final response = await dio.get(
-        "https://accessories-eshop.runasp.net/api/products",
-        options: Options(
-          headers: {
-            'Authorization':
-                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxYjc2ZTkxZi1iZGQ5LTRmNmYtNDI5ZS0wOGRlYTkwZjQ3MWUiLCJqdGkiOiIxMmJkNzdjMy1mMGJhLTQ5ZGItYTY2OC00YjNhNjcyOTFhM2EiLCJlbWFpbCI6ImFsemFtYWxlazIwMzAyMEBnbWFpbC5jb20iLCJuYW1lIjoiTW9oYW1lZCBGYXJpZCIsInJvbGVzIjoiIiwicGljdHVyZSI6IiIsImV4cCI6MTc3ODAyNzM0OCwiaXNzIjoiZXNob3AubmV0IiwiYXVkIjoiZXNob3AubmV0In0.oEp7BIMlgWJ4A6njcEmXSHz5b3BcRkti7w2LA5vSJI4',
-          },
-        ),
+        '/products',
+        options: await _authOptions(),
       );
 
-      final List data = response.data["items"];
+      log("Products Response: ${response.data}");
+
+      final List data = response.data["items"] ?? [];
 
       products = data.map((e) => ProductModel.fromJson(e)).toList();
-      log("Success : ${response.data}");
+
       return products;
+    } on DioException catch (e) {
+      final message = _extractErrorMessage(e);
+      log("Products Dio Error: $message");
+      throw Exception(message);
     } catch (e) {
-      log("Error: $e");
-      return [];
+      log("Products Error: $e");
+      throw Exception(e.toString());
     }
   }
 
   Future<List<CategoryModel>> getCategories() async {
     try {
       final response = await dio.get(
-        "https://accessories-eshop.runasp.net/api/categories",
-        options: Options(
-          headers: {
-            'Authorization':
-                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxYjc2ZTkxZi1iZGQ5LTRmNmYtNDI5ZS0wOGRlYTkwZjQ3MWUiLCJqdGkiOiIxMmJkNzdjMy1mMGJhLTQ5ZGItYTY2OC00YjNhNjcyOTFhM2EiLCJlbWFpbCI6ImFsemFtYWxlazIwMzAyMEBnbWFpbC5jb20iLCJuYW1lIjoiTW9oYW1lZCBGYXJpZCIsInJvbGVzIjoiIiwicGljdHVyZSI6IiIsImV4cCI6MTc3ODAyNzM0OCwiaXNzIjoiZXNob3AubmV0IiwiYXVkIjoiZXNob3AubmV0In0.oEp7BIMlgWJ4A6njcEmXSHz5b3BcRkti7w2LA5vSJI4',
-          },
-        ),
+        '/categories',
+        options: await _authOptions(),
       );
 
-      categories.clear();
-      for (var element in response.data['categories']) {
-        categories.add(CategoryModel.fromJson(element));
-      }
-      log("Success : ${response.data}");
+      log("Categories Response: ${response.data}");
+
+      final List data = response.data['categories'] ?? [];
+
+      categories = data.map((e) => CategoryModel.fromJson(e)).toList();
+
       return categories;
+    } on DioException catch (e) {
+      final message = _extractErrorMessage(e);
+      log("Categories Dio Error: $message");
+      throw Exception(message);
     } catch (e) {
-      log("Error: $e");
-      return [];
+      log("Categories Error: $e");
+      throw Exception(e.toString());
     }
   }
-
-  bool isOffersLoading = true;
 
   Future<List<OfferModel>> getOffers() async {
     try {
       final response = await dio.get(
-        "https://accessories-eshop.runasp.net/api/offers",
-        options: Options(
-          headers: {
-            'Authorization':
-                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxYjc2ZTkxZi1iZGQ5LTRmNmYtNDI5ZS0wOGRlYTkwZjQ3MWUiLCJqdGkiOiIxMmJkNzdjMy1mMGJhLTQ5ZGItYTY2OC00YjNhNjcyOTFhM2EiLCJlbWFpbCI6ImFsemFtYWxlazIwMzAyMEBnbWFpbC5jb20iLCJuYW1lIjoiTW9oYW1lZCBGYXJpZCIsInJvbGVzIjoiIiwicGljdHVyZSI6IiIsImV4cCI6MTc3ODAyNzM0OCwiaXNzIjoiZXNob3AubmV0IiwiYXVkIjoiZXNob3AubmV0In0.oEp7BIMlgWJ4A6njcEmXSHz5b3BcRkti7w2LA5vSJI4',
-          },
-        ),
+        '/offers',
+        options: await _authOptions(),
       );
 
-      final List data = response.data["offers"]["items"];
+      log("Offers Response: ${response.data}");
+
+      final List data = response.data["offers"]?["items"] ?? [];
 
       offers = data.map((e) => OfferModel.fromJson(e)).toList();
-      log("Success : ${response.data}");
+
       return offers;
+    } on DioException catch (e) {
+      final message = _extractErrorMessage(e);
+      log("Offers Dio Error: $message");
+      throw Exception(message);
     } catch (e) {
-      log("Error offers: $e");
-      return [];
+      log("Offers Error: $e");
+      throw Exception(e.toString());
     }
   }
 }

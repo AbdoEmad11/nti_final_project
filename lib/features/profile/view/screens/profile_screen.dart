@@ -33,6 +33,13 @@ class _ProfileView extends StatelessWidget {
       appBar: LuxeAppBar(),
       body: BlocConsumer<ProfileCubit, ProfileState>(
         listener: (context, state) {
+          if (state is ProfileLoggedOut) {
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              AppRoutes.login,
+                  (route) => false,
+            );
+          }
         },
         builder: (context, state) {
           if (state is ProfileLoading) {

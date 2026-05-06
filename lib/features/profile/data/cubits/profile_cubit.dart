@@ -5,6 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
+import '../../../../core/storage/token_storage.dart';
 import '../models/profile_model.dart';
 
 part 'profile_state.dart';
@@ -76,11 +77,11 @@ class ProfileCubit extends Cubit<ProfileState> {
     emit(ProfileLoaded(profile: profile, menuItems: menuItems));
   }
 
-  void logout() {
+  Future<void> logout() async {
     emit(ProfileLoggingOut());
-    // Simulate API call
-    Future.delayed(const Duration(seconds: 1), () {
-      emit(ProfileLoggedOut());
-    });
+
+    await TokenStorage.clearSession();
+
+    emit(ProfileLoggedOut());
   }
 }
