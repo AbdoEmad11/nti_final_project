@@ -12,14 +12,15 @@ class BackButtonWidget extends StatelessWidget {
       height: 41.h,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(color: Color(0xffE8ECF4), width: 1.w),
+        border: Border.all(color: const Color(0xffE8ECF4), width: 1.w),
         color: Colors.white,
       ),
       child: IconButton(
-        onPressed: () {},
+        onPressed: () => Navigator.pop(context),
         icon: Icon(
           Icons.arrow_back_ios_new_outlined,
           color: AppColors2.primaryColor,
+          size: 18.sp,
         ),
       ),
     );

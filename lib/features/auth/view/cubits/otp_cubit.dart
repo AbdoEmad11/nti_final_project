@@ -1,6 +1,6 @@
 import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nti_final_project/features/auth/data/data_source/remote_data_source.dart';
+import 'package:nti_final_project/features/auth/data/auth_remote_data_source.dart';
 import 'otp_state.dart';
 
 class OtpCubit extends Cubit<OtpStates> {
@@ -15,12 +15,20 @@ class OtpCubit extends Cubit<OtpStates> {
     emit(OtpIsLoadingState());
 
     try {
-      await remoteDataSource.otpVerify(email: email, getOtp: getOtp);
+      await remoteDataSource.verifyOtp(
+        email: email,
+        otp: getOtp,
+      );
+
       emit(OtpSuccessState());
-      log("OTP Verify Success");
+      log('OTP Verify Success');
     } catch (error) {
-      emit(OtpFailureState(error.toString()));
-      log("OTP Verify Error: $error");
+      emit(
+        OtpFailureState(
+          error.toString().replaceFirst('Exception: ', ''),
+        ),
+      );
+      log('OTP Verify Error: $error');
     }
   }
 }

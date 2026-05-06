@@ -37,7 +37,7 @@ class _ProfileView extends StatelessWidget {
             Navigator.pushNamedAndRemoveUntil(
               context,
               AppRoutes.login,
-                  (route) => false,
+              (route) => false,
             );
           }
         },
@@ -89,7 +89,7 @@ class _ProfileView extends StatelessWidget {
                       SizedBox(width: 16.w),
                       StatsCard(
                         label: 'REWARD POINTS',
-                        value: '${profile.rewardPoints.toString()},240',
+                        value: profile.rewardPoints.toString(),
                         valueColor: AppColors.primary,
                       ),
                     ],
@@ -100,7 +100,20 @@ class _ProfileView extends StatelessWidget {
                     return ProfileMenuItemWidget(
                       item: item,
                       onTap: () {
-                        Navigator.pushNamed(context, AppRoutes.addProduct);
+                        onTap:
+                        () {
+                          if (item.route == AppRoutes.addProduct) {
+                            Navigator.pushNamed(context, AppRoutes.addProduct);
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  '${item.title} screen is not implemented yet',
+                                ),
+                              ),
+                            );
+                          }
+                        };
                       },
                     );
                   }),
@@ -156,10 +169,7 @@ class _ProfileView extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20.r),
         ),
-        title: Text(
-          'Logout',
-          style: AppTextStyles.headlineSmall,
-        ),
+        title: Text('Logout', style: AppTextStyles.headlineSmall),
         content: Text(
           'Are you sure you want to logout?',
           style: AppTextStyles.bodyLarge,

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nti_final_project/core/utils/app_routs.dart';
-import 'package:nti_final_project/features/auth/data/data_source/remote_data_source.dart';
+import 'package:nti_final_project/features/auth/data/auth_remote_data_source.dart';
 import 'package:nti_final_project/features/auth/view/cubits/otp_cubit.dart';
 import 'package:nti_final_project/features/auth/view/cubits/otp_state.dart';
 

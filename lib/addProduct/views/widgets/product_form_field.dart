@@ -10,7 +10,7 @@ class ProductFormField extends StatelessWidget {
   final String? value;
 
   const ProductFormField({
-    Key? key,
+    super.key,
     required this.label,
     this.placeholder,
     required this.icon,
@@ -18,7 +18,7 @@ class ProductFormField extends StatelessWidget {
     this.maxLines = 1,
     required this.onChanged,
     this.value,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -37,10 +37,12 @@ class ProductFormField extends StatelessWidget {
           ),
         ),
         Row(
+          crossAxisAlignment:
+          maxLines > 1 ? CrossAxisAlignment.start : CrossAxisAlignment.center,
           children: [
             Container(
               width: 50,
-              height: 50,
+              height: maxLines > 1 ? 120 : 50,
               decoration: const BoxDecoration(
                 color: Color(0xFFF5F5F5),
                 borderRadius: BorderRadius.only(
@@ -49,23 +51,27 @@ class ProductFormField extends StatelessWidget {
                 ),
               ),
               child: Center(
-                child: Icon(icon, color: const Color(0xFFA0A0A0), size: 20),
+                child: Icon(
+                  icon,
+                  color: Color(0xFFA0A0A0),
+                  size: 20,
+                ),
               ),
             ),
             Expanded(
-              child: TextField(
+              child: TextFormField(
+                initialValue: value ?? '',
                 onChanged: onChanged,
                 keyboardType: keyboardType,
                 maxLines: maxLines,
-                controller: TextEditingController(text: value ?? ''),
                 decoration: InputDecoration(
                   hintText: placeholder,
                   hintStyle: const TextStyle(
                     color: Color(0xFFA0A0A0),
                     fontSize: 14,
                   ),
-                  border: OutlineInputBorder(
-                    borderRadius: const BorderRadius.only(
+                  border: const OutlineInputBorder(
+                    borderRadius: BorderRadius.only(
                       topRight: Radius.circular(8),
                       bottomRight: Radius.circular(8),
                     ),

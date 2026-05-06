@@ -11,6 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/utils/app_routs.dart';
 import '../../../../core/widgets/app_button.dart';
+import 'otp_verification_screen.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -75,11 +76,13 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           backgroundColor: Colors.green,
                         ),
                       );
-
                       Navigator.pushNamed(
                         context,
                         AppRoutes.otp,
-                        arguments: state.email,
+                        arguments: OtpRouteArguments(
+                          email: state.email,
+                          purpose: OtpPurpose.forgotPassword,
+                        ),
                       );
                     }
 

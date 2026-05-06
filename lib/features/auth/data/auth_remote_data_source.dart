@@ -1,68 +1,13 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'package:dio/dio.dart';
+import 'package:http/http.dart' as http;
+import 'package:nti_final_project/core/network/api_error_handler.dart';
+import 'package:nti_final_project/core/network/dio_client.dart';
 import 'package:nti_final_project/core/utils/app_constants.dart';
 
 class AuthRemoteDataSource {
-  final Dio dio = Dio(
-    BaseOptions(
-      baseUrl: AppConstants.baseUrl,
-      connectTimeout: const Duration(seconds: 20),
-      receiveTimeout: const Duration(seconds: 20),
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-    ),
-  );
-
-  String _extractErrorMessage(DioException e) {
-    final data = e.response?.data;
-
-    log('Status Code: ${e.response?.statusCode}');
-    log('Error Response Data: $data');
-
-    if (data == null) {
-      return e.message ?? 'Something went wrong';
-    }
-
-    if (data is String) {
-      return data;
-    }
-
-    if (data is Map<String, dynamic>) {
-      final errors = data['errors'];
-
-      if (errors is Map<String, dynamic>) {
-        final messages = <String>[];
-
-        errors.forEach((key, value) {
-          if (value is List) {
-            for (final item in value) {
-              messages.add('$key: $item');
-            }
-          } else {
-            messages.add('$key: $value');
-          }
-        });
-
-        if (messages.isNotEmpty) {
-          return messages.join('\n');
-        }
-      }
-
-      if (errors is List) {
-        return errors.join('\n');
-      }
-
-      return data['message']?.toString() ??
-          data['error']?.toString() ??
-          data['title']?.toString() ??
-          data['detail']?.toString() ??
-          'Something went wrong';
-    }
-
-    return e.message ?? 'Something went wrong';
-  }
+  final Dio dio = DioClient.dio;
 
   Future<Map<String, dynamic>> login({
     required String email,
@@ -91,7 +36,7 @@ class AuthRemoteDataSource {
         'message': 'Login successful',
       };
     } on DioException catch (e) {
-      final message = _extractErrorMessage(e);
+      final message = ApiErrorHandler.extract(e);
       log('Login Error: $message');
       throw Exception(message);
     } catch (e) {
@@ -131,7 +76,7 @@ class AuthRemoteDataSource {
         'message': 'Register successful',
       };
     } on DioException catch (e) {
-      final message = _extractErrorMessage(e);
+      final message = ApiErrorHandler.extract(e);
       log('Register Error: $message');
       throw Exception(message);
     } catch (e) {
@@ -165,11 +110,149 @@ class AuthRemoteDataSource {
         'message': 'Code sent successfully',
       };
     } on DioException catch (e) {
-      final message = _extractErrorMessage(e);
+      final message = ApiErrorHandler.extract(e);
       log('Forgot Password Error: $message');
       throw Exception(message);
     } catch (e) {
       log('Forgot Password Unknown Error: $e');
+      throw Exception('Unexpected error happened');
+    }
+  }
+
+  Future<Map<String, dynamic>> verifyOtp({
+    required String email,
+    required String otp,
+  }) async {
+    try {
+      final requestData = {
+        'email': email,
+        'otp': otp,
+      };
+
+      log('Verify OTP Request Data: $requestData');
+
+      final response = await dio.post(
+        '/auth/verify-email',
+        data: requestData,
+      );
+
+      log('Verify OTP Response: ${response.data}');
+
+      if (response.data is Map<String, dynamic>) {
+        return Map<String, dynamic>.from(response.data);
+      }
+
+      return {
+        'message': 'OTP verified successfully',
+      };
+    } on DioException catch (e) {
+      final message = ApiErrorHandler.extract(e);
+      log('Verify OTP Error: $message');
+      throw Exception(message);
+    } catch (e) {
+      log('Verify OTP Unknown Error: $e');
+      throw Exception('Unexpected error happened');
+    }
+  }
+
+  Future<String> resendOtp(String email) async {
+    try {
+      final response = await http.post(
+        Uri.parse('${AppConstants.baseUrl}/auth/resend-otp'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: jsonEncode({
+          'email': email,
+        }),
+      );
+
+      final data = jsonDecode(response.body);
+
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        return data['message']?.toString() ?? 'OTP sent successfully';
+      }
+
+      return data['message']?.toString() ?? 'Something went wrong';
+    } catch (e) {
+      log('Resend OTP Error: $e');
+      return 'Network error';
+    }
+  }
+
+  Future<Map<String, dynamic>> resetPassword({
+    required String email,
+    required String newPassword,
+    required String confirmNewPassword,
+  }) async {
+    try {
+      final requestData = {
+        'email': email,
+        'newPassword': newPassword,
+        'confirmNewPassword': confirmNewPassword,
+      };
+
+      log('Reset Password Request Data: $requestData');
+
+      final response = await dio.post(
+        '/auth/reset-password',
+        data: requestData,
+      );
+
+      log('Reset Password Response: ${response.data}');
+
+      if (response.data is Map<String, dynamic>) {
+        return Map<String, dynamic>.from(response.data);
+      }
+
+      return {
+        'message': 'Password reset successfully',
+      };
+    } on DioException catch (e) {
+      final message = ApiErrorHandler.extract(e);
+      log('Reset Password Error: $message');
+      throw Exception(message);
+    } catch (e) {
+      log('Reset Password Unknown Error: $e');
+      throw Exception('Unexpected error happened');
+    }
+  }
+
+  Future<Map<String, dynamic>> changePassword({
+    required String currentPassword,
+    required String newPassword,
+    required String confirmPassword,
+  }) async {
+    try {
+      final requestData = {
+        'currentPassword': currentPassword,
+        'newPassword': newPassword,
+        'confirmNewPassword': confirmPassword,
+      };
+
+      log('Change Password Request Data: $requestData');
+
+      final response = await dio.post(
+        '/auth/change-password',
+        data: requestData,
+      );
+
+      log('Change Password Response: ${response.data}');
+
+      if (response.data is Map<String, dynamic>) {
+        return Map<String, dynamic>.from(response.data);
+      }
+
+      return {
+        'message': 'Password changed successfully',
+      };
+    } on DioException catch (e) {
+      final message = ApiErrorHandler.extract(e);
+      log('Change Password Error: $message');
+      throw Exception(message);
+    } catch (e) {
+      log('Change Password Unknown Error: $e');
       throw Exception('Unexpected error happened');
     }
   }
