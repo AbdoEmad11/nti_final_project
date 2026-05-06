@@ -1,33 +1,79 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:nti_final_project/core/storage/token_storage.dart';
+import 'package:nti_final_project/core/utils/app_constants.dart';
 import 'package:nti_final_project/features/product/data/models/category_model.dart';
-class RemoteDataSource {
-  
 
-Future<List<CategoryModel>> getCategories() async {
+class RemoteDataSource {
+  final Dio dio = Dio(
+    BaseOptions(
+      baseUrl: AppConstants.baseUrl,
+      connectTimeout: const Duration(seconds: 20),
+      receiveTimeout: const Duration(seconds: 20),
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+    ),
+  );
+
+  Future<Options> _authOptions() async {
+    final token = await TokenStorage.getToken();
+
+    if (token == null || token.isEmpty) {
+      throw Exception('User token not found. Please login again.');
+    }
+
+    return Options(
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+    );
+  }
+
+  String _extractErrorMessage(DioException e) {
+    final data = e.response?.data;
+
+    log('Product Categories Status Code: ${e.response?.statusCode}');
+    log('Product Categories Error Data: $data');
+
+    if (data is Map<String, dynamic>) {
+      return data['message']?.toString() ??
+          data['error']?.toString() ??
+          data['title']?.toString() ??
+          data['detail']?.toString() ??
+          data.toString();
+    }
+
+    if (data is String) {
+      return data;
+    }
+
+    return e.message ?? 'Something went wrong';
+  }
+
+  Future<List<CategoryModel>> getCategories() async {
     try {
-      final Dio dio = Dio();
-      List<CategoryModel> categories = [];
       final response = await dio.get(
-        "https://accessories-eshop.runasp.net/api/categories",
-        options: Options(
-          headers: {
-            'Authorization':
-                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJjM2IyMDI0Ny0yODdmLTQyNjgtNjczNy0wOGRlYTlmNjdkYmEiLCJqdGkiOiJiYmRlY2M4My05ZTE2LTRkNTctOWI0Mi03NDIwYWI0NWUyNTQiLCJlbWFpbCI6Im1hMjI2NjYxNEBnbWFpbC5jb20iLCJuYW1lIjoibW9oYW1lZCBhc2hyYWYiLCJyb2xlcyI6IiIsInBpY3R1cmUiOiIiLCJleHAiOjE3NzgyMzExNjQsImlzcyI6ImVzaG9wLm5ldCIsImF1ZCI6ImVzaG9wLm5ldCJ9.SOblv3vD4nXvnYff_sTCRkr8wUms0Nu7rAPJeLcJvH8',
-          },
-        ),
+        '/categories',
+        options: await _authOptions(),
       );
 
-      categories.clear();
-      for (var element in response.data['categories']) {
-        categories.add(CategoryModel.fromJson(element));
-      }
-      log("Success : ${response.data}");
-      return categories;
+      log("Product Categories Response: ${response.data}");
+
+      final List data = response.data['categories'] ?? [];
+
+      return data.map((element) {
+        return CategoryModel.fromJson(element);
+      }).toList();
+    } on DioException catch (e) {
+      final message = _extractErrorMessage(e);
+      log("Product Categories Dio Error: $message");
+      throw Exception(message);
     } catch (e) {
-      log("Error: $e");
-      return [];
+      log("Product Categories Error: $e");
+      throw Exception(e.toString());
     }
   }
 }
