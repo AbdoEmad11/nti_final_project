@@ -172,4 +172,4 @@ flutter run
 <!-- Add screenshots here -->
 
 ## Author
-Developed by: Your Name
+Developed by: Abdelrahman Emad
