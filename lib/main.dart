@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nti_final_project/core/styling/app_theme.dart';
+import 'package:nti_final_project/features/cart/data/cubits/cart_cubit.dart';
+
 import 'core/utils/app_routs.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    BlocProvider(
+      create: (_) => CartCubit(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

@@ -55,18 +55,14 @@ class _MainLayoutScreenState extends State<MainLayoutScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<CartCubit>(
-      create: (_) => CartCubit(),
-      child: Scaffold(
-        body: IndexedStack(
-          index: currentIndex,
-          children: screens,
-        ),
-        bottomNavigationBar: CustomBottomNavBar(
-          currentIndex: currentIndex,
-          onTap: onTabChanged,
-        ),
+    return Scaffold(
+      body: IndexedStack(
+        index: currentIndex,
+        children: screens,
+      ),
+      bottomNavigationBar: CustomBottomNavBar(
+        currentIndex: currentIndex,
+        onTap: onTabChanged,
       ),
     );
-  }
-}
+  }}
