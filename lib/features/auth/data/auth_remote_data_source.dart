@@ -30,14 +30,6 @@ class AuthRemoteDataSource {
     }
 
     if (data is Map<String, dynamic>) {
-      // Common direct messages
-      final directMessage = data['message'] ??
-          data['error'] ??
-          data['title'] ??
-          data['detail'];
-
-      // ASP.NET validation errors usually come like:
-      // { errors: { fieldName: ["error 1", "error 2"] } }
       final errors = data['errors'];
 
       if (errors is Map<String, dynamic>) {
@@ -62,11 +54,11 @@ class AuthRemoteDataSource {
         return errors.join('\n');
       }
 
-      if (directMessage != null) {
-        return directMessage.toString();
-      }
-
-      return data.toString();
+      return data['message']?.toString() ??
+          data['error']?.toString() ??
+          data['title']?.toString() ??
+          data['detail']?.toString() ??
+          'Something went wrong';
     }
 
     return e.message ?? 'Something went wrong';
@@ -77,18 +69,22 @@ class AuthRemoteDataSource {
     required String password,
   }) async {
     try {
+      final requestData = {
+        'email': email,
+        'password': password,
+      };
+
+      log('Login Request Data: $requestData');
+
       final response = await dio.post(
         '/auth/login',
-        data: {
-          'email': email,
-          'password': password,
-        },
+        data: requestData,
       );
 
       log('Login Response: ${response.data}');
 
       if (response.data is Map<String, dynamic>) {
-        return response.data;
+        return Map<String, dynamic>.from(response.data);
       }
 
       return {
@@ -111,20 +107,24 @@ class AuthRemoteDataSource {
     required String lastName,
   }) async {
     try {
+      final requestData = {
+        'email': email,
+        'password': password,
+        'firstName': firstName,
+        'lastName': lastName,
+      };
+
+      log('Register Request Data: $requestData');
+
       final response = await dio.post(
         '/auth/register',
-        data: {
-          'email': email,
-          'password': password,
-          'firstName': firstName,
-          'lastName': lastName,
-        },
+        data: requestData,
       );
 
       log('Register Response: ${response.data}');
 
       if (response.data is Map<String, dynamic>) {
-        return response.data;
+        return Map<String, dynamic>.from(response.data);
       }
 
       return {
@@ -144,17 +144,21 @@ class AuthRemoteDataSource {
     required String email,
   }) async {
     try {
+      final requestData = {
+        'email': email,
+      };
+
+      log('Forgot Password Request Data: $requestData');
+
       final response = await dio.post(
         '/auth/forgot-password',
-        data: {
-          'email': email,
-        },
+        data: requestData,
       );
 
       log('Forgot Password Response: ${response.data}');
 
       if (response.data is Map<String, dynamic>) {
-        return response.data;
+        return Map<String, dynamic>.from(response.data);
       }
 
       return {

@@ -7,8 +7,12 @@ class LoginLoadingState extends AuthStates {}
 
 class LoginSuccessState extends AuthStates {
   final String? message;
+  final String? token;
 
-  LoginSuccessState({this.message});
+  LoginSuccessState({
+    this.message,
+    this.token,
+  });
 }
 
 class LoginFailureState extends AuthStates {

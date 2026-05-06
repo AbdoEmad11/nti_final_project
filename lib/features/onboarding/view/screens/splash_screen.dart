@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../core/storage/token_storage.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/utils/app_constants.dart';
+import '../../../../core/utils/app_routs.dart';
 import 'onboarding_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -43,9 +45,15 @@ class _SplashScreenState extends State<SplashScreen>
     _controller.forward();
 
     // Navigate after delay
-    Future.delayed(AppConstants.splashDuration, () {
-      if (mounted) {
-        Navigator.pushReplacementNamed(context, '/onboarding');
+    Future.delayed(AppConstants.splashDuration, () async {
+      final isLoggedIn = await TokenStorage.isLoggedIn();
+
+      if (!mounted) return;
+
+      if (isLoggedIn) {
+        Navigator.pushReplacementNamed(context, AppRoutes.mainLayout);
+      } else {
+        Navigator.pushReplacementNamed(context, AppRoutes.onboarding);
       }
     });
   }
