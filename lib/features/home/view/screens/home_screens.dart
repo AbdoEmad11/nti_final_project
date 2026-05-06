@@ -8,7 +8,9 @@ import 'package:nti_final_project/features/home/view/cubits/product_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/app_bar_widget.dart';
+import '../../../../core/widgets/safe_network_image.dart';
 import '../widgets/product_item_widget.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -48,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffF5F3FF),
+      backgroundColor: AppColors.bgLight,
       appBar: const LuxeAppBar(),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(20),
@@ -75,22 +77,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       borderRadius: BorderRadius.circular(25),
                       child: Stack(
                         children: [
-                          Image.network(
-                            state.offers.isNotEmpty
-                                ? state.offers[offerIndex].coverUrl
-                                : "https://via.placeholder.com/400",
+                          SafeNetworkImage(
+                            url: state.offers.isNotEmpty ? state.offers[offerIndex].coverUrl : '',
                             fit: BoxFit.cover,
                             width: double.infinity,
                             height: 200,
-                            errorBuilder: (context, error, stackTrace) {
-                              return Container(
-                                height: 200,
-                                color: Colors.white,
-                                //child: Image.asset("assets/images/luxe.jpg"),
-                              );
-                            },
                           ),
-
                           Container(
                             width: double.infinity,
                             height: 200,
@@ -190,11 +182,14 @@ class _HomeScreenState extends State<HomeScreen> {
                               children: [
                                 InkWell(
                                   onTap: () {},
-                                  child: CircleAvatar(
-                                    backgroundImage: NetworkImage(
-                                      state.categories[index].coverPictureUrl,
+                                  child: ClipOval(
+                                    child: SafeNetworkImage(
+                                      url: state.categories[index].coverPictureUrl,
+                                      width: 60,
+                                      height: 60,
+                                      fit: BoxFit.cover,
+                                      iconSize: 28,
                                     ),
-                                    radius: 30,
                                   ),
                                 ),
                                 SizedBox(height: 5),

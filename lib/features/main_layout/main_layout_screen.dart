@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nti_final_project/features/cart/data/cubits/cart_cubit.dart';
 import 'package:nti_final_project/features/cart/view/screens/cart_screen.dart';
 import 'package:nti_final_project/features/home/view/cubits/categories_cubit.dart';
 import 'package:nti_final_project/features/home/view/cubits/offer_cubit.dart';
@@ -54,14 +55,17 @@ class _MainLayoutScreenState extends State<MainLayoutScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: IndexedStack(
-        index: currentIndex,
-        children: screens,
-      ),
-      bottomNavigationBar: CustomBottomNavBar(
-        currentIndex: currentIndex,
-        onTap: onTabChanged,
+    return BlocProvider<CartCubit>(
+      create: (_) => CartCubit(),
+      child: Scaffold(
+        body: IndexedStack(
+          index: currentIndex,
+          children: screens,
+        ),
+        bottomNavigationBar: CustomBottomNavBar(
+          currentIndex: currentIndex,
+          onTap: onTabChanged,
+        ),
       ),
     );
   }

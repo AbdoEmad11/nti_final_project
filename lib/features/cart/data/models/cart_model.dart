@@ -1,5 +1,8 @@
+import 'package:nti_final_project/features/home/data/models/products_model.dart';
+
 class CartItemModel {
   final int id;
+  final String productId;
   final String name;
   final String variant;
   final double price;
@@ -8,6 +11,7 @@ class CartItemModel {
 
   CartItemModel({
     required this.id,
+    required this.productId,
     required this.name,
     required this.variant,
     required this.price,
@@ -15,10 +19,23 @@ class CartItemModel {
     this.quantity = 1,
   });
 
+  factory CartItemModel.fromProduct(ProductModel product) {
+    return CartItemModel(
+      id: product.id.hashCode,
+      productId: product.id,
+      name: product.name,
+      variant: product.color.isNotEmpty ? product.color : 'Default',
+      price: product.price,
+      imageUrl: product.coverPictureUrl,
+      quantity: 1,
+    );
+  }
+
   double get total => price * quantity;
 
   CartItemModel copyWith({
     int? id,
+    String? productId,
     String? name,
     String? variant,
     double? price,
@@ -27,6 +44,7 @@ class CartItemModel {
   }) {
     return CartItemModel(
       id: id ?? this.id,
+      productId: productId ?? this.productId,
       name: name ?? this.name,
       variant: variant ?? this.variant,
       price: price ?? this.price,

@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nti_final_project/features/home/data/models/products_model.dart';
+
+import '../../../../core/widgets/safe_network_image.dart';
+import '../../../cart/data/cubits/cart_cubit.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
   final ProductModel? product;
@@ -124,20 +128,14 @@ class _ProductTopImage extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: AspectRatio(
         aspectRatio: 16 / 10,
-        child: imageUrl.isEmpty
-            ? _fallback()
-            : Image.network(
-                imageUrl,
-                fit: BoxFit.cover,
-                errorBuilder: (_, __, ___) => _fallback(),
-                loadingBuilder: (context, child, loadingProgress) {
-                  if (loadingProgress == null) return child;
-
-                  return const Center(
-                    child: CircularProgressIndicator(color: Colors.indigo),
-                  );
-                },
-              ),
+        child:SafeNetworkImage(
+        url: imageUrl,
+        fit: BoxFit.cover,
+        width: double.infinity,
+        height: double.infinity,
+        iconColor: Colors.indigo,
+        iconSize: 60,
+      ),
       ),
     );
   }
@@ -304,14 +302,15 @@ class _AddToCartBar extends StatelessWidget {
               onPressed: product == null
                   ? null
                   : () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            '${product!.name} cart integration next',
-                          ),
-                        ),
-                      );
-                    },
+                context.read<CartCubit>().addProduct(product!);
+
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('${product!.name} added to cart'),
+                    backgroundColor: Colors.green,
+                  ),
+                );
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.indigo,
                 padding: const EdgeInsets.symmetric(vertical: 16),

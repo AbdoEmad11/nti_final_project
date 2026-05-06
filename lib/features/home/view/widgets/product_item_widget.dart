@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nti_final_project/core/utils/app_routs.dart';
 
+import '../../../../core/widgets/safe_network_image.dart';
+import '../../../cart/data/cubits/cart_cubit.dart';
 import '../../data/models/products_model.dart';
 
 class ProductItem extends StatefulWidget {
-  const ProductItem({
-    super.key,
-    required this.product,
-    this.onPressed,
-  });
+  const ProductItem({super.key, required this.product, this.onPressed});
 
   final ProductModel product;
   final void Function()? onPressed;
@@ -132,11 +131,17 @@ class _ProductItemState extends State<ProductItem> {
                   ),
                 ),
                 IconButton(
-                  onPressed: widget.onPressed ??
-                          () {
+                  onPressed:
+                      widget.onPressed ??
+                      () {
+                        context.read<CartCubit>().addProduct(widget.product);
+
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Cart integration is next step'),
+                          SnackBar(
+                            content: Text(
+                              '${widget.product.name} added to cart',
+                            ),
+                            backgroundColor: Colors.green,
                           ),
                         );
                       },
@@ -161,21 +166,11 @@ class _ProductItemState extends State<ProductItem> {
       return _imageFallback();
     }
 
-    return Image.network(
-      imageUrl,
-      height: double.infinity,
+    return SafeNetworkImage(
+      url: widget.product.coverPictureUrl,
       width: double.infinity,
+      height: double.infinity,
       fit: BoxFit.cover,
-      errorBuilder: (_, __, ___) => _imageFallback(),
-      loadingBuilder: (context, child, loadingProgress) {
-        if (loadingProgress == null) return child;
-
-        return const Center(
-          child: CircularProgressIndicator(
-            color: Color(0xff6055D8),
-          ),
-        );
-      },
     );
   }
 

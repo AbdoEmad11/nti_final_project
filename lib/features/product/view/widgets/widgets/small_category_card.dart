@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:nti_final_project/core/widgets/safe_network_image.dart';
 
 class SmallCategoryCard extends StatelessWidget {
   final String title;
@@ -10,59 +10,6 @@ class SmallCategoryCard extends StatelessWidget {
     required this.title,
     required this.image,
   });
-
-  bool get _isValidUrl {
-    final uri = Uri.tryParse(image);
-    return uri != null && uri.hasScheme && uri.host.isNotEmpty;
-  }
-
-  bool get _isSvg => image.toLowerCase().endsWith('.svg');
-
-  Widget _buildImage() {
-    if (!_isValidUrl) {
-      return Container(
-        color: Colors.indigo.shade100,
-        child: const Center(
-          child: Icon(
-            Icons.image_not_supported_outlined,
-            size: 36,
-            color: Colors.indigo,
-          ),
-        ),
-      );
-    }
-
-    if (_isSvg) {
-      return Container(
-        color: Colors.white,
-        padding: const EdgeInsets.all(25),
-        child: SvgPicture.network(
-          image,
-          fit: BoxFit.contain,
-          placeholderBuilder: (_) => const Center(
-            child: CircularProgressIndicator(),
-          ),
-        ),
-      );
-    }
-
-    return Image.network(
-      image,
-      fit: BoxFit.cover,
-      errorBuilder: (_, __, ___) {
-        return Container(
-          color: Colors.indigo.shade100,
-          child: const Center(
-            child: Icon(
-              Icons.broken_image_outlined,
-              size: 36,
-              color: Colors.indigo,
-            ),
-          ),
-        );
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +25,13 @@ class SmallCategoryCard extends StatelessWidget {
         child: Stack(
           fit: StackFit.expand,
           children: [
-            _buildImage(),
+            SafeNetworkImage(
+              url: image,
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: 250,
+              iconSize: 36,
+            ),
             Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
