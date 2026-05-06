@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nti_final_project/features/cart/view/screens/cart_screen.dart';
-import 'package:nti_final_project/features/home/view/screens/home_screen.dart';
+import 'package:nti_final_project/features/home/view/cubits/categories_cubit.dart';
+import 'package:nti_final_project/features/home/view/cubits/offer_cubit.dart';
+import 'package:nti_final_project/features/home/view/cubits/product_cubit.dart';
+import 'package:nti_final_project/features/home/view/screens/home_screens.dart';
 import 'package:nti_final_project/features/product/view/screens/categories_screen.dart';
 import 'package:nti_final_project/features/profile/view/screens/profile_screen.dart';
 import 'widgets/custom_bottom_nav_bar.dart';
@@ -20,13 +24,6 @@ class MainLayoutScreen extends StatefulWidget {
 class _MainLayoutScreenState extends State<MainLayoutScreen> {
   late int currentIndex;
 
-  final List<Widget> screens = const [
-    HomeScreen(),
-    CategoriesScreen(),
-    CartScreen(),
-    ProfileScreen(),
-  ];
-
   @override
   void initState() {
     super.initState();
@@ -37,6 +34,22 @@ class _MainLayoutScreenState extends State<MainLayoutScreen> {
     setState(() {
       currentIndex = index;
     });
+  }
+
+  List<Widget> get screens {
+    return [
+      MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (_) => OffersCubit()),
+          BlocProvider(create: (_) => CategoriesCubit()),
+          BlocProvider(create: (_) => ProductsCubit()),
+        ],
+        child: const HomeScreen(),
+      ),
+      const CategoriesScreen(),
+      const CartScreen(),
+      const ProfileScreen(),
+    ];
   }
 
   @override

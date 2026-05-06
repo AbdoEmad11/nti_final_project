@@ -2,23 +2,55 @@ abstract class AuthStates {}
 
 class AuthInitialState extends AuthStates {}
 
+// Login
 class LoginLoadingState extends AuthStates {}
 
-class LoginSuccessState extends AuthStates {}
+class LoginSuccessState extends AuthStates {
+  final String? message;
 
-class LoginFailureState extends AuthStates {
-  late final String failure;
-  LoginFailureState(this.failure);
+  LoginSuccessState({this.message});
 }
 
+class LoginFailureState extends AuthStates {
+  final String message;
+
+  LoginFailureState(this.message);
+}
+
+// Register
 class RegisterLoadingState extends AuthStates {}
 
-class RegisterSuccessState extends AuthStates {}
+class RegisterSuccessState extends AuthStates {
+  final String email;
+  final String? message;
 
-class RegisterFailureState extends AuthStates {}
+  RegisterSuccessState({
+    required this.email,
+    this.message,
+  });
+}
 
+class RegisterFailureState extends AuthStates {
+  final String message;
+
+  RegisterFailureState(this.message);
+}
+
+// Forgot Password
 class ForgotPasswordLoadingState extends AuthStates {}
 
-class ForgotPasswordrSuccessState extends AuthStates {}
+class ForgotPasswordSuccessState extends AuthStates {
+  final String email;
+  final String? message;
 
-class ForgotPasswordFailureState extends AuthStates {}
+  ForgotPasswordSuccessState({
+    required this.email,
+    this.message,
+  });
+}
+
+class ForgotPasswordFailureState extends AuthStates {
+  final String message;
+
+  ForgotPasswordFailureState(this.message);
+}

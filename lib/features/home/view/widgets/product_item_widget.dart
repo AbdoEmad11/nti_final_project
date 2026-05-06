@@ -1,8 +1,6 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import '../../../../core/utils/app_routs.dart';
-import '../../data/models/product_model.dart';
+
+import '../../data/models/products_model.dart';
 
 class ProductItem extends StatefulWidget {
   const ProductItem({super.key, required this.product, this.onPressed});
@@ -34,11 +32,9 @@ class _ProductItemState extends State<ProductItem> {
               child: Stack(
                 children: [
                   InkWell(
-                    onTap: () {
-                      Navigator.pushNamed(context, AppRoutes.productDetails);
-                    },
-                    child: Image.asset(
-                      widget.product.image.toString(),
+                    onTap: () {},
+                    child: Image.network(
+                      widget.product.coverPictureUrl.toString(),
                       height: 170,
                       width: double.infinity,
                       fit: BoxFit.cover,
@@ -90,7 +86,7 @@ class _ProductItemState extends State<ProductItem> {
                         children: [
                           Icon(Icons.star, color: Colors.yellow, size: 20),
                           Text(
-                            widget.product.rate.toString(),
+                            widget.product.rating.toString(),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
@@ -100,7 +96,7 @@ class _ProductItemState extends State<ProductItem> {
                             ),
                           ),
                           Text(
-                            "(${widget.product.numberOfBuy})".toString(),
+                            "(${widget.product.reviewsCount})".toString(),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(

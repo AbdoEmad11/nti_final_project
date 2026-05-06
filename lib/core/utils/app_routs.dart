@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nti_final_project/addProduct/views/screens/add_product_screen.dart';
 import 'package:nti_final_project/features/auth/view/screens/forgot_password_screen.dart';
 import 'package:nti_final_project/features/auth/view/screens/login_screen.dart';
-import 'package:nti_final_project/features/auth/view/screens/otp_screen.dart';
+import 'package:nti_final_project/features/auth/view/screens/otp_verification_screen.dart';
 import 'package:nti_final_project/features/auth/view/screens/register_screen.dart';
 import 'package:nti_final_project/features/auth/view/screens/reset_password_screen.dart';
 import 'package:nti_final_project/features/cart/view/screens/checkout_screen.dart';
@@ -10,7 +12,7 @@ import 'package:nti_final_project/features/onboarding/view/screens/onboarding_sc
 import 'package:nti_final_project/features/onboarding/view/screens/splash_screen.dart';
 import 'package:nti_final_project/features/product/view/screens/product_details.dart';
 
-import '../../addProduct/views/screens/add_product_screen.dart';
+import '../../features/auth/cubits/auth_cubit.dart';
 
 class AppRoutes {
   static const String splash = '/';
@@ -25,45 +27,175 @@ class AppRoutes {
   static const String checkout = '/checkout';
   static const String addProduct = '/add-product';
 
-
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case splash:
-        return MaterialPageRoute(builder: (_) => const SplashScreen());
+        return MaterialPageRoute(
+          builder: (_) => const SplashScreen(),
+          settings: settings,
+        );
 
       case onboarding:
-        return MaterialPageRoute(builder: (_) => const OnboardingScreen());
+        return MaterialPageRoute(
+          builder: (_) => const OnboardingScreen(),
+          settings: settings,
+        );
 
       case login:
-        return MaterialPageRoute(builder: (_) => const LoginScreen());
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (_) => AuthCubit(),
+            child: const LoginScreen(),
+          ),
+          settings: settings,
+        );
 
       case register:
-        return MaterialPageRoute(builder: (_) => const RegisterScreen());
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (_) => AuthCubit(),
+            child: const RegisterScreen(),
+          ),
+          settings: settings,
+        );
 
       case forgotPassword:
-        return MaterialPageRoute(builder: (_) => const ForgotPasswordScreen());
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (_) => AuthCubit(),
+            child: const ForgotPasswordScreen(),
+          ),
+          settings: settings,
+        );
 
       case otp:
-        return MaterialPageRoute(builder: (_) => const OtpVerificationScreen());
+        final args = _getOtpArguments(settings.arguments);
+
+        return MaterialPageRoute(
+          builder: (_) => OtpVerificationScreen(
+            email: args.email,
+            purpose: args.purpose,
+          ),
+          settings: settings,
+        );
 
       case resetPassword:
-        return MaterialPageRoute(builder: (_) => const ResetPasswordScreen());
+        return MaterialPageRoute(
+          builder: (_) => const ResetPasswordScreen(),
+          settings: settings,
+        );
 
       case mainLayout:
-        return MaterialPageRoute(builder: (_) => const MainLayoutScreen());
+        return MaterialPageRoute(
+          builder: (_) => const MainLayoutScreen(),
+          settings: settings,
+        );
 
       case productDetails:
-        return MaterialPageRoute(builder: (_) => const ProductDetailsScreen());
+        return MaterialPageRoute(
+          builder: (_) => const ProductDetailsScreen(),
+          settings: settings,
+        );
 
       case checkout:
-        return MaterialPageRoute(builder: (_) => const CheckoutScreen());
+        return MaterialPageRoute(
+          builder: (_) => const CheckoutScreen(),
+          settings: settings,
+        );
 
-      case '/add-product':
-        return MaterialPageRoute(builder: (_) => const AddProductScreen());
-
+      case addProduct:
+        return MaterialPageRoute(
+          builder: (_) => const AddProductScreen(),
+          settings: settings,
+        );
 
       default:
-        return MaterialPageRoute(builder: (_) => const SplashScreen());
+        return MaterialPageRoute(
+          builder: (_) => UndefinedRouteScreen(routeName: settings.name),
+          settings: settings,
+        );
     }
+
+
+  }
+
+  static String _getEmailFromArguments(Object? arguments) {
+    if (arguments == null) return '';
+
+    if (arguments is String) {
+      return arguments;
+    }
+
+    if (arguments is Map<String, dynamic>) {
+      return arguments['email']?.toString() ?? '';
+    }
+
+    return '';
+  }
+  static OtpRouteArguments _getOtpArguments(Object? arguments) {
+    if (arguments is OtpRouteArguments) {
+      return arguments;
+    }
+
+    if (arguments is Map<String, dynamic>) {
+      return OtpRouteArguments(
+        email: arguments['email']?.toString() ?? '',
+        purpose: arguments['purpose'] is OtpPurpose
+            ? arguments['purpose'] as OtpPurpose
+            : OtpPurpose.register,
+      );
+    }
+
+    if (arguments is String) {
+      return OtpRouteArguments(
+        email: arguments,
+        purpose: OtpPurpose.register,
+      );
+    }
+
+    return const OtpRouteArguments(
+      email: '',
+      purpose: OtpPurpose.register,
+    );
+  }
+
+}
+
+class OtpRouteArguments {
+  final String email;
+  final OtpPurpose purpose;
+
+  const OtpRouteArguments({
+    required this.email,
+    required this.purpose,
+  });
+}
+
+
+class UndefinedRouteScreen extends StatelessWidget {
+  final String? routeName;
+
+  const UndefinedRouteScreen({
+    super.key,
+    required this.routeName,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Route Not Found'),
+      ),
+      body: Center(
+        child: Text(
+          'No route defined for: ${routeName ?? 'unknown'}',
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+    );
   }
 }

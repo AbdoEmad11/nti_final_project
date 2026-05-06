@@ -10,7 +10,8 @@ import 'package:nti_final_project/features/auth/states/auth_states.dart';
 import 'package:nti_final_project/features/auth/view/screens/register_screen.dart';
 import 'package:nti_final_project/features/auth/view/widgets/custom_text_field.dart';
 
-import 'package:nti_final_project/features/auth/view/widgets/primary_button_widget.dart';
+import '../../../../core/utils/app_routs.dart';
+import '../../../../core/widgets/app_button.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -100,58 +101,66 @@ class _LoginScreenState extends State<LoginScreen> {
 
                     Align(
                       alignment: Alignment.centerRight,
-                      child: Text(
-                        'Forgot password?',
-                        style: TextStyle(color: AppColors2.primaryColor),
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutes.forgotPassword,
+                          );
+                        },
+                        child: Text(
+                          'Forgot password?',
+                          style: TextStyle(color: AppColors2.primaryColor),
+                        ),
                       ),
                     ),
                     SizedBox(height: 24.h),
-                    BlocListener<AuthCubit, AuthStates>(
+                    BlocConsumer<AuthCubit, AuthStates>(
                       listener: (context, state) {
-                        if (state is LoginLoadingState) {
-                          showDialog(
-                            context: context,
-                            barrierDismissible: false,
-                            builder: (_) => const Dialog(
-                              backgroundColor: Colors.transparent,
-                              child: Center(child: CircularProgressIndicator()),
+                        if (state is LoginSuccessState) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                state.message ?? 'Login successful',
+                              ),
+                              backgroundColor: Colors.green,
                             ),
                           );
-                        } else if (state is LoginSuccessState) {
-                          if (Navigator.canPop(context)) {
-                            Navigator.pop(context);
-                          }
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Login Successful')),
-                          );
-                          
 
-                          Navigator.pushReplacement(
+                          Navigator.pushNamedAndRemoveUntil(
                             context,
-                            MaterialPageRoute(builder: (_) => RegisterScreen()),
+                            AppRoutes.mainLayout,
+                            (route) => false,
                           );
-                          
-                        } else if (state is LoginFailureState) {
-                          if (Navigator.canPop(context)) {
-                            Navigator.pop(context);
-                          }
+                        }
 
+                        if (state is LoginFailureState) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Login Failed')),
+                            SnackBar(
+                              content: Text(state.message),
+                              backgroundColor: Colors.red,
+                            ),
                           );
                         }
                       },
-                      child: PrimaryButtonWidget(
-                        buttonText: 'Sign In',
-                        onPressed: () async {
-                          if (formKey.currentState!.validate()) {
-                            await BlocProvider.of<AuthCubit>(context).login(
-                              email: emailController.text,
-                              password: passwordController.text,
-                            );
-                          }
-                        },
-                      ),
+                      builder: (context, state) {
+                        final isLoading = state is LoginLoadingState;
+
+                        return PrimaryButtonWidget(
+                          buttonText: 'Sign In',
+                          isLoading: isLoading,
+                          onPressed: isLoading
+                              ? null
+                              : () {
+                                  if (formKey.currentState!.validate()) {
+                                    context.read<AuthCubit>().login(
+                                      email: emailController.text.trim(),
+                                      password: passwordController.text.trim(),
+                                    );
+                                  }
+                                },
+                        );
+                      },
                     ),
                     SizedBox(height: 32.h),
                     Row(
@@ -163,7 +172,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           style: AppStyles.gray16W600Styles,
                         ),
                         SizedBox(width: 16),
-                        SizedBox(width: 110.w, child: Divider()),
+                        SizedBox(width: 100.w, child: Divider()),
                       ],
                     ),
                     SizedBox(height: 32.h),
@@ -240,19 +249,25 @@ class _LoginScreenState extends State<LoginScreen> {
                       ],
                     ),
                     SizedBox(height: 32.h),
-                    RichText(
-                      text: TextSpan(
-                        text: 'Don\'t have an account? ',
-                        style: AppStyles.subtitlesStyles,
-                        children: [
-                          TextSpan(
-                            text: 'Sign Up',
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Don\'t have an account? ',
+                          style: AppStyles.subtitlesStyles,
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pushNamed(context, AppRoutes.register);
+                          },
+                          child: Text(
+                            'Sign Up',
                             style: AppStyles.subtitlesStyles.copyWith(
                               color: AppColors2.primaryColor,
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

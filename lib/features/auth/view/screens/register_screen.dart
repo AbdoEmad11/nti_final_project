@@ -6,10 +6,12 @@ import 'package:nti_final_project/core/styling/app_styles.dart';
 import 'package:nti_final_project/features/auth/cubits/auth_cubit.dart';
 import 'package:nti_final_project/features/auth/data/validators.dart';
 import 'package:nti_final_project/features/auth/states/auth_states.dart';
-import 'package:nti_final_project/features/auth/view/screens/login_screen.dart';
 import 'package:nti_final_project/features/auth/view/widgets/custom_text_field.dart';
-import 'package:nti_final_project/features/auth/view/widgets/primary_button_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../core/utils/app_routs.dart';
+import '../../../../core/widgets/app_button.dart';
+import 'otp_verification_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -140,7 +142,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                         SizedBox(height: 20.h),
                         CustomTextField(
-                        controller: confirmPasswordController,
+                          controller: confirmPasswordController,
                           labelText: 'Confirm Password',
                           hintText: 'Confirm your password',
                           isPassword: isPassword,
@@ -201,60 +203,96 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ],
                         ),
                         SizedBox(height: 10.h),
-                        BlocListener<AuthCubit, AuthStates>(
+                        BlocConsumer<AuthCubit, AuthStates>(
                           listener: (context, state) {
-                            if (state is RegisterLoadingState) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Loading...')),
-                            );
-                            } else if (state is RegisterSuccessState) {
-                             
-                              
+                            if (state is RegisterSuccessState) {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text(' Successful'),
+                                SnackBar(
+                                  content: Text(
+                                    state.message ?? 'Register successful',
+                                  ),
+                                  backgroundColor: Colors.green,
                                 ),
                               );
 
-                              Navigator.pushReplacement(
+                              Navigator.pushReplacementNamed(
                                 context,
-                                MaterialPageRoute(
-                                  builder: (_) => LoginScreen(),
+                                AppRoutes.otp,
+                                arguments: OtpRouteArguments(
+                                  email: state.email,
+                                  purpose: OtpPurpose.register,
                                 ),
                               );
-                            } else if (state is RegisterFailureState) {
-                            
+                            }
 
+                            if (state is RegisterFailureState) {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text(' Failed')),
+                                SnackBar(
+                                  content: Text(state.message),
+                                  backgroundColor: Colors.red,
+                                ),
                               );
                             }
                           },
-                          child: PrimaryButtonWidget(
-                            onPressed: () {
-                              BlocProvider.of<AuthCubit>(context).register(
-                                email: emailController.text,
-                                password: passwordController.text,
-                                firstName: firstname.text,
-                                lastName: lastname.text,
-                              );
-                            },
-                            buttonText: 'Create Account',
-                            textColor: Colors.white,
-                            buttonColor: AppColors2.primaryColor,
-                          ),
+                          builder: (context, state) {
+                            final isLoading = state is RegisterLoadingState;
+
+                            return PrimaryButtonWidget(
+                              isLoading: isLoading,
+                              onPressed: isLoading
+                                  ? null
+                                  : () {
+                                      if (!formkey.currentState!.validate()) {
+                                        return;
+                                      }
+
+                                      if (!isChecked) {
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                              'Please accept Terms of Service and Privacy Policy',
+                                            ),
+                                            backgroundColor: Colors.red,
+                                          ),
+                                        );
+                                        return;
+                                      }
+
+                                      context.read<AuthCubit>().register(
+                                        email: emailController.text.trim(),
+                                        password: passwordController.text
+                                            .trim(),
+                                        firstName: firstname.text.trim(),
+                                        lastName: lastname.text.trim(),
+                                      );
+                                    },
+                              buttonText: 'Create Account',
+                              textColor: Colors.white,
+                              buttonColor: AppColors2.primaryColor,
+                            );
+                          },
                         ),
                         SizedBox(height: 20.h),
                         Center(
-                          child: RichText(
-                            text: TextSpan(
-                              text: 'Already have an account? ',
-                              style: AppStyles.subtitlesStyles,
+                          child: Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                TextSpan(
-                                  text: 'Login',
-                                  style: AppStyles.subtitlesStyles.copyWith(
-                                    color: AppColors2.primaryColor,
+                                Text(
+                                  'Already have an account? ',
+                                  style: AppStyles.subtitlesStyles,
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pushReplacementNamed(context, AppRoutes.login);
+                                  },
+                                  child: Text(
+                                    'Login',
+                                    style: AppStyles.subtitlesStyles.copyWith(
+                                      color: AppColors2.primaryColor,
+                                    ),
                                   ),
                                 ),
                               ],

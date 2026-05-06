@@ -4,19 +4,33 @@ import 'package:nti_final_project/features/auth/states/auth_states.dart';
 
 class AuthCubit extends Cubit<AuthStates> {
   AuthCubit() : super(AuthInitialState());
-  AuthRemoteDataSource authRemoteDataSource = AuthRemoteDataSource();
-  Future<void> login({required String email, required String password}) async {
+
+  final AuthRemoteDataSource authRemoteDataSource = AuthRemoteDataSource();
+
+  Future<void> login({
+    required String email,
+    required String password,
+  }) async {
     emit(LoginLoadingState());
-    await authRemoteDataSource
-        .login(email: email, password: password)
-        .then(
-          (val) {
-            emit(LoginSuccessState());
-          },
-          onError: (err) {
-            emit(LoginFailureState(err.toString()));
-          },
-        );
+
+    try {
+      final response = await authRemoteDataSource.login(
+        email: email,
+        password: password,
+      );
+
+      emit(
+        LoginSuccessState(
+          message: response['message']?.toString() ?? 'Login successful',
+        ),
+      );
+    } catch (error) {
+      emit(
+        LoginFailureState(
+          error.toString().replaceFirst('Exception: ', ''),
+        ),
+      );
+    }
   }
 
   Future<void> register({
@@ -26,34 +40,52 @@ class AuthCubit extends Cubit<AuthStates> {
     required String lastName,
   }) async {
     emit(RegisterLoadingState());
-    await authRemoteDataSource
-        .register(
+
+    try {
+      final response = await authRemoteDataSource.register(
+        email: email,
+        password: password,
+        firstName: firstName,
+        lastName: lastName,
+      );
+
+      emit(
+        RegisterSuccessState(
           email: email,
-          password: password,
-          firstName: firstName,
-          lastName: lastName,
-        )
-        .then(
-          (val) {
-            emit(RegisterSuccessState());
-          },
-          onError: (err) {
-            emit(RegisterFailureState());
-          },
-        );
+          message: response['message']?.toString() ?? 'Register successful',
+        ),
+      );
+    } catch (error) {
+      emit(
+        RegisterFailureState(
+          error.toString().replaceFirst('Exception: ', ''),
+        ),
+      );
+    }
   }
 
-  Future<void> forgotPassword({required String email}) async {
+  Future<void> forgotPassword({
+    required String email,
+  }) async {
     emit(ForgotPasswordLoadingState());
-    await authRemoteDataSource
-        .forgotPassword(email: email)
-        .then(
-          (val) {
-            emit(ForgotPasswordrSuccessState());
-          },
-          onError: (err) {
-            emit(ForgotPasswordFailureState());
-          },
-        );
+
+    try {
+      final response = await authRemoteDataSource.forgotPassword(
+        email: email,
+      );
+
+      emit(
+        ForgotPasswordSuccessState(
+          email: email,
+          message: response['message']?.toString() ?? 'Code sent successfully',
+        ),
+      );
+    } catch (error) {
+      emit(
+        ForgotPasswordFailureState(
+          error.toString().replaceFirst('Exception: ', ''),
+        ),
+      );
+    }
   }
 }

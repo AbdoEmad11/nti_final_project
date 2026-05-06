@@ -5,10 +5,12 @@ class TitleTextFiled extends StatefulWidget {
     super.key,
     required this.title,
     required this.myController,
+    this.validator,
   });
 
   final TextEditingController myController;
   final String title;
+  final String? Function(String?)? validator;
 
   @override
   State<TitleTextFiled> createState() => _TitleTextFiledState();
@@ -29,6 +31,8 @@ class _TitleTextFiledState extends State<TitleTextFiled> {
         ),
         SizedBox(height: 3),
         TextFormField(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          validator: widget.validator,
           controller: widget.myController,
           obscureText: obscure2,
           decoration: InputDecoration(
@@ -36,7 +40,7 @@ class _TitleTextFiledState extends State<TitleTextFiled> {
             hintStyle: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
             prefixIcon: Icon(Icons.lock_outline_rounded),
             suffixIcon: IconButton(
-              icon: Icon(obscure2 ? Icons.visibility : Icons.visibility_off),
+              icon: Icon(obscure2 ? Icons.visibility_off : Icons.visibility),
               onPressed: () {
                 setState(() {
                   obscure2 = !obscure2;
