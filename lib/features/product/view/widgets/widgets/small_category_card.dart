@@ -20,11 +20,12 @@ class SmallCategoryCard extends StatelessWidget {
       ),
       clipBehavior: Clip.antiAlias,
       child: SizedBox(
-        height: 160,
+        height: 250,
+        width: 160,
         child: Stack(
           fit: StackFit.expand,
           children: [
-            Image.asset(image, fit: BoxFit.cover),
+            Image.network(image, fit: BoxFit.fill),
 
             Container(
               decoration: BoxDecoration(

@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 
 import '../widgets/add_to_cart_bar.dart';
@@ -114,3 +115,5 @@ class ProductDetailsScreen extends StatelessWidget {
     );
   }
 }
+
+
