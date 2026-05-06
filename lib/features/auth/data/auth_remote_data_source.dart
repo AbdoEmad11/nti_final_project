@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import 'package:nti_final_project/core/network/api_error_handler.dart';
@@ -168,13 +169,37 @@ class AuthRemoteDataSource {
         }),
       );
 
-      final data = jsonDecode(response.body);
+      log('Resend OTP Status Code: ${response.statusCode}');
+      log('Resend OTP Response: ${response.body}');
 
-      if (response.statusCode >= 200 && response.statusCode < 300) {
-        return data['message']?.toString() ?? 'OTP sent successfully';
+      dynamic data;
+
+      try {
+        data = jsonDecode(response.body);
+      } catch (_) {
+        data = null;
       }
 
-      return data['message']?.toString() ?? 'Something went wrong';
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        if (data is Map<String, dynamic>) {
+          return data['message']?.toString() ?? 'OTP sent successfully';
+        }
+
+        return 'OTP sent successfully';
+      }
+
+      if (data is Map<String, dynamic>) {
+        return data['message']?.toString() ??
+            data['error']?.toString() ??
+            data['title']?.toString() ??
+            'Something went wrong';
+      }
+
+      if (response.body.isNotEmpty) {
+        return response.body;
+      }
+
+      return 'Something went wrong';
     } catch (e) {
       log('Resend OTP Error: $e');
       return 'Network error';

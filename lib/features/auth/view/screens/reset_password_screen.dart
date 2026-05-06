@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:nti_final_project/core/utils/app_routs.dart';
+import 'package:nti_final_project/features/auth/data/auth_remote_data_source.dart';
 import 'package:nti_final_project/features/auth/view/widgets/title_text_filed.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
-  const ResetPasswordScreen({super.key});
+  final String email;
+
+  const ResetPasswordScreen({
+    super.key,
+    required this.email,
+  });
 
   @override
   State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
@@ -14,6 +20,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   final TextEditingController confirmController = TextEditingController();
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  final AuthRemoteDataSource authRemoteDataSource = AuthRemoteDataSource();
 
   bool isLoading = false;
 
@@ -66,33 +74,63 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
       return;
     }
 
+    if (widget.email.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Email not found. Please try forgot password again.'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
     setState(() {
       isLoading = true;
     });
 
-    // TODO:
-    // هنا المفروض نربط Endpoint بتاع reset-password الحقيقي
-    // مش change-password لأنه محتاج current password و token.
-    await Future.delayed(const Duration(seconds: 1));
+    try {
+      final response = await authRemoteDataSource.resetPassword(
+        email: widget.email,
+        newPassword: passwordController.text.trim(),
+        confirmNewPassword: confirmController.text.trim(),
+      );
 
-    if (!mounted) return;
+      if (!mounted) return;
 
-    setState(() {
-      isLoading = false;
-    });
+      setState(() {
+        isLoading = false;
+      });
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Password reset successfully'),
-        backgroundColor: Colors.green,
-      ),
-    );
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            response['message']?.toString() ?? 'Password reset successfully',
+          ),
+          backgroundColor: Colors.green,
+        ),
+      );
 
-    Navigator.pushNamedAndRemoveUntil(
-      context,
-      AppRoutes.login,
-          (route) => false,
-    );
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        AppRoutes.login,
+            (route) => false,
+      );
+    } catch (error) {
+      if (!mounted) return;
+
+      setState(() {
+        isLoading = false;
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            error.toString().replaceFirst('Exception: ', ''),
+          ),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 
   @override
@@ -104,6 +142,8 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final emailText = widget.email.isEmpty ? 'No email provided' : widget.email;
+
     return Scaffold(
       backgroundColor: const Color(0xffF5F3FF),
       appBar: AppBar(
@@ -116,7 +156,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         ),
         backgroundColor: Colors.white,
         title: const Text(
-          "Reset Password",
+          'Reset Password',
           style: TextStyle(
             color: Colors.black,
             fontSize: 18,
@@ -134,7 +174,6 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 30),
-
                 Center(
                   child: Container(
                     width: 128,
@@ -150,12 +189,10 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 20),
-
                 const Center(
                   child: Text(
-                    "Create New Password",
+                    'Create New Password',
                     style: TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
@@ -163,12 +200,10 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     textAlign: TextAlign.center,
                   ),
                 ),
-
                 const SizedBox(height: 10),
-
                 const Center(
                   child: Text(
-                    "Your new password must be\ndifferent from previous passwords",
+                    'Your new password must be\ndifferent from previous passwords',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Color(0xff464555),
@@ -177,25 +212,31 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     ),
                   ),
                 ),
-
+                const SizedBox(height: 10),
+                Center(
+                  child: Text(
+                    emailText,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      color: Color(0xff4D41DF),
+                      fontWeight: FontWeight.w700,
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
                 const SizedBox(height: 30),
-
                 TitleTextFiled(
-                  title: "New Password",
+                  title: 'New Password',
                   myController: passwordController,
                   validator: validatePassword,
                 ),
-
                 const SizedBox(height: 20),
-
                 TitleTextFiled(
-                  title: "Confirm Password",
+                  title: 'Confirm Password',
                   myController: confirmController,
                   validator: validateConfirmPassword,
                 ),
-
                 const SizedBox(height: 30),
-
                 SizedBox(
                   width: double.infinity,
                   height: 55,
@@ -217,7 +258,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       ),
                     )
                         : const Text(
-                      "Reset Password",
+                      'Reset Password',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 16,
@@ -226,14 +267,12 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 80),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
-                      "Having trouble?",
+                      'Having trouble?',
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
@@ -242,7 +281,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     TextButton(
                       onPressed: () {},
                       child: const Text(
-                        "Contact Support",
+                        'Contact Support',
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w600,

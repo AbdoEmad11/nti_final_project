@@ -5,7 +5,7 @@ import 'categories_state.dart';
 class CategoriesCubit extends Cubit<CategoriesStates> {
   CategoriesCubit() : super(CategoriesInitialState());
 
-  final RemoteDataSource remoteDataSource = RemoteDataSource();
+  final HomeRemoteDataSource remoteDataSource = HomeRemoteDataSource();
 
   Future<void> getCategories() async {
     emit(CategoriesIsLoadingState());

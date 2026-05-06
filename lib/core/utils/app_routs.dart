@@ -7,13 +7,14 @@ import 'package:nti_final_project/features/auth/view/screens/otp_verification_sc
 import 'package:nti_final_project/features/auth/view/screens/register_screen.dart';
 import 'package:nti_final_project/features/auth/view/screens/reset_password_screen.dart';
 import 'package:nti_final_project/features/cart/view/screens/checkout_screen.dart';
+import 'package:nti_final_project/features/home/data/models/products_model.dart'
+as home_product;
 import 'package:nti_final_project/features/main_layout/main_layout_screen.dart';
 import 'package:nti_final_project/features/onboarding/view/screens/onboarding_screen.dart';
 import 'package:nti_final_project/features/onboarding/view/screens/splash_screen.dart';
 import 'package:nti_final_project/features/product/view/screens/product_details.dart';
 
 import '../../features/auth/cubits/auth_cubit.dart';
-
 class AppRoutes {
   static const String splash = '/';
   static const String onboarding = '/onboarding';
@@ -72,16 +73,18 @@ class AppRoutes {
         final args = _getOtpArguments(settings.arguments);
 
         return MaterialPageRoute(
-          builder: (_) => OtpVerificationScreen(
-            email: args.email,
-            purpose: args.purpose,
-          ),
+          builder: (_) =>
+              OtpVerificationScreen(email: args.email, purpose: args.purpose),
           settings: settings,
         );
 
       case resetPassword:
+        final email = settings.arguments is String
+            ? settings.arguments as String
+            : '';
+
         return MaterialPageRoute(
-          builder: (_) => const ResetPasswordScreen(),
+          builder: (_) => ResetPasswordScreen(email: email),
           settings: settings,
         );
 
@@ -92,8 +95,12 @@ class AppRoutes {
         );
 
       case productDetails:
+        final product = settings.arguments is home_product.ProductModel
+            ? settings.arguments as home_product.ProductModel
+            : null;
+
         return MaterialPageRoute(
-          builder: (_) => const ProductDetailsScreen(),
+          builder: (_) => ProductDetailsScreen(product: product),
           settings: settings,
         );
 
@@ -115,8 +122,6 @@ class AppRoutes {
           settings: settings,
         );
     }
-
-
   }
 
   static String _getEmailFromArguments(Object? arguments) {
@@ -132,6 +137,7 @@ class AppRoutes {
 
     return '';
   }
+
   static OtpRouteArguments _getOtpArguments(Object? arguments) {
     if (arguments is OtpRouteArguments) {
       return arguments;
@@ -147,53 +153,34 @@ class AppRoutes {
     }
 
     if (arguments is String) {
-      return OtpRouteArguments(
-        email: arguments,
-        purpose: OtpPurpose.register,
-      );
+      return OtpRouteArguments(email: arguments, purpose: OtpPurpose.register);
     }
 
-    return const OtpRouteArguments(
-      email: '',
-      purpose: OtpPurpose.register,
-    );
+    return const OtpRouteArguments(email: '', purpose: OtpPurpose.register);
   }
-
 }
 
 class OtpRouteArguments {
   final String email;
   final OtpPurpose purpose;
 
-  const OtpRouteArguments({
-    required this.email,
-    required this.purpose,
-  });
+  const OtpRouteArguments({required this.email, required this.purpose});
 }
-
 
 class UndefinedRouteScreen extends StatelessWidget {
   final String? routeName;
 
-  const UndefinedRouteScreen({
-    super.key,
-    required this.routeName,
-  });
+  const UndefinedRouteScreen({super.key, required this.routeName});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Route Not Found'),
-      ),
+      appBar: AppBar(title: const Text('Route Not Found')),
       body: Center(
         child: Text(
           'No route defined for: ${routeName ?? 'unknown'}',
           textAlign: TextAlign.center,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-          ),
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
         ),
       ),
     );

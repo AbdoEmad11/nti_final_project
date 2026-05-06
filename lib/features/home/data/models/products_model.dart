@@ -37,26 +37,46 @@ class ProductModel {
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     return ProductModel(
-      id: json['id'],
-      name: json['name'],
-      description: json['description'],
-      arabicName: json['arabicName'],
-      arabicDescription: json['arabicDescription'],
-      coverPictureUrl: json['coverPictureUrl'],
-      productPictures: json['productPictures'] != null
-          ? List<String>.from(json['productPictures'])
-          : [],
-      price: (json['price'] as num).toDouble(),
-      stock: json['stock'],
-      weight: (json['weight'] as num).toDouble(),
-      color: json['color'],
-      rating: (json['rating'] as num).toDouble(),
-      reviewsCount: json['reviewsCount'],
-      discountPercentage: (json['discountPercentage'] as num).toDouble(),
-      sellerId: json['sellerId'],
-      categories: json['categories'] != null
-          ? List<String>.from(json['categories'])
-          : [],
+      id: json['id']?.toString() ?? '',
+      name: json['name']?.toString() ?? 'Unknown Product',
+      description: json['description']?.toString() ?? '',
+      arabicName: json['arabicName']?.toString() ?? '',
+      arabicDescription: json['arabicDescription']?.toString() ?? '',
+      coverPictureUrl: json['coverPictureUrl']?.toString() ??
+          json['coverUrl']?.toString() ??
+          json['imageUrl']?.toString() ??
+          '',
+      productPictures: _stringList(json['productPictures']),
+      price: _toDouble(json['price']),
+      stock: _toInt(json['stock']),
+      weight: _toDouble(json['weight']),
+      color: json['color']?.toString() ?? '',
+      rating: _toDouble(json['rating']),
+      reviewsCount: _toInt(json['reviewsCount']),
+      discountPercentage: _toDouble(json['discountPercentage']),
+      sellerId: json['sellerId']?.toString() ?? '',
+      categories: _stringList(json['categories']),
     );
+  }
+
+  static double _toDouble(dynamic value) {
+    if (value == null) return 0.0;
+    if (value is num) return value.toDouble();
+    return double.tryParse(value.toString()) ?? 0.0;
+  }
+
+  static int _toInt(dynamic value) {
+    if (value == null) return 0;
+    if (value is int) return value;
+    if (value is num) return value.toInt();
+    return int.tryParse(value.toString()) ?? 0;
+  }
+
+  static List<String> _stringList(dynamic value) {
+    if (value is List) {
+      return value.map((e) => e.toString()).toList();
+    }
+
+    return [];
   }
 }

@@ -5,7 +5,7 @@ import 'product_state.dart';
 class ProductsCubit extends Cubit<ProductsStates> {
   ProductsCubit() : super(ProductsInitialState());
 
-  final RemoteDataSource remoteDataSource = RemoteDataSource();
+  final HomeRemoteDataSource remoteDataSource = HomeRemoteDataSource();
 
   Future<void> getProducts() async {
     emit(ProductsIsLoadingState());

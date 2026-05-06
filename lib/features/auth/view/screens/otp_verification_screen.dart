@@ -68,7 +68,17 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     if (otp.length != 6) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text("Enter full 6-digit code"),
+          content: Text('Enter full 6-digit code'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return false;
+    }
+
+    if (widget.email.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Email not found. Please try again.'),
           backgroundColor: Colors.red,
         ),
       );
@@ -80,6 +90,16 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
 
   Future<void> resendOtp() async {
     if (isResending) return;
+
+    if (widget.email.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Email not found. Please try again.'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
 
     setState(() {
       isResending = true;
@@ -93,9 +113,13 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
       isResending = false;
     });
 
-    final isError = message.toLowerCase().contains("error") ||
-        message.toLowerCase().contains("wrong") ||
-        message.toLowerCase().contains("network");
+    final lowerMessage = message.toLowerCase();
+
+    final isError = lowerMessage.contains('error') ||
+        lowerMessage.contains('wrong') ||
+        lowerMessage.contains('network') ||
+        lowerMessage.contains('invalid') ||
+        lowerMessage.contains('failed');
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -114,7 +138,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
 
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text("OTP verified successfully"),
+        content: Text('OTP verified successfully'),
         backgroundColor: Colors.green,
       ),
     );
@@ -129,6 +153,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
       Navigator.pushReplacementNamed(
         context,
         AppRoutes.resetPassword,
+        arguments: widget.email,
       );
     }
   }
@@ -166,7 +191,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
               ),
               backgroundColor: Colors.white,
               title: const Text(
-                "L U X E",
+                'L U X E',
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 18,
@@ -215,7 +240,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                         ),
                         const SizedBox(height: 20),
                         const Text(
-                          "Verify Your Account",
+                          'Verify Your Account',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 32,
@@ -225,7 +250,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                         ),
                         const SizedBox(height: 10),
                         const Text(
-                          "Enter the 6-digit code sent to your email",
+                          'Enter the 6-digit code sent to your email',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 16,
@@ -236,7 +261,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                         const SizedBox(height: 10),
                         Text(
                           widget.email.isEmpty
-                              ? "No email provided"
+                              ? 'No email provided'
                               : widget.email,
                           textAlign: TextAlign.center,
                           style: const TextStyle(
@@ -246,7 +271,6 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                           ),
                         ),
                         const SizedBox(height: 25),
-
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: List.generate(6, (index) {
@@ -262,7 +286,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                                   FilteringTextInputFormatter.digitsOnly,
                                 ],
                                 decoration: InputDecoration(
-                                  counterText: "",
+                                  counterText: '',
                                   filled: true,
                                   fillColor: Colors.white,
                                   border: OutlineInputBorder(
@@ -282,9 +306,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                             );
                           }),
                         ),
-
                         const SizedBox(height: 30),
-
                         SizedBox(
                           width: double.infinity,
                           height: 55,
@@ -318,7 +340,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "Verify Code ",
+                                  'Verify Code ',
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 18,
@@ -334,9 +356,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                             ),
                           ),
                         ),
-
                         const SizedBox(height: 20),
-
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -364,12 +384,14 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                                   )
                                       : Text(
                                     value == 0
-                                        ? "Resend"
-                                        : "Resend (${value}s)",
-                                    style: const TextStyle(
+                                        ? 'Resend'
+                                        : 'Resend (${value}s)',
+                                    style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w600,
-                                      color: Color(0xff4D41DF),
+                                      color: value == 0
+                                          ? const Color(0xff4D41DF)
+                                          : Colors.grey,
                                     ),
                                   ),
                                 );

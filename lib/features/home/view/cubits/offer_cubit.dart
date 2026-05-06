@@ -5,7 +5,7 @@ import 'offer_state.dart';
 class OffersCubit extends Cubit<OffersStates> {
   OffersCubit() : super(OffersInitialState());
 
-  final RemoteDataSource remoteDataSource = RemoteDataSource();
+  final HomeRemoteDataSource remoteDataSource = HomeRemoteDataSource();
 
   Future<void> getOffers() async {
     emit(OffersIsLoadingState());
