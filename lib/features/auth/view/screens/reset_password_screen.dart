@@ -6,10 +6,12 @@ import 'package:nti_final_project/features/auth/view/widgets/title_text_filed.da
 
 class ResetPasswordScreen extends StatefulWidget {
   final String email;
+  final String otp;
 
   const ResetPasswordScreen({
     super.key,
     required this.email,
+    required this.otp,
   });
 
   @override
@@ -30,7 +32,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     final password = value ?? '';
 
     if (password.isEmpty) {
-      return 'Password is required';
+      return 'New password is required';
     }
 
     if (password.length < 8) {
@@ -75,10 +77,10 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
       return;
     }
 
-    if (widget.email.isEmpty) {
+    if (widget.email.isEmpty || widget.otp.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Email not found. Please try forgot password again.'),
+          content: Text('Email or OTP not found. Please try again.'),
           backgroundColor: Colors.red,
         ),
       );
@@ -91,9 +93,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
     try {
       final response = await authRemoteDataSource.resetPassword(
-        email: widget.email,
+        email: widget.email.trim(),
+        otp: widget.otp.trim(),
         newPassword: passwordController.text.trim(),
-        confirmNewPassword: confirmController.text.trim(),
       );
 
       if (!mounted) return;
@@ -175,13 +177,21 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 30),
+
                 Center(
                   child: Container(
                     width: 128,
                     height: 128,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(14),
+                      borderRadius: BorderRadius.circular(24),
                       color: context.appTheme.surface,
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color(0xff4D41DF).withOpacity(0.12),
+                          blurRadius: 24,
+                          offset: const Offset(0, 12),
+                        ),
+                      ],
                     ),
                     child: const Icon(
                       Icons.lock_reset_rounded,
@@ -190,7 +200,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
+
+                const SizedBox(height: 24),
+
                 Center(
                   child: Text(
                     'Create New Password',
@@ -202,10 +214,12 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     textAlign: TextAlign.center,
                   ),
                 ),
+
                 const SizedBox(height: 10),
+
                 Center(
                   child: Text(
-                    'Your new password must be\ndifferent from previous passwords',
+                    'Your new password must be strong\nand easy for you to remember',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: context.appTheme.textSecondary,
@@ -214,7 +228,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     ),
                   ),
                 ),
+
                 const SizedBox(height: 10),
+
                 Center(
                   child: Text(
                     emailText,
@@ -226,25 +242,33 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     ),
                   ),
                 ),
+
                 const SizedBox(height: 30),
+
                 TitleTextFiled(
                   title: 'New Password',
                   myController: passwordController,
                   validator: validatePassword,
                 ),
+
                 const SizedBox(height: 20),
+
                 TitleTextFiled(
                   title: 'Confirm Password',
                   myController: confirmController,
                   validator: validateConfirmPassword,
                 ),
+
                 const SizedBox(height: 30),
+
                 SizedBox(
                   width: double.infinity,
                   height: 55,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xff4D41DF),
+                      disabledBackgroundColor:
+                      const Color(0xff4D41DF).withOpacity(0.5),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18),
                       ),
@@ -269,12 +293,14 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     ),
                   ),
                 ),
+
                 const SizedBox(height: 80),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Having trouble?',
+                      'Remember password?',
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
@@ -282,9 +308,15 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       ),
                     ),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          AppRoutes.login,
+                              (route) => false,
+                        );
+                      },
                       child: const Text(
-                        'Contact Support',
+                        'Login',
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w600,

@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:nti_final_project/core/utils/app_routs.dart';
 import 'package:nti_final_project/core/theme/context_theme_extension.dart';
+import 'package:nti_final_project/core/utils/app_routs.dart';
 import 'package:nti_final_project/features/auth/data/auth_remote_data_source.dart';
 import 'package:nti_final_project/features/auth/view/cubits/otp_cubit.dart';
 import 'package:nti_final_project/features/auth/view/cubits/otp_state.dart';
@@ -134,7 +134,20 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     }
   }
 
-  void _handleOtpSuccess() {
+  void _goToResetPassword() {
+    timer?.cancel();
+
+    Navigator.pushReplacementNamed(
+      context,
+      AppRoutes.resetPassword,
+      arguments: ResetPasswordRouteArguments(
+        email: widget.email,
+        otp: getOtp(),
+      ),
+    );
+  }
+
+  void _handleRegisterOtpSuccess() {
     timer?.cancel();
 
     ScaffoldMessenger.of(context).showSnackBar(
@@ -144,19 +157,11 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
       ),
     );
 
-    if (widget.purpose == OtpPurpose.register) {
-      Navigator.pushNamedAndRemoveUntil(
-        context,
-        AppRoutes.login,
-            (route) => false,
-      );
-    } else {
-      Navigator.pushReplacementNamed(
-        context,
-        AppRoutes.resetPassword,
-        arguments: widget.email,
-      );
-    }
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      AppRoutes.login,
+          (route) => false,
+    );
   }
 
   @override
@@ -173,6 +178,8 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final bool isForgotPassword = widget.purpose == OtpPurpose.forgotPassword;
+
     return BlocProvider<OtpCubit>(
       create: (_) => OtpCubit(),
       child: Builder(
@@ -186,7 +193,6 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                   Navigator.pop(context);
                 },
                 icon: const Icon(
-                  // Keep brand accent in icon.
                   Icons.arrow_back_outlined,
                   color: Color(0xff4D41DF),
                 ),
@@ -205,7 +211,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
             body: BlocConsumer<OtpCubit, OtpStates>(
               listener: (context, state) {
                 if (state is OtpSuccessState) {
-                  _handleOtpSuccess();
+                  _handleRegisterOtpSuccess();
                 }
 
                 if (state is OtpFailureState) {
@@ -227,22 +233,37 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         const SizedBox(height: 30),
+
                         Container(
                           width: 128,
                           height: 128,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(100),
                             color: context.appTheme.surface,
+                            boxShadow: [
+                              BoxShadow(
+                                color:
+                                const Color(0xff4D41DF).withOpacity(0.12),
+                                blurRadius: 24,
+                                offset: const Offset(0, 12),
+                              ),
+                            ],
                           ),
-                          child: const Icon(
-                            Icons.verified_user,
+                          child: Icon(
+                            isForgotPassword
+                                ? Icons.lock_reset_rounded
+                                : Icons.verified_user,
                             size: 60,
-                            color: Color(0xff4D41DF),
+                            color: const Color(0xff4D41DF),
                           ),
                         ),
+
                         const SizedBox(height: 20),
+
                         Text(
-                          'Verify Your Account',
+                          isForgotPassword
+                              ? 'Verify Reset Code'
+                              : 'Verify Your Account',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 32,
@@ -250,7 +271,9 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                             color: context.appTheme.textPrimary,
                           ),
                         ),
+
                         const SizedBox(height: 10),
+
                         Text(
                           'Enter the 6-digit code sent to your email',
                           textAlign: TextAlign.center,
@@ -260,7 +283,9 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                             color: context.appTheme.textSecondary,
                           ),
                         ),
+
                         const SizedBox(height: 10),
+
                         Text(
                           widget.email.isEmpty
                               ? 'No email provided'
@@ -272,7 +297,9 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                             color: Color(0xff4D41DF),
                           ),
                         ),
+
                         const SizedBox(height: 25),
+
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: List.generate(6, (index) {
@@ -297,6 +324,19 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                                       color: context.appTheme.border,
                                     ),
                                   ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                    borderSide: BorderSide(
+                                      color: context.appTheme.border,
+                                    ),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                    borderSide: const BorderSide(
+                                      color: Color(0xff4D41DF),
+                                      width: 1.5,
+                                    ),
+                                  ),
                                 ),
                                 onChanged: (value) {
                                   if (value.isNotEmpty && index < 5) {
@@ -311,13 +351,17 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                             );
                           }),
                         ),
+
                         const SizedBox(height: 30),
+
                         SizedBox(
                           width: double.infinity,
                           height: 55,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xff4D41DF),
+                              disabledBackgroundColor:
+                              const Color(0xff4D41DF).withOpacity(0.5),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(30),
                               ),
@@ -327,10 +371,15 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                                 : () {
                               if (!validateOtp()) return;
 
-                              context.read<OtpCubit>().otpVerify(
-                                email: widget.email,
-                                getOtp: getOtp(),
-                              );
+                              if (widget.purpose ==
+                                  OtpPurpose.register) {
+                                context.read<OtpCubit>().otpVerify(
+                                  email: widget.email,
+                                  getOtp: getOtp(),
+                                );
+                              } else {
+                                _goToResetPassword();
+                              }
                             },
                             child: isLoading
                                 ? const SizedBox(
@@ -341,18 +390,20 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                                 color: Colors.white,
                               ),
                             )
-                                : const Row(
+                                : Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  'Verify Code ',
-                                  style: TextStyle(
+                                  isForgotPassword
+                                      ? 'Continue '
+                                      : 'Verify Code ',
+                                  style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 18,
                                     fontWeight: FontWeight.w700,
                                   ),
                                 ),
-                                Icon(
+                                const Icon(
                                   Icons.arrow_forward,
                                   color: Colors.white,
                                   size: 25,
@@ -361,7 +412,9 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                             ),
                           ),
                         ),
+
                         const SizedBox(height: 20),
+
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -377,9 +430,8 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                               valueListenable: seconds,
                               builder: (context, value, child) {
                                 return TextButton(
-                                  onPressed: value == 0 && !isResending
-                                      ? resendOtp
-                                      : null,
+                                  onPressed:
+                                  value == 0 && !isResending ? resendOtp : null,
                                   child: isResending
                                       ? const SizedBox(
                                     width: 16,

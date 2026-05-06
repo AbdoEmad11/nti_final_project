@@ -208,14 +208,14 @@ class AuthRemoteDataSource {
 
   Future<Map<String, dynamic>> resetPassword({
     required String email,
+    required String otp,
     required String newPassword,
-    required String confirmNewPassword,
   }) async {
     try {
       final requestData = {
         'email': email,
+        'otp': otp,
         'newPassword': newPassword,
-        'confirmNewPassword': confirmNewPassword,
       };
 
       log('Reset Password Request Data: $requestData');

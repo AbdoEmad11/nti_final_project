@@ -79,21 +79,23 @@ class AppRoutes {
         final args = _getOtpArguments(settings.arguments);
 
         return MaterialPageRoute(
-          builder: (_) =>
-              OtpVerificationScreen(email: args.email, purpose: args.purpose),
+          builder: (_) => OtpVerificationScreen(
+            email: args.email,
+            purpose: args.purpose,
+          ),
           settings: settings,
         );
 
       case resetPassword:
-        final email = settings.arguments is String
-            ? settings.arguments as String
-            : '';
+        final args = _getResetPasswordArguments(settings.arguments);
 
         return MaterialPageRoute(
-          builder: (_) => ResetPasswordScreen(email: email),
+          builder: (_) => ResetPasswordScreen(
+            email: args.email,
+            otp: args.otp,
+          ),
           settings: settings,
         );
-
       case mainLayout:
         return MaterialPageRoute(
           builder: (_) => const MainLayoutScreen(),
@@ -200,10 +202,43 @@ class AppRoutes {
     }
 
     if (arguments is String) {
-      return OtpRouteArguments(email: arguments, purpose: OtpPurpose.register);
+      return OtpRouteArguments(
+        email: arguments,
+        purpose: OtpPurpose.register,
+      );
     }
 
-    return const OtpRouteArguments(email: '', purpose: OtpPurpose.register);
+    return const OtpRouteArguments(
+      email: '',
+      purpose: OtpPurpose.register,
+    );
+  }
+
+  static ResetPasswordRouteArguments _getResetPasswordArguments(
+      Object? arguments,
+      ) {
+    if (arguments is ResetPasswordRouteArguments) {
+      return arguments;
+    }
+
+    if (arguments is Map<String, dynamic>) {
+      return ResetPasswordRouteArguments(
+        email: arguments['email']?.toString() ?? '',
+        otp: arguments['otp']?.toString() ?? '',
+      );
+    }
+
+    if (arguments is String) {
+      return ResetPasswordRouteArguments(
+        email: arguments,
+        otp: '',
+      );
+    }
+
+    return const ResetPasswordRouteArguments(
+      email: '',
+      otp: '',
+    );
   }
 }
 
@@ -212,6 +247,15 @@ class OtpRouteArguments {
   final OtpPurpose purpose;
 
   const OtpRouteArguments({required this.email, required this.purpose});
+}
+class ResetPasswordRouteArguments {
+  final String email;
+  final String otp;
+
+  const ResetPasswordRouteArguments({
+    required this.email,
+    required this.otp,
+  });
 }
 
 class UndefinedRouteScreen extends StatelessWidget {
