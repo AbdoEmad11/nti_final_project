@@ -54,14 +54,14 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 SizedBox(height: 32.h),
                 Text(
                   'Forgot Password?',
-                  style: AppStyles.headtitlesStyles.copyWith(
+                  style: AppStyles.headtitlesStyle(context).copyWith(
                     color: AppColors2.primaryColor,
                   ),
                 ),
                 SizedBox(height: 5),
                 Text(
                   'Don\'t worry! It occurs. Please enter the email address linked with your account.',
-                  style: AppStyles.subtitlesStyles,
+                  style: AppStyles.subtitlesStyle(context),
                 ),
                 SizedBox(height: 32.h),
                 CustomTextField(
@@ -127,11 +127,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   child: RichText(
                     text: TextSpan(
                       text: 'Already have an account? ',
-                      style: AppStyles.subtitlesStyles,
+                      style: AppStyles.subtitlesStyle(context),
                       children: [
                         TextSpan(
                           text: 'Login',
-                          style: AppStyles.subtitlesStyles.copyWith(
+                          style: AppStyles.subtitlesStyle(context).copyWith(
                             color: AppColors2.primaryColor,
                           ),
                         ),

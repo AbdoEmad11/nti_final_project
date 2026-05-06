@@ -8,7 +8,7 @@ class CustomTextField extends StatelessWidget {
   final Widget? suffixIcon;
   final bool? isPassword;
   final double? width;
-  final validator;
+  final String? Function(String?)? validator;
   final TextEditingController? controller;
   const CustomTextField({
     super.key,

@@ -71,22 +71,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   SizedBox(height: 5.h),
                   Text(
                     'Step into the future of premium aesthetics.',
-                    style: AppStyles.subtitlesStyles,
+                    style: AppStyles.subtitlesStyle(context),
                   ),
                   SizedBox(height: 20.h),
-                  Container(
-                    child: Column(
+                  Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           'Create Account',
-                          style: AppStyles.headtitlesStyles,
+                          style: AppStyles.headtitlesStyle(context),
                         ),
                         SizedBox(height: 5.h),
                         Text(
                           'Join our exclusive community today.',
-                          style: AppStyles.subtitlesStyles,
+                          style: AppStyles.subtitlesStyle(context),
                         ),
                         SizedBox(height: 24.h),
                         CustomTextField(
@@ -171,7 +170,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               child: Text.rich(
                                 TextSpan(
                                   text: 'I agree to the',
-                                  style: AppStyles.subtitlesStyles.copyWith(
+                                  style: AppStyles.subtitlesStyle(context).copyWith(
                                     color: context.appTheme.textSecondary,
                                     fontSize: 12.sp,
                                   ),
@@ -179,21 +178,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   children: [
                                     TextSpan(
                                       text: 'Terms of Service',
-                                      style: AppStyles.subtitlesStyles.copyWith(
+                                      style: AppStyles.subtitlesStyle(context).copyWith(
                                         color: AppColors2.primaryColor,
                                         fontSize: 12.sp,
                                       ),
                                     ),
                                     TextSpan(
                                       text: ' and ',
-                                      style: AppStyles.subtitlesStyles.copyWith(
+                                      style: AppStyles.subtitlesStyle(context).copyWith(
                                         color: context.appTheme.textSecondary,
                                         fontSize: 12.sp,
                                       ),
                                     ),
                                     TextSpan(
                                       text: 'Privacy Policy.',
-                                      style: AppStyles.subtitlesStyles.copyWith(
+                                      style: AppStyles.subtitlesStyle(context).copyWith(
                                         color: AppColors2.primaryColor,
                                         fontSize: 12.sp,
                                       ),
@@ -284,7 +283,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               children: [
                                 Text(
                                   'Already have an account? ',
-                                  style: AppStyles.subtitlesStyles,
+                                  style: AppStyles.subtitlesStyle(context),
                                 ),
                                 TextButton(
                                   onPressed: () {
@@ -292,7 +291,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   },
                                   child: Text(
                                     'Login',
-                                    style: AppStyles.subtitlesStyles.copyWith(
+                                    style: AppStyles.subtitlesStyle(context).copyWith(
                                       color: AppColors2.primaryColor,
                                     ),
                                   ),
@@ -304,14 +303,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         SizedBox(height: 20.h),
                       ],
                     ),
-                  ),
                   Row(
                     children: [
                       SizedBox(width: 90.w, child: Divider()),
                       SizedBox(width: 16),
                       Text(
                         'OR SIGN UP WITH',
-                        style: AppStyles.gray16W600Styles,
+                        style: AppStyles.gray16W600Style(context),
                       ),
                       SizedBox(width: 16),
                       SizedBox(width: 90.w, child: Divider()),

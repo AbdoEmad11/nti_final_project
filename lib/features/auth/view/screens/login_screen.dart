@@ -8,7 +8,6 @@ import 'package:nti_final_project/core/styling/app_styles.dart';
 import 'package:nti_final_project/features/auth/cubits/auth_cubit.dart';
 import 'package:nti_final_project/features/auth/data/validators.dart';
 import 'package:nti_final_project/features/auth/states/auth_states.dart';
-import 'package:nti_final_project/features/auth/view/screens/register_screen.dart';
 import 'package:nti_final_project/features/auth/view/widgets/custom_text_field.dart';
 
 import '../../../../core/utils/app_routs.dart';
@@ -61,11 +60,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(height: 129.h),
                     Text('Luxe', style: AppStyles.primaryLineStyle),
                     SizedBox(height: 5.h),
-                    Text('Welcome back', style: AppStyles.headtitlesStyles),
+                    Text('Welcome back', style: AppStyles.headtitlesStyle(context)),
                     SizedBox(height: 5.h),
                     Text(
                       'Enter your details to access your account',
-                      style: AppStyles.subtitlesStyles,
+                      style: AppStyles.subtitlesStyle(context),
                     ),
                     SizedBox(height: 32.h),
                     CustomTextField(
@@ -173,7 +172,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         SizedBox(width: 16),
                         Text(
                           'Or Login With',
-                          style: AppStyles.gray16W600Styles,
+                          style: AppStyles.gray16W600Style(context),
                         ),
                         SizedBox(width: 16),
                         SizedBox(width: 100.w, child: Divider()),
@@ -258,7 +257,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: [
                         Text(
                           'Don\'t have an account? ',
-                          style: AppStyles.subtitlesStyles,
+                          style: AppStyles.subtitlesStyle(context),
                         ),
                         TextButton(
                           onPressed: () {
@@ -266,7 +265,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           },
                           child: Text(
                             'Sign Up',
-                            style: AppStyles.subtitlesStyles.copyWith(
+                            style: AppStyles.subtitlesStyle(context).copyWith(
                               color: AppColors2.primaryColor,
                             ),
                           ),

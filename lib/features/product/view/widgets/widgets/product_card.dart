@@ -84,7 +84,10 @@ class ProductCard extends StatelessWidget {
                 Text(brand, style: const TextStyle(color: Colors.grey)),
 
                 Text(title,
-                    style: const TextStyle(
+                    style: TextStyle(
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.white
+                            : null,
                         fontWeight: FontWeight.bold,
                         fontSize: 16)),
 

@@ -187,7 +187,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       color: context.appTheme.surface,
                       boxShadow: [
                         BoxShadow(
-                          color: const Color(0xff4D41DF).withOpacity(0.12),
+                          color: const Color(0xff4D41DF).withValues(alpha: 0.12),
                           blurRadius: 24,
                           offset: const Offset(0, 12),
                         ),
@@ -268,7 +268,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xff4D41DF),
                       disabledBackgroundColor:
-                      const Color(0xff4D41DF).withOpacity(0.5),
+                          const Color(0xff4D41DF).withValues(alpha: 0.5),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18),
                       ),

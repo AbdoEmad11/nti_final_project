@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nti_final_project/core/theme/context_theme_extension.dart';
 import 'package:nti_final_project/core/utils/app_routs.dart';
 
 import '../../../../core/widgets/safe_network_image.dart';
@@ -80,8 +81,8 @@ class _ProductItemState extends State<ProductItem> {
                           widget.product.name,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            color: Colors.black,
+                          style: TextStyle(
+                            color: context.appTheme.textPrimary,
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
                           ),
